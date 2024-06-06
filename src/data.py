@@ -16,41 +16,45 @@ Create new columns for targetted data (Target, Actual, Product groups, etc.).
 Look out for pipelining process 
 """
 
-# Visualize target and actual 
-
 # Clean data: Only keep rows with valid month and year
 validMonthYear = ['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06', '2024-07',
  '2024-08', '2024-09', '2024-10', '2024-11', '2024-12']
-# Function change yearmonth into DateTime data type
+
+df['YearMonth'] = df['YearMonth'].astype('string')
+df = df[df['YearMonth'].isin(validMonthYear)]
+
+# Clean data: Transform target and actual into float
+df['Target'] = df['Target'].str.replace(',', '').astype(float)
+df['Actual'] = df['Actual'].str.replace(',', '').astype(float)
+
+# Function change YearMonth into DateTime data type
 def change_datetime_type(date_string:str) -> datetime:
     '''
-    Type cast yearmonth column from string type to datetime type
-        Parameters: date_string (str): yearmonth in string type
-        Returns: date_string (datetime): yearmonth in datetime type
+    Type cast YearMonth column from string type to datetime type
+        Parameters: date_string (str): YearMonth in string type
+        Returns: date_string (datetime): YearMonth in datetime type
     '''
     date_format = "%Y-%m"
     return datetime.strptime(date_string, date_format)
 
+df["YearMonth"] = df['YearMonth'].apply(change_datetime_type)
 
-# Filter the DataFrame to only include rows with valid month-year values
-df_filtered = df[df['YearMonth'].isin(validMonthYear)].copy()
-
-# Apply the change_datetime_type function to the filtered DataFrame
-df_filtered['YearMonth'] = df_filtered['YearMonth'].apply(change_datetime_type)
-
-print(df["YearMonth"].unique())
-
-# # Filter based on month and sales rep, aggregate target and actual 
-# df['filer_mtd'] = df['YearMonth'].dt.to_period('M')
-# aggregated_df = df.groupby(['filer_mtd', 'SalesRep']).agg({'Target':'sum', 'Actual':'sum'}).reset_index()
+# Filter based on month and sales rep, aggregate target and actual 
+df['filter_mtd'] = df['YearMonth'].dt.to_period('M')
+aggregated_df = df.groupby(['filter_mtd', 'SalesRep']).agg({'Target':'sum', 'Actual':'sum'}).reset_index()
 
 # New column for percent 
 # If target = 0 or NaN --> Percent = 100
-# def percent(row):
-#     if(row['Target'] == 0 or pd.isna(row['Target'])):
-#         return 100
-#     return (row['Actual']/row['Target']) * 100
-# aggregated_df['Percent'] = aggregated_df.apply(percent, axis = 1)
-# print(aggregated_df)
+def percent(row):
+    target = row['Target']
+    actual = row['Actual']
+    if pd.isna(target) or target == 0:
+        return 100
+    return (actual / target) * 100
+
+aggregated_df['Percent'] = aggregated_df.apply(percent, axis = 1)
+# Suppress scientific notation 
+pd.options.display.float_format = '{:.2f}'.format
+print(aggregated_df['Percent'].unique())
 
 # # Filter out email that has ; 2 values, only take 1
