@@ -2,6 +2,7 @@ from datetime import datetime, date, timezone
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 # Read csv file
 df = pd.read_csv('./data/SampleData_Test_Lite.csv', encoding='latin1')
@@ -26,6 +27,10 @@ df = df[df['YearMonth'].isin(validMonthYear)]
 # Clean data: Transform target and actual into float
 df['Target'] = df['Target'].str.replace(',', '').astype(float)
 df['Actual'] = df['Actual'].str.replace(',', '').astype(float)
+
+# Clean data: Only keep email without the ;
+df['Useremail'] = df['Useremail'].astype(str)
+df = df[~df['Useremail'].str.contains(';')]
 
 # Function change YearMonth into DateTime data type
 def change_datetime_type(date_string:str) -> datetime:
@@ -54,7 +59,9 @@ def percent(row):
 
 aggregated_df['Percent'] = aggregated_df.apply(percent, axis = 1)
 # Suppress scientific notation 
-pd.options.display.float_format = '{:.2f}'.format
-print(aggregated_df['Percent'].unique())
+aggregated_df['Target'] = aggregated_df['Target'].apply('{:.2f}'.format).astype(float)
+aggregated_df['Percent'] = aggregated_df['Percent'].apply('{:.2f}'.format).astype(float)
+print(aggregated_df.dtypes)
 
-# # Filter out email that has ; 2 values, only take 1
+# Visualization
+# Email cua em, vao email cua em
