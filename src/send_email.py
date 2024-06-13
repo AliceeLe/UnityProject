@@ -4,15 +4,17 @@ import requests
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-client_id = 'YOUR_CLIENT_ID'
-client_secret = 'YOUR_CLIENT_SECRET'
-tenant_id = 'YOUR_TENANT_ID'
+client_id = 'da81afd5-3ed6-4f89-8036-812067cc4183'
+client_secret = 'gdj8Q~Upi5pSnLs5E2tAV6fvxcSRHiMrMJMvIcIn'
+tenant_id = '19cff0af-7bfb-4dfc-8fdc-ecd1a242439b'
 
 authority = f'https://login.microsoftonline.com/{tenant_id}'
 scope = ['https://graph.microsoft.com/.default']
 token_url = 'https://login.microsoftonline.com/{}/oauth2/v2.0/token'.format(tenant_id)
 
-app = ConfidentialClientApplication(client_id, authority=authority, client_credential=client_secret)
+app = ConfidentialClientApplication(client_id, 
+                                    authority=authority, 
+                                    client_credential=client_secret)
 result = app.acquire_token_silent(scope, account=None)
 
 if not result:
@@ -61,7 +63,7 @@ def send_email(subject, body, to_email, from_email):
 if __name__ == '__main__':
     subject = "Test Email"
     body = "This is a test email sent from Python using OAuth2 for Outlook!"
-    to_email = "recipient@example.com"
-    from_email = "your_email@outlook.com"
+    to_email = "lhcanh@zuelligpharma.com"
+    from_email = "lhcanh@zuelligpharma.com"
 
     send_email(subject, body, to_email, from_email)
