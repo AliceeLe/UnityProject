@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Bold-Italic.ttf') format('truetype');
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Italic.ttf') format('truetype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        body {
+            font-family: SegoeUI, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        h2 {
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        p {
+            margin: 2px;
+            padding: 0;
+        }
+
+        .container {
+            /* Ipad size: 16-9 */
+            max-width: 2160px;
+            max-height: 1620px;
+            padding: 10px;
+            background-color: #2e6271;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 24px;
+
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            overflow: hidden;
+        }
+
+        .header>img {
+            height: 80%;
+            width: 15%;
+            object-fit: cover;
+        }
+
+        .content {
+            margin: 20px 20px;
+            font-size: 12px;
+            max-width: 100%;
+
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .column-item {
+            background-color: rgba(213, 225, 201, 255);
+            width: 100%;
+            padding: 10px;
+            padding-right: 0px;
+            border-radius: 5px;
+
+        }
+
+
+        .info-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            justify-content: space-around;
+        }
+
+        #column-1 {
+            background: #f7f0cc;
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+        }
+
+        #column-2 {
+            grid-column: 1 / 2;
+            grid-row: 2 / 7;
+        }
+
+        #column-3 {
+            grid-column: 1 / 2;
+            grid-row: 7 / 11;
+        }
+
+        #column-4 {
+            grid-column: 2 / 3;
+            grid-row: 1 / 4;
+        }
+
+        #column-5 {
+            grid-column: 2 / 3;
+            grid-row: 4 / 11;
+        }
+
+        #column-6 {
+            grid-column: 3 / 4;
+            grid-row: 1 / 11;
+        }
+
+        .box-1-header {
+            font-size: 10px;
+            color: gray;
+        }
+
+        .box-1-info {
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        table,
+        td,
+        th {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 98%;
+            background-color: white;
+        }
+
+        th,
+        td {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="images/zpt.png" alt="zpt logo">
+            <h1>ONE PAGE PERFORMANCE TRACKING</h1>
+            <img src="images/central-point.png" alt="central-point logo">
+        </div>
+        <div class="content">
+            <div class="column-item" id="column-1">
+                <div class="info-row">
+                    <div class="info-col">
+                        <p class="box-1-header">Name</p>
+                        <p class="box-1-info">Aaron Cheng</p>
+                    </div>
+                    <div class="info-col">
+                        <p class="box-1-header">Role</p>
+                        <p class="box-1-info">BN_MR_B101</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column-item" id="column-2">
+                <h2>Achievement</h2>
+                <table class="column-2-table">
+                    <tr>
+                        <th style="width: 48%;"></th>
+                        <th style="width: 26%;">MTD</th>
+                        <th style="width: 26%;">QTD</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Target</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Actual Sales</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Balance To Go</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">% Achievement</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Team Achievement</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">SvT Estimated Payout</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="column-item" id="column-3">
+                <h2>Calls KPIs</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Call Rate</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Call Volume</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance A</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-4">
+                <h2>Sales by Product Bucket</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th>Product Group</th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="column-item" id="column-5">
+                <h2>Sales-led Activities</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Events</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th># Touchpoint</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                </table>
+
+                <h2>Triggered Emails</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Email Sent</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Email Open Rate</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Click-through Rate</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                </table>
+
+                <h2>Coaching</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Coaching (#Days)</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-6">
+                <h2>Top-20 customers</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="footer">
+            &copy; 2024 Unity Project | ZP Therapeutics. All rights reserved.
+        </div>
+    </div>
+</body>
+
+</html>
