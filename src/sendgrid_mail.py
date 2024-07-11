@@ -3,6 +3,15 @@ from jinja2 import Environment, FileSystemLoader
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from dotenv import load_dotenv
+import base64
+
+def encode_image_to_base64(image_path):
+    with open(image_path, 'rb') as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
+    return encoded_string
+
+image_central_point = encode_image_to_base64('src/images/central-point.png')
+image_zpt = encode_image_to_base64('src/images/zpt.png') 
 
 # Load environment variables from .env file
 load_dotenv()
@@ -21,10 +30,10 @@ env = Environment(loader=FileSystemLoader('.'))
 template = env.get_template('src/email_template.html')
 
 # Render the template with variables
-subject = "Your Subject Here"
+subject = "Sales dashboard sample"
 body = "This is the body of the email."
 
-html_content = template.render(subject=subject, body=body)
+html_content = template.render(subject=subject, body=body, image_zpt=image_zpt, image_central_point=image_central_point)
 
 # Create the email
 message = Mail(
@@ -42,4 +51,4 @@ try:
     print(response.body)
     print(response.headers)
 except Exception as e:
-    print(e.message)
+    print(e)
