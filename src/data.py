@@ -16,55 +16,44 @@ Create new columns for targetted data (Target, Actual, Product groups, etc.).
 
 Look out for pipelining process 
 """
-df['SplitRep_Country'].equals(df['Country'])  # Returns True
 
+# Clean data: Only keep rows with valid month and year
+validMonthYear = ['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06', '2024-07',
+ '2024-08', '2024-09', '2024-10', '2024-11', '2024-12']
 
-# # Clean data: Only keep rows with valid month and year
-# validMonthYear = ['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06', '2024-07',
-#  '2024-08', '2024-09', '2024-10', '2024-11', '2024-12']
+df['KPI_Ref_Time'] = df['KPI_Ref_Time'].astype('string')
+df = df[df['KPI_Ref_Time'].isin(validMonthYear)]
 
-# df['YearMonth'] = df['YearMonth'].astype('string')
-# df = df[df['YearMonth'].isin(validMonthYear)]
+# Function change YearMonth into DateTime data type
+def change_datetime_type(date_string:str) -> datetime:
+    '''
+    Type cast YearMonth column from string type to datetime type
+        Parameters: date_string (str): YearMonth in string type
+        Returns: date_string (datetime): YearMonth in datetime type
+    '''
+    date_format = "%Y-%m"
+    return datetime.strptime(date_string, date_format)
 
-# # Clean data: Transform target and actual into float
-# df['Target'] = df['Target'].str.replace(',', '').astype(float)
-# df['Actual'] = df['Actual'].str.replace(',', '').astype(float)
-
-# # Clean data: Only keep email without the ;
-# df['Useremail'] = df['Useremail'].astype(str)
-# df = df[~df['Useremail'].str.contains(';')]
-
-# # Function change YearMonth into DateTime data type
-# def change_datetime_type(date_string:str) -> datetime:
-#     '''
-#     Type cast YearMonth column from string type to datetime type
-#         Parameters: date_string (str): YearMonth in string type
-#         Returns: date_string (datetime): YearMonth in datetime type
-#     '''
-#     date_format = "%Y-%m"
-#     return datetime.strptime(date_string, date_format)
-
-# df["YearMonth"] = df['YearMonth'].apply(change_datetime_type)
+df["KPI_Ref_Time"] = df['KPI_Ref_Time'].apply(change_datetime_type)
 
 # # Filter based on month and sales rep, aggregate target and actual 
-# df['filter_mtd'] = df['YearMonth'].dt.to_period('M')
-# aggregated_df = df.groupby(['filter_mtd', 'SalesRep']).agg({'Target':'sum', 'Actual':'sum'}).reset_index()
+df['filter_mtd'] = df['KPI_Ref_Time'].dt.to_period('M')
+aggregated_df = df.groupby(['filter_mtd', 'SplitRep_salesrepcode_z']).agg({'Target':'sum', 'Actual':'sum'}).reset_index()
 
 # # New column for percent 
 # # If target = 0 or NaN --> Percent = 100
-# def percent(row):
-#     target = row['Target']
-#     actual = row['Actual']
-#     if pd.isna(target) or target == 0:
-#         return 100
-#     return (actual / target) * 100
+def percent(row):
+    target = row['Target']
+    actual = row['Actual']
+    if pd.isna(target) or target == 0:
+        return 100
+    return (actual / target) * 100
 
 # aggregated_df['Percent'] = aggregated_df.apply(percent, axis = 1)
 # # Suppress scientific notation 
-# aggregated_df['Target'] = aggregated_df['Target'].apply('{:.2f}'.format).astype(float)
-# aggregated_df['Percent'] = aggregated_df['Percent'].apply('{:.2f}'.format).astype(float)
-# print(aggregated_df.dtypes)
+aggregated_df['Target'] = aggregated_df['Target'].apply('{:.2f}'.format).astype(float)
+aggregated_df['Percent'] = aggregated_df['Percent'].apply('{:.2f}'.format).astype(float)
+print(aggregated_df.dtypes)
 
-# # Visualization
-# # Email cua em, vao email cua em
+# Visualization
 
