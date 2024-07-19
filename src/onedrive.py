@@ -10,7 +10,7 @@ CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
 SCOPES = ["https://graph.microsoft.com/.default"]
-SHARED_FOLDER_LINK = 'https://zpssgpatientsolutions.sharepoint.com/:f:/s/BusinessAnalytics/EoDeVy7yPy5FiCIKwrR6BfoB5lxn4WTKRx6YpV3zPJtGJw?e=h1ViVT'
+SHARED_FOLDER_LINK = 'https://zpssgpatientsolutions.sharepoint.com/:f:/s/BusinessAnalytics/EoDeVy7yPy5FiCIKwrR6BfoB5lxn4WTKRx6YpV3zPJtGJw?e=QqQVx2'
 # Create a confidential client application
 app = msal.ConfidentialClientApplication(
     CLIENT_ID,
