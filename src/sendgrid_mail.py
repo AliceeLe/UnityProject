@@ -38,7 +38,7 @@ html_content = template.render(subject=subject, body=body, image_zpt=image_zpt, 
 # Create the email
 message = Mail(
     from_email=FROM_EMAIL,
-    to_emails=TO_EMAIL,
+    to_emails="lhcanh@zuelligpharma.com",
     subject=subject,
     html_content=html_content
 )
