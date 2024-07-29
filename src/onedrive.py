@@ -18,7 +18,7 @@ SCOPES = ["https://graph.microsoft.com/.default"]
 # SharePoint site and folder details
 SHAREPOINT_SITE = "zpssgpatientsolutions.sharepoint.com"
 SHAREPOINT_SITE_PATH = "/sites/BusinessAnalytics"
-FOLDER_PATH = "General/Dataset/ezClaim"  
+FOLDER_PATH = "General/Unity"  
 
 # Create a confidential client application
 app = msal.ConfidentialClientApplication(
@@ -82,7 +82,7 @@ if "access_token" in result:
                         if item['name'].endswith('.xlsx') and 'file' in item:
                             file_id = item['id']
                             file_name = item['name']
-                            break
+                            if file_name == "Unity_Expore_June24.xlsx": break
 
                     if not file_id:
                         print("No Excel files found in the folder.")
@@ -98,7 +98,9 @@ if "access_token" in result:
 
                         # Read the Excel file into a pandas DataFrame
                         excel_data = pd.read_excel(io.BytesIO(file_content_response.content))
-                        print(excel_data)
+                        excel_data.to_csv("data/Unity_Explore_June24.xlsx", index=False)
+                        print(f"DataFrame successfully saved")
+
 else:
     print("No token found.")
     print(result.get("error"))

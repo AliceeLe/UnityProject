@@ -83,7 +83,7 @@
         }
 
         .column-item {
-            background: #CCFFCC;
+            background-color: rgba(213, 225, 201, 255);
             width: 100%;
             padding: 10px;
             padding-right: 0px;
@@ -92,18 +92,6 @@
 
         #column-1 {
             background: #f7f0cc;
-            width: 100%;
-            padding: 10px;
-            padding-right: 0px;
-            border-radius: 5px;
-        }
-
-        #column-2, #column-3, #column-4, #column-5, #column-6 {
-            width: 100%;
-            padding: 10px;
-            padding-right: 0px;
-            border-radius: 5px;
-
         }
 
 
@@ -154,31 +142,24 @@
         .master-table {
             background-color: #2e6271;
         }
+
+
     </style>
 </head>
 
 <body>
     <div class="container">
-        <!-- <div class="header"> -->
-        <!-- <img src="images/zpt.png" alt="zpt logo"> -->
-        <!-- <h1>ONE PAGE PERFORMANCE TRACKING</h1> -->
-        <!-- <img src="images/central-point.png" alt="central-point logo"> -->
-        <!-- </div> -->
-        <div class="content" style="background: #2e6271">
-            <h1 style="font-size: 24px; color: #ffffff; 
-            padding: 10px 0; text-align: center; 
-            font-size: 24px;">ONE PAGE PERFORMANCE TRACKING</h1>
-            <table style="width:100%; background-color: #2e6271;
-            border-collapse: collapse;
-            width: 98%;
-            " class="master-table">
+        <div class="header">
+            <!-- <img src="images/zpt.png" alt="zpt logo"> -->
+            <h1>ONE PAGE PERFORMANCE TRACKING</h1>
+            <!-- <img src="images/central-point.png" alt="central-point logo"> -->
+        </div>
+        <div class="content">
+            <table style="width:100%" class="master-table">
                 <tr>
                     <!-- Box 1 -->
                     <td colspan="1" id="box-1">
-                        <div class="column-item" style="width: 100%;
-                        padding: 10px;
-                        padding-right: 0px;
-                        border-radius: 5px; background: #f7f0cc">
+                        <div class="column-item" id="column-1">
                             <div class="box-1-row">
                                 <div class="cell header-cell">Name</div>
                                 <div class="cell header-cell">Role</div>
@@ -192,235 +173,155 @@
 
                     <!-- Box 4 -->
                     <td rowspan="3" colspan="1" id="box-4">
-                        <div class="column-item" style="background: #CCFFCC;" id="column-4" >
+                        <div class="column-item" id="column-4">
 
                             <h2>Sales by Product Bucket</h2>
-                            <!-- <table style="border: 1px solid #ddd; text-align: left;" class="inner-table">
+                            <table class="inner-table">
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">Product Group</th>
-                                    <th class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">MTD</th>
-                                    <th class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">QTD</th>
+                                    <th class=""inner-th>Product Group</th>
+                                    <th class=""inner-th>MTD</th>
+                                    <th class=""inner-th>QTD</th>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="width: 52%; border: 1px solid #ddd;
-            text-align: left;">Product A</td>
-                                    <td class="inner-td" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">Product B</td>
-                                    <td class="inner-td" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="width: 24%;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">Product C</td>
-                                    <td class="inner-td" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">Product D</td>
-                                    <td class="inner-td" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">Product E</td>
-                                    <td class="inner-td" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
-                            </table> -->
+                            </table>
                         </div>
 
 
                     </td>
                     <!-- Box 6 -->
                     <td rowspan="11" colspan="1" id="box-6">
-                        <div class="column-item" style="background: #CCFFCC;" id="column-6">
+                        <div class="column-item" id="column-6">
 
                             <h2>Top-20 customers</h2>
-                            <table style="border: 1px solid #ddd; text-align: left;" class="inner-table">
+                            <table class="inner-table">
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="border: 1px solid #ddd;
-            text-align: left;">Customer Name</th>
-                                    <th class="inner-th" style="border: 1px solid #ddd;
-            text-align: left;">MTD</th>
-                                    <th class="inner-th" style="border: 1px solid #ddd;
-            text-align: left;">QTD</th>
+                                    <th class=""inner-th>Customer Name</th>
+                                    <th class=""inner-th>MTD</th>
+                                    <th class=""inner-th>QTD</th>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
-                                    <td class="inner-td" style="border: 1px solid #ddd;
-            text-align: left;">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
+                                    <td class="inner-td">10</td>
                                 </tr>
                             </table>
                         </div>
@@ -429,70 +330,45 @@
                 <!-- Box-5 -->
                 <tr>
                     <td rowspan="5" colspan="1" colspan="1" id="box-2">
-                        <div class="column-item" style="background: #CCFFCC; width: 100%;
-                        padding: 10px;
-                        padding-right: 0px;
-                        border-radius: 5px;">
+                        <div class="column-item" id="column-2">
                             <h2>Achievement</h2>
-                            <!-- <table style="border: 1px solid #ddd; text-align: left;" class="inner-table">
-
+                            <table class="inner-table">
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;"></th>
-                                    <th class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">MTD</th>
-                                    <th class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">QTD</th>
+                                    <th style="width: 48%;"></th>
+                                    <th style="width: 26%;">MTD</th>
+                                    <th style="width: 26%;">QTD</th>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">Target</th>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th style="width: 48%;">Target</th>
+                                    <td style="width: 26%;">10%</td>
+                                    <td style="width: 26%;">10%</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">Actual Sales</th>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th style="width: 48%;">Actual Sales</th>
+                                    <td style="width: 26%;">10%</td>
+                                    <td style="width: 26%;">10%</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">Balance To Go</th>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th style="width: 48%;">Balance To Go</th>
+                                    <td style="width: 26%;">10%</td>
+                                    <td style="width: 26%;">10%</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">% Achievement</th>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th style="width: 48%;">% Achievement</th>
+                                    <td style="width: 26%;">10%</td>
+                                    <td style="width: 26%;">10%</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">Team Achievement</th>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th style="width: 48%;">Team Achievement</th>
+                                    <td style="width: 26%;">10%</td>
+                                    <td style="width: 26%;">10%</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">SvT Estimated Payout</th>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-th" style="width: 24%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th style="width: 48%;">SvT Estimated Payout</th>
+                                    <td style="width: 26%;">10%</td>
+                                    <td style="width: 26%;">10%</td>
                                 </tr>
-                            </table> -->
+                            </table>
 
                         </div>
 
@@ -502,105 +378,73 @@
                 </tr>
                 <tr>
                     <td rowspan="9" colspan="1" id="box-5">
-                        <div class="column-item" style="background: #CCFFCC;" id="column-5">
+                        <div class="column-item" id="column-5">
 
                             <h2>Sales-led Activities</h2>
-                            <!-- <table style="border: 1px solid #ddd; text-align: left;" class="inner-table">
-
+                            <table class="inner-table">
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;"></th>
-                                    <th class="inner-th" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">MTD</th>
-                                    <th class="inner-th" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">QTD</th>
-                                    <th class="inner-th" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">YTD</th>
+                                    <th class=""inner-th></th>
+                                    <th class=""inner-th>MTD</th>
+                                    <th class=""inner-th>QTD</th>
+                                    <th class=""inner-th>YTD</th>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;"># Events</th>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th class=""inner-th># Events</th>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;"># Touchpoint</th>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th class=""inner-th># Touchpoint</th>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
                                 </tr>
-                            </table> -->
+                            </table>
 
                             <h2>Triggered Emails</h2>
-                            <!-- <table style="border: 1px solid #ddd; text-align: left;" class="inner-table">
-
+                            <table class="inner-table">
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;"></th>
-                                    <th class="inner-th" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">MTD</th>
-                                    <th class="inner-th" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">QTD</th>
-                                    <th class="inner-th" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">YTD</th>
+                                    <th class=""inner-th></th>
+                                    <th class=""inner-th>MTD</th>
+                                    <th class=""inner-th>QTD</th>
+                                    <th class=""inner-th>YTD</th>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;"># Email Sent</th>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th class=""inner-th># Email Sent</th>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">% Email Open Rate</th>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th class=""inner-th>% Email Open Rate</th>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">% Click-through Rate</th>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th class=""inner-th>% Click-through Rate</th>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
                                 </tr>
-                            </table> -->
+                            </table>
 
                             <h2>Coaching</h2>
-                            <!-- <table class="column-3-table">
+                            <table class="column-3-table">
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;"></th>
-                                    <th class="inner-th">MTD</th>
-                                    <th class="inner-th">QTD</th>
-                                    <th class="inner-th">YTD</th>
+                                    <th class=""inner-th></th>
+                                    <th class=""inner-th>MTD</th>
+                                    <th class=""inner-th>QTD</th>
+                                    <th class=""inner-th>YTD</th>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">Coaching (#Days)</th>
+                                    <th class=""inner-th>Coaching (#Days)</th>
                                     <td class="inner-td">10%</td>
                                     <td class="inner-td">10%</td>
                                     <td class="inner-td">10%</td>
                                 </tr>
-                            </table> -->
+                            </table>
                         </div>
                     </td>
                 </tr>
@@ -610,62 +454,41 @@
                 </tr>
                 <tr>
                     <td rowspan="5" colspan="1" id="box-3">
-                        <div class="column-item" style="background: #CCFFCC;" id="column-3">
+                        <div class="column-item" id="column-3">
 
                             <h2>Calls KPIs</h2>
-                            <!-- <table style="border: 1px solid #ddd; text-align: left;" class="inner-table">
-
+                            <table class="inner-table">
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;"></th>
-                                    <th class="inner-th" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">MTD</th>
-                                    <th class="inner-th" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">QTD</th>
-                                    <th class="inner-th" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">YTD</th>
+                                    <th class=""inner-th></th>
+                                    <th class=""inner-th>MTD</th>
+                                    <th class=""inner-th>QTD</th>
+                                    <th class=""inner-th>YTD</th>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">Call Rate</th>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th class=""inner-th>Call Rate</th>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">% Call Volume</th>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th class=""inner-th>% Call Volume</th>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">% Call Compliance</th>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th class=""inner-th>% Call Compliance</th>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
                                 </tr>
                                 <tr class="inner-tr">
-                                    <th class="inner-th" style="width: 52%;border: 1px solid #ddd;
-            text-align: left;">% Call Compliance A</th>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
-                                    <td class="inner-td" style="width: 16%;border: 1px solid #ddd;
-            text-align: left;">10%</td>
+                                    <th class=""inner-th>% Call Compliance A</th>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
+                                    <td class="inner-td">10%</td>
                                 </tr>
-                            </table> -->
+                            </table>
                         </div>
                     </td>
                 </tr>
@@ -674,6 +497,311 @@
                 </tr>
 
             </table>
+            <!-- <div class="column-item" id="column-1">
+                <div class="info-row">
+                    <div class="info-col">
+                        <p class="box-1-header">Name</p>
+                        <p class="box-1-info">Aaron Cheng</p>
+                    </div>
+                    <div class="info-col">
+                        <p class="box-1-header">Role</p>
+                        <p class="box-1-info">BN_MR_B101</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column-item" id="column-2">
+                <h2>Achievement</h2>
+                <table class="column-2-table">
+                    <tr>
+                        <th style="width: 48%;"></th>
+                        <th style="width: 26%;">MTD</th>
+                        <th style="width: 26%;">QTD</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Target</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Actual Sales</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Balance To Go</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">% Achievement</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Team Achievement</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">SvT Estimated Payout</th>
+                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">10%</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="column-item" id="column-3">
+                <h2>Calls KPIs</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th class=""inner-th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Call Rate</th>
+                        <td class="inner-td">10%</td>
+                        <td class="inner-td">10%</td>
+                        <td class="inner-td">10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Call Volume</th>
+                        <td class="inner-td">10%</td>
+                        <td class="inner-td">10%</td>
+                        <td class="inner-td">10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance</th>
+                        <td class="inner-td">10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance A</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-4">
+                <h2>Sales by Product Bucket</h2>
+                <table class="inner-table">
+                    <tr>
+                        <th>Product Group</th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="column-item" id="column-5">
+                <h2>Sales-led Activities</h2>
+                <table class="inner-table">
+                    <tr>
+                        <th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Events</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th># Touchpoint</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                </table>
+
+                <h2>Triggered Emails</h2>
+                <table class="inner-table">
+                    <tr>
+                        <th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Email Sent</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Email Open Rate</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Click-through Rate</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                </table>
+
+                <h2>Coaching</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Coaching (#Days)</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-6">
+                <h2>Top-20 customers</h2>
+                <table class="inner-table">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+            </div> -->
         </div>
         <div class="footer">
             &copy; 2024 Unity Project | ZP Therapeutics. All rights reserved.
