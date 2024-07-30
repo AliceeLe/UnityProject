@@ -13,15 +13,6 @@ def encode_image_to_base64(image_path):
         encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
     return encoded_string
 
-# Path to the Node.js script
-node_script_path = os.path.join('src', 'convert_html_to_png.js')
-
-# Run the Node.js script to convert HTML to PNG
-subprocess.run(['node', node_script_path], check=True)
-
-# Encode the PNG image to Base64
-image_png = encode_image_to_base64('src/email.png')
-
 # Load environment variables from .env file
 load_dotenv()
 
@@ -58,10 +49,29 @@ with open(csv_file_path, newline='') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         # Render the template with variables from the CSV row
-        html_content = template.render(row=row, image_png=image_png)
+        html_content = template.render(row=row)
+        
+        # Write the rendered HTML to a file
+        with open('src/email_template.html', 'w') as file:
+            file.write(html_content)
+        
+        # Run the Node.js script to convert the HTML to PNG
+        subprocess.run(['node', 'src/convert_html_to_png.js'], check=True)
+        
+        # Encode the generated PNG image to Base64
+        image_png = encode_image_to_base64('src/email.png')
+        
+        # Create the email content with the embedded image
+        email_html_content = f"""
+        <html>
+          <body>
+            <img src="data:image/png;base64,{image_png}" alt="Email Image" />
+          </body>
+        </html>
+        """
         
         # Define the subject
         subject = f"Sales dashboard sample - {row['Name']}"
         
         # Send the email
-        send_email(row['Email'], subject, html_content)
+        send_email(row['Email'], subject, email_html_content)

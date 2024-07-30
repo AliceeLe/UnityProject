@@ -1,11 +1,19 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 const path = require('path');
 
 (async () => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    const filePath = path.join(__dirname, 'email_template.html');
-    await page.goto(`file://${filePath}`, { waitUntil: 'networkidle2' });
-    await page.screenshot({ path: path.join(__dirname, 'email.png'), fullPage: true });
-    await browser.close();
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  const htmlFilePath = path.resolve(__dirname, 'email_template.html');
+  const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
+
+  await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+
+  await page.screenshot({
+    path: 'src/email.png',
+    fullPage: true
+  });
+
+  await browser.close();
 })();
