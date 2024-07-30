@@ -193,7 +193,7 @@
 
         .chart-container {
             width: 100px;
-            height: 90px;
+            height: 80px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -215,11 +215,11 @@
                 <div class="info-row">
                     <div class="info-col">
                         <p class="box-1-header">Name</p>
-                        <p class="box-1-info">Aaron Cheng</p>
+                        <p class="box-1-info">{{ row.Name }}</p>
                     </div>
                     <div class="info-col">
                         <p class="box-1-header">Role</p>
-                        <p class="box-1-info">BN_MR_B101</p>
+                        <p class="box-1-info">{{ row.Role }}</p>
                     </div>
                 </div>
             </div>
@@ -243,33 +243,33 @@
                     </tr>
                     <tr>
                         <th style="width: 48%;">Target</th>
-                        <td style="width: 26%;">10%</td>
-                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">{{row.Target_MTD}}</td>
+                        <td style="width: 26%;">{{row.Target_QTD}}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Actual Sales</th>
-                        <td style="width: 26%;">10%</td>
-                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">{{row.Actual_Sales_MTD}}</td>
+                        <td style="width: 26%;">{{row.Actual_Sales_QTD}}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Balance To Go</th>
-                        <td style="width: 26%;">10%</td>
-                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">{{row.Balance_MTD}}</td>
+                        <td style="width: 26%;">{{row.Balance_QTD}}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">% Achievement</th>
-                        <td style="width: 26%;">10%</td>
-                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">{{row['%Achievement_MTD']}}</td>
+                        <td style="width: 26%;">{{row['%Achievement_QTD']}}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Team Achievement</th>
-                        <td style="width: 26%;">10%</td>
-                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">{{row.Team_MTD}}</td>
+                        <td style="width: 26%;">{{row.Team_QTD}}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">SvT Estimated Payout</th>
-                        <td style="width: 26%;">10%</td>
-                        <td style="width: 26%;">10%</td>
+                        <td style="width: 26%;">{{row.SvT_MTD}}</td>
+                        <td style="width: 26%;">{{row.SvT_QTD}}</td>
                     </tr>
                 </table>
 
@@ -285,27 +285,27 @@
                     </tr>
                     <tr>
                         <th>Call Rate</th>
-                        <td>10%</td>
-                        <td>10%</td>
-                        <td>10%</td>
+                        <td>{{row.Call_Rate_MTD}}</td>
+                        <td>{{row.Call_Rate_QTD}}</td>
+                        <td>{{row.Call_Rate_YTD}}</td>
                     </tr>
                     <tr>
                         <th>% Call Volume</th>
-                        <td>10%</td>
-                        <td>10%</td>
-                        <td>10%</td>
+                        <td>{{row.Call_Rate_MTD}}</td>
+                        <td>{{row.Call_Rate_QTD}}</td>
+                        <td>{{row.Call_Rate_YTD}}</td>
                     </tr>
                     <tr>
                         <th>% Call Compliance</th>
-                        <td>10%</td>
-                        <td>10%</td>
-                        <td>10%</td>
+                        <td>{{row['%Call_Compliance_MTD']}}</td>
+                        <td>{{row['%Call_Compliance_QTD']}}</td>
+                        <td>{{row['%Call_Compliance_YTD']}}</td>
                     </tr>
                     <tr>
                         <th>% Call Compliance A</th>
-                        <td>10%</td>
-                        <td>10%</td>
-                        <td>10%</td>
+                        <td>row['%Call_Compliance_A_MTD'] </td>
+                        <td>row['%Call_Compliance_A_QTD'] </td>
+                        <td>row['%Call_Compliance_A_YTD'] </td>
                     </tr>
                 </table>
 

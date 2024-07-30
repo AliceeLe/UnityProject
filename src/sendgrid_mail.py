@@ -1,5 +1,6 @@
 import os
 import subprocess
+import csv
 from jinja2 import Environment, FileSystemLoader
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -27,7 +28,6 @@ load_dotenv()
 # Get the SendGrid API key and email details from environment variables
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 FROM_EMAIL = os.getenv('FROM_EMAIL')
-TO_EMAIL = 'vtvinh@zuelligpharma.com'
 
 # Check if the API key is available
 if not SENDGRID_API_KEY:
@@ -37,32 +37,31 @@ if not SENDGRID_API_KEY:
 env = Environment(loader=FileSystemLoader('.'))
 template = env.get_template('src/email_template.html')
 
-# Render the template with variables
-subject = "Sales dashboard sample - Vinh"
+# Function to send email
+def send_email(to_email, subject, html_content):
+    message = Mail(
+        from_email=FROM_EMAIL,
+        to_emails=to_email,
+        subject=subject,
+        html_content=html_content
+    )
+    try:
+        sg = SendGridAPIClient(SENDGRID_API_KEY)
+        response = sg.send(message)
+        print(f"Email sent to {to_email}: {response.status_code}")
+    except Exception as e:
+        print(f"Error sending email to {to_email}: {e}")
 
-# Create the email content with the embedded image
-html_content = f"""
-<html>
-  <body>
-    <img src="data:image/png;base64,{image_png}" alt="Email Image" />
-  </body>
-</html>
-"""
-
-# Create the email
-message = Mail(
-    from_email=FROM_EMAIL,
-    to_emails=TO_EMAIL,
-    subject=subject,
-    html_content=html_content
-)
-
-# Send the email using SendGrid
-try:
-    sg = SendGridAPIClient(SENDGRID_API_KEY)
-    response = sg.send(message)
-    print(response.status_code)
-    print(response.body)
-    print(response.headers)
-except Exception as e:
-    print(e)
+# Read CSV file and send emails
+csv_file_path = 'data/sample.csv'
+with open(csv_file_path, newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        # Render the template with variables from the CSV row
+        html_content = template.render(row=row, image_png=image_png)
+        
+        # Define the subject
+        subject = f"Sales dashboard sample - {row['Name']}"
+        
+        # Send the email
+        send_email(row['Email'], subject, html_content)

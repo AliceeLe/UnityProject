@@ -1,94 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gauge Charts</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 100vh;
-            background-color: #d8e0cb;
-        }
-        .chart-container {
-            width: 200px;
-            height: 200px;
-        }
-    </style>
-</head>
-<body>
-    <div class="chart-container">
-        <canvas id="gaugeChartMTD"></canvas>
-    </div>
-    <div class="chart-container">
-        <canvas id="gaugeChartQTD"></canvas>
-    </div>
-
-    <script>
-        function getColor(value) {
-            if (value < 80) {
-                return '#ff6f6f'; // red
-            } else if (value < 90) {
-                return '#ffd700'; // yellow
-            } else {
-                return '#6fbf73'; // green
-            }
-        }
-
-        function convertToPercentageString(num) {
-            return num.toFixed(2) + '%';
-        }
-
-        function createGaugeChart(ctx, value, text) {
-            const cappedValue = Math.min(value, 100);
-            const color = getColor(value);
-            return new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [cappedValue, 100 - cappedValue],
-                        backgroundColor: [color, '#f5f5f5'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    cutout: '80%',
-                    rotation: -90,
-                    circumference: 180,
-                    plugins: {
-                        tooltip: { enabled: false },
-                        legend: { display: false }
-                    }
-                },
-                plugins: [{
-                    id: 'textPlugin',
-                    afterDatasetsDraw: (chart, easing) => {
-                        const ctx = chart.ctx;
-                        ctx.save();
-                        const x = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
-                        const y = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 1.4;
-                        ctx.font = '24px Arial';
-                        ctx.fillStyle = '#000';
-                        ctx.textAlign = 'center';
-                        ctx.fillText(text, x, y);
-                        ctx.restore();
-                    }
-                }]
-            });
-        }
-
-        const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
-        const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
-
-        const mtdValue = 75.53;
-        const qtdValue = 90.63;
-
-        createGaugeChart(ctxMTD, mtdValue, convertToPercentageString(mtdValue));
-        createGaugeChart(ctxQTD, qtdValue, convertToPercentageString(qtdValue));
-    </script>
-</body>
+<html>
+  <body>
+    <p>Hello {{ row.Name }},</p>
+    <p>Role: {{ row.Role }}</p>
+    <p>Achievement MTD: {{ row.Achievement_MTD }}</p>
+    <p>Achievement QTD: {{ row.Achievement_QTD }}</p>
+    <p>Target MTD: {{ row.Target_MTD }}</p>
+    <p>Target QTD: {{ row.Target_QTD }}</p>
+    <p>Actual Sales MTD: {{ row.Actual_Sales_MTD }}</p>
+    <p>Actual Sales QTD: {{ row.Actual_Sales_QTD }}</p>
+    <p>Balance MTD: {{ row.Balance_MTD }}</p>
+    <p>Balance QTD: {{ row.Balance_QTD }}</p>
+    <p>Achievement MTD (%): {{ row['%Achievement_MTD'] }}</p>
+    <p>Achievement QTD (%): {{ row['%Achievement_QTD'] }}</p>
+    <p>Team MTD: {{ row.Team_MTD }}</p>
+    <p>Team QTD: {{ row.Team_QTD }}</p>
+    <p>SvT MTD: {{ row.SvT_MTD }}</p>
+    <p>SvT QTD: {{ row.SvT_QTD }}</p>
+    <p>Call Rate MTD: {{ row.Call_Rate_MTD }}</p>
+    <p>Call Rate QTD: {{ row.Call_Rate_QTD }}</p>
+    <p>Call Rate YTD: {{ row.Call_Rate_YTD }}</p>
+    <p>Call Compliance MTD (%): {{ row['%Call_Compliance_MTD'] }}</p>
+    <p>Call Compliance QTD (%): {{ row['%Call_Compliance_QTD'] }}</p>
+    <p>Call Compliance YTD (%): {{ row['%Call_Compliance_YTD'] }}</p>
+    <p>Call Compliance A MTD (%): {{ row['%Call_Compliance_A_MTD'] }}</p>
+    <p>Call Compliance A QTD (%): {{ row['%Call_Compliance_A_QTD'] }}</p>
+    <p>Call Compliance A YTD (%): {{ row['%Call_Compliance_A_YTD'] }}</p>
+    <img src="data:image/png;base64,{{ image_png }}" alt="Email Image" />
+  </body>
 </html>
