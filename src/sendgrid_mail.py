@@ -27,7 +27,7 @@ load_dotenv()
 # Get the SendGrid API key and email details from environment variables
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 FROM_EMAIL = os.getenv('FROM_EMAIL')
-TO_EMAIL = os.getenv('TO_EMAIL')
+TO_EMAIL = 'vtvinh@zuelligpharma.com'
 
 # Check if the API key is available
 if not SENDGRID_API_KEY:
