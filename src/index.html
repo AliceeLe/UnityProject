@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gauge Charts</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100vh;
+            background-color: #d8e0cb;
+        }
+        .chart-container {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <canvas id="gaugeChartMTD"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="gaugeChartQTD"></canvas>
+    </div>
+
+    <script>
+      const mtdValue = 75.53
+      const qtdValue = 127.63
+        function getColor(value) {
+            if (value < 95) {
+                return '#ff6f6f'; // red
+            } else if (value < 100) {
+                return '#ffd700'; // yellow
+            } else {
+                return '#6fbf73'; // green
+            }
+        }
+
+        function createGaugeChart(ctx, value, max, text) {
+            const color = getColor(value);
+            const chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [value, max - value],
+                        backgroundColor: [color, '#f5f5f5'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '80%',
+                    rotation: -90,
+                    circumference: 180,
+                    plugins: {
+                        tooltip: { enabled: false },
+                        legend: { display: false }
+                    }
+                },
+                plugins: [{
+                    id: 'textPlugin',
+                    afterDatasetsDraw: (chart, easing) => {
+                        const ctx = chart.ctx;
+                        ctx.save();
+                        const x = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+                        const y = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 1.4;
+                        ctx.font = '24px Arial';
+                        ctx.fillStyle = '#000';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(text, x, y);
+                        ctx.restore();
+                    }
+                }]
+            });
+        }
+
+        const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
+        const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
+
+        createGaugeChart(ctxMTD, mtdValue, 100, mtdValue + '%');
+        createGaugeChart(ctxQTD, qtdValue, 100, qtdValue+ '%');
+    </script>
+</body>
+</html>
