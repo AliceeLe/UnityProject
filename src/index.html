@@ -28,25 +28,28 @@
     </div>
 
     <script>
-      const mtdValue = 75.53
-      const qtdValue = 127.63
         function getColor(value) {
-            if (value < 95) {
+            if (value < 80) {
                 return '#ff6f6f'; // red
-            } else if (value < 100) {
+            } else if (value < 90) {
                 return '#ffd700'; // yellow
             } else {
                 return '#6fbf73'; // green
             }
         }
 
-        function createGaugeChart(ctx, value, max, text) {
+        function convertToPercentageString(num) {
+            return num.toFixed(2) + '%';
+        }
+
+        function createGaugeChart(ctx, value, text) {
+            const cappedValue = Math.min(value, 100);
             const color = getColor(value);
-            const chart = new Chart(ctx, {
+            return new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     datasets: [{
-                        data: [value, max - value],
+                        data: [cappedValue, 100 - cappedValue],
                         backgroundColor: [color, '#f5f5f5'],
                         borderWidth: 0
                     }]
@@ -81,8 +84,11 @@
         const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
         const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
 
-        createGaugeChart(ctxMTD, mtdValue, 100, mtdValue + '%');
-        createGaugeChart(ctxQTD, qtdValue, 100, qtdValue+ '%');
+        const mtdValue = 75.53;
+        const qtdValue = 90.63;
+
+        createGaugeChart(ctxMTD, mtdValue, convertToPercentageString(mtdValue));
+        createGaugeChart(ctxQTD, qtdValue, convertToPercentageString(qtdValue));
     </script>
 </body>
 </html>

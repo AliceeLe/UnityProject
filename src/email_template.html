@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @font-face {
             font-family: 'Segoe UI';
@@ -145,6 +146,22 @@
 
         .master-table {
             background-color: #2e6271;
+        }
+
+        .master-chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 5px;
+            gap: 20px;
+        }
+        .chart-container {
+            width: 130px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
 
@@ -335,7 +352,16 @@
                 <tr>
                     <td rowspan="5" colspan="1" colspan="1" id="box-2">
                         <div class="column-item" id="column-2">
-                            <h2>Achievement</h2>
+                            <div class="master-chart-container">
+                                <div class="chart-container">
+                                    <h2>%Achievement MTD</h2>
+                                    <canvas id="gaugeChartMTD"></canvas>
+                                </div>
+                                <div class="chart-container">
+                                    <h2>%Achievement QTD</h2>
+                                    <canvas id="gaugeChartQTD"></canvas>
+                                </div>                            
+                            </div>
                             <table class="inner-table">
                                 <tr class="inner-tr">
                                     <th style="width: 48%;"></th>
@@ -811,6 +837,71 @@
             &copy; 2024 Unity Project | ZP Therapeutics. All rights reserved.
         </div>
     </div>
+
+    <script>
+        function getColor(value) {
+            if (value < 80) {
+                return '#ff6f6f'; // red
+            } else if (value < 90) {
+                return '#ffd700'; // yellow
+            } else {
+                return '#6fbf73'; // green
+            }
+        }
+
+        function convertToPercentageString(num) {
+            return num.toFixed(2) + '%';
+        }
+
+        function createGaugeChart(ctx, value, text) {
+            const cappedValue = Math.min(value, 100);
+            const color = getColor(value);
+            return new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [cappedValue, 100 - cappedValue],
+                        backgroundColor: [color, '#f5f5f5'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '80%',
+                    rotation: -90,
+                    circumference: 180,
+                    plugins: {
+                        tooltip: { enabled: false },
+                        legend: { display: false }
+                    }
+                },
+                plugins: [{
+                    id: 'textPlugin',
+                    afterDatasetsDraw: (chart, easing) => {
+                        const ctx = chart.ctx;
+                        ctx.save();
+                        const x = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+                        const y = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 1.4;
+                        ctx.font = '16px Arial';
+                        ctx.fillStyle = '#000';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(text, x, y);
+                        ctx.restore();
+                    }
+                }]
+            });
+        }
+
+        const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
+        const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
+
+        const mtdValue = 75.53;
+        const qtdValue = 90.63;
+
+        createGaugeChart(ctxMTD, mtdValue, convertToPercentageString(mtdValue));
+        createGaugeChart(ctxQTD, qtdValue, convertToPercentageString(qtdValue));
+    </script>
+  
 </body>
 
 </html>
