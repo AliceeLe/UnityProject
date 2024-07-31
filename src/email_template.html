@@ -151,6 +151,7 @@
 
         .box-1-info {
             font-size: 14px;
+            text-align: center;
         }
 
         .footer {
@@ -206,20 +207,20 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="cid:email_image" alt="zpt logo">
+            <img src="./images/zpt.png" alt="zpt logo">
             <h1>ONE PAGE PERFORMANCE TRACKING</h1>
-            <img src="cid:email_image" alt="central-point logo">
+            <img src="./images/central-point.png" alt="central-point logo">
         </div>
         <div class="content">
             <div class="column-item" id="column-1">
                 <div class="info-row">
                     <div class="info-col">
                         <p class="box-1-header">Name</p>
-                        <p class="box-1-info">{{ row.Name }}</p>
+                        <p class="box-1-info">Pui Teng Yap</p>
                     </div>
                     <div class="info-col">
                         <p class="box-1-header">Role</p>
-                        <p class="box-1-info">{{ row.Role }}</p>
+                        <p class="box-1-info">Siew Tung Catherine Yap</p>
                     </div>
                 </div>
             </div>
@@ -243,33 +244,33 @@
                     </tr>
                     <tr>
                         <th style="width: 48%;">Target</th>
-                        <td style="width: 26%;">{{ row.Target_MTD }}</td>
-                        <td style="width: 26%;">{{ row.Target_QTD }}</td>
+                        <td style="width: 26%;">254754.12</td>
+                        <td style="width: 26%;">731113.23</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Actual Sales</th>
-                        <td style="width: 26%;">{{ row.Actual_Sales_MTD }}</td>
-                        <td style="width: 26%;">{{ row.Actual_Sales_QTD }}</td>
+                        <td style="width: 26%;">182361.41</td>
+                        <td style="width: 26%;">582261.3</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Balance To Go</th>
-                        <td style="width: 26%;">{{ row.Balance_MTD }}</td>
-                        <td style="width: 26%;">{{ row.Balance_QTD }}</td>
+                        <td style="width: 26%;">-72392.71</td>
+                        <td style="width: 26%;">-148851.93</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">% Achievement</th>
-                        <td style="width: 26%;">{{ row['%Achievement_MTD'] }}</td>
-                        <td style="width: 26%;">{{ row['%Achievement_QTD'] }}</td>
+                        <td style="width: 26%;">0.72</td>
+                        <td style="width: 26%;">0.8</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Team Achievement</th>
-                        <td style="width: 26%;">{{ row.Team_MTD }}</td>
-                        <td style="width: 26%;">{{ row.Team_QTD }}</td>
+                        <td style="width: 26%;"></td>
+                        <td style="width: 26%;"></td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">SvT Estimated Payout</th>
-                        <td style="width: 26%;">{{ row.SvT_MTD }}</td>
-                        <td style="width: 26%;">{{ row.SvT_QTD }}</td>
+                        <td style="width: 26%;"></td>
+                        <td style="width: 26%;"></td>
                     </tr>
                 </table>
 
@@ -285,27 +286,27 @@
                     </tr>
                     <tr>
                         <th>Call Rate</th>
-                        <td>{{ row.Call_Rate_MTD }}</td>
-                        <td>{{ row.Call_Rate_QTD }}</td>
-                        <td>{{ row.Call_Rate_YTD }}</td>
+                        <td>8.41</td>
+                        <td>8.38</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>% Call Volume</th>
-                        <td>{{ row.Call_Rate_MTD }}</td>
-                        <td>{{ row.Call_Rate_QTD }}</td>
-                        <td>{{ row.Call_Rate_YTD }}</td>
+                        <td>8.41</td>
+                        <td>8.38</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>% Call Compliance</th>
-                        <td>{{ row['%Call_Compliance_MTD'] }}</td>
-                        <td>{{ row['%Call_Compliance_QTD'] }}</td>
-                        <td>{{ row['%Call_Compliance_YTD'] }}</td>
+                        <td>1.0</td>
+                        <td>0.99</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>% Call Compliance A</th>
-                        <td>{{ row['%Call_Compliance_A_MTD'] }}</td>
-                        <td>{{ row['%Call_Compliance_A_QTD'] }}</td>
-                        <td>{{ row['%Call_Compliance_A_YTD'] }}</td>
+                        <td>1.0</td>
+                        <td>1.0</td>
+                        <td></td>
                     </tr>
                 </table>
 

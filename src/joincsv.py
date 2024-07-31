@@ -56,5 +56,40 @@ def merge_qtd():
 
     print(f"Merged CSV file successfully saved as {output_file_path}")
 
-merge_qtd()
-merge_all()
+def rename_columns(csv_file_path, new_column_names, output_file_path):
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv(csv_file_path)
+
+    df = df.round(2)
+
+    # List the original column names
+    original_column_names = df.columns.tolist()
+    print(f"Original column names: {original_column_names}")
+
+    # Check if the number of new column names matches the number of original column names
+    if len(new_column_names) != len(original_column_names):
+        print("Error: The number of new column names must match the number of original column names.")
+        return
+
+    # Rename the columns
+    df.columns = new_column_names
+
+    # List the new column names
+    print(f"New column names: {df.columns.tolist()}")
+
+    # Save the DataFrame with the new column names to a new CSV file
+    df.to_csv(output_file_path, index=False)
+    print(f"DataFrame successfully saved with new column names as {output_file_path}")
+
+# Define the paths to the input and output CSV files
+input_csv_file_path = 'data/Unity_sample.csv'
+output_csv_file_path = 'data/Sample_renamed.csv'
+
+# Define the new column names
+new_column_names = ['ID', 'Name', 'Manager_name', 'Manager_id', 'Call_Rate_MTD', 'Call_Volume_MTD', 'Call_Compliance_MTD', 'Call_Compliance_A_MTD', 'Actual_Sales_MTD', 'Target_MTD', '%Achievement_MTD', 'Balance_MTD', 'Actual_Sales_QTD', 'Target_QTD', '%Achievement_QTD', 'Balance_QTD', 'Call_Rate_QTD', 'Call_Volume_QTD', 'Call_Compliance_QTD', 'Call_Compliance_A_QTD', 'Email']  # Replace with your new column names
+
+# Call the function to rename columns
+rename_columns(input_csv_file_path, new_column_names, output_csv_file_path)
+
+# merge_qtd()
+# merge_all()

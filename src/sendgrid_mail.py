@@ -44,7 +44,7 @@ def send_email(to_email, subject, html_content):
         print(f"Error sending email to {to_email}: {e}")
 
 # Read CSV file and send emails
-csv_file_path = 'data/sample.csv'
+csv_file_path = 'data/Sample_renamed.csv'
 with open(csv_file_path, newline='') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
