@@ -1,30 +1,600 @@
+<!DOCTYPE html>
 <html>
-  <body>
-    <p>Hello {{ row.Name }},</p>
-    <p>Role: {{ row.Role }}</p>
-    <p>Achievement MTD: {{ row.Achievement_MTD }}</p>
-    <p>Achievement QTD: {{ row.Achievement_QTD }}</p>
-    <p>Target MTD: {{ row.Target_MTD }}</p>
-    <p>Target QTD: {{ row.Target_QTD }}</p>
-    <p>Actual Sales MTD: {{ row.Actual_Sales_MTD }}</p>
-    <p>Actual Sales QTD: {{ row.Actual_Sales_QTD }}</p>
-    <p>Balance MTD: {{ row.Balance_MTD }}</p>
-    <p>Balance QTD: {{ row.Balance_QTD }}</p>
-    <p>Achievement MTD (%): {{ row['%Achievement_MTD'] }}</p>
-    <p>Achievement QTD (%): {{ row['%Achievement_QTD'] }}</p>
-    <p>Team MTD: {{ row.Team_MTD }}</p>
-    <p>Team QTD: {{ row.Team_QTD }}</p>
-    <p>SvT MTD: {{ row.SvT_MTD }}</p>
-    <p>SvT QTD: {{ row.SvT_QTD }}</p>
-    <p>Call Rate MTD: {{ row.Call_Rate_MTD }}</p>
-    <p>Call Rate QTD: {{ row.Call_Rate_QTD }}</p>
-    <p>Call Rate YTD: {{ row.Call_Rate_YTD }}</p>
-    <p>Call Compliance MTD (%): {{ row['%Call_Compliance_MTD'] }}</p>
-    <p>Call Compliance QTD (%): {{ row['%Call_Compliance_QTD'] }}</p>
-    <p>Call Compliance YTD (%): {{ row['%Call_Compliance_YTD'] }}</p>
-    <p>Call Compliance A MTD (%): {{ row['%Call_Compliance_A_MTD'] }}</p>
-    <p>Call Compliance A QTD (%): {{ row['%Call_Compliance_A_QTD'] }}</p>
-    <p>Call Compliance A YTD (%): {{ row['%Call_Compliance_A_YTD'] }}</p>
-    <img src="data:image/png;base64,{{ image_png }}" alt="Email Image" />
-  </body>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Bold-Italic.ttf') format('truetype');
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Italic.ttf') format('truetype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        body {
+            font-family: SegoeUI, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        h2 {
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        p {
+            margin: 2px;
+            padding: 0;
+        }
+
+        .container {
+            /* Ipad size: 16-9 */
+            max-width: 2160px;
+            max-height: 1620px;
+            padding: 10px;
+            background-color: #2e6271;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 24px;
+
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            overflow: hidden;
+        }
+
+        .header>img {
+            height: 80%;
+            width: 15%;
+            object-fit: cover;
+        }
+
+        .content {
+            margin: 20px 20px;
+            font-size: 12px;
+            max-width: 100%;
+
+            display: grid;
+            grid-gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .column-item {
+            background-color: rgba(213, 225, 201, 255);
+            width: 100%;
+            padding: 10px;
+            padding-right: 0px;
+            border-radius: 5px;
+
+        }
+
+
+        .info-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            justify-content: space-around;
+        }
+
+        #column-1 {
+            background: #f7f0cc;
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+        }
+
+        #column-2 {
+            grid-column: 1 / 2;
+            grid-row: 2 / 7;
+        }
+
+        #column-3 {
+            grid-column: 1 / 2;
+            grid-row: 7 / 11;
+        }
+
+        #column-4 {
+            grid-column: 2 / 3;
+            grid-row: 1 / 4;
+        }
+
+        #column-5 {
+            grid-column: 2 / 3;
+            grid-row: 4 / 11;
+        }
+
+        #column-6 {
+            grid-column: 3 / 4;
+            grid-row: 1 / 11;
+        }
+
+        .box-1-header {
+            font-size: 10px;
+            color: gray;
+        }
+
+        .box-1-info {
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        table,
+        td,
+        th {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 98%;
+            background-color: white;
+        }
+
+        th,
+        td {
+            padding: 5px;
+        }
+
+        .master-chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            gap: 20px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ebebeb;
+        }
+
+        .chart-container {
+            width: 100px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="cid:email_image" alt="zpt logo">
+            <h1>ONE PAGE PERFORMANCE TRACKING</h1>
+            <img src="cid:email_image" alt="central-point logo">
+        </div>
+        <div class="content">
+            <div class="column-item" id="column-1">
+                <div class="info-row">
+                    <div class="info-col">
+                        <p class="box-1-header">Name</p>
+                        <p class="box-1-info">{{ row.Name }}</p>
+                    </div>
+                    <div class="info-col">
+                        <p class="box-1-header">Role</p>
+                        <p class="box-1-info">{{ row.Role }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column-item" id="column-2">
+                <div class="master-chart-container">
+                    <div class="chart-container">
+                        <h2>%Achievement MTD</h2>
+                        <canvas id="gaugeChartMTD"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h2>%Achievement QTD</h2>
+                        <canvas id="gaugeChartQTD"></canvas>
+                    </div>
+                </div>
+
+                <table class="column-2-table">
+                    <tr>
+                        <th style="width: 48%;"></th>
+                        <th style="width: 26%;">MTD</th>
+                        <th style="width: 26%;">QTD</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Target</th>
+                        <td style="width: 26%;">{{ row.Target_MTD }}</td>
+                        <td style="width: 26%;">{{ row.Target_QTD }}</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Actual Sales</th>
+                        <td style="width: 26%;">{{ row.Actual_Sales_MTD }}</td>
+                        <td style="width: 26%;">{{ row.Actual_Sales_QTD }}</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Balance To Go</th>
+                        <td style="width: 26%;">{{ row.Balance_MTD }}</td>
+                        <td style="width: 26%;">{{ row.Balance_QTD }}</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">% Achievement</th>
+                        <td style="width: 26%;">{{ row['%Achievement_MTD'] }}</td>
+                        <td style="width: 26%;">{{ row['%Achievement_QTD'] }}</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Team Achievement</th>
+                        <td style="width: 26%;">{{ row.Team_MTD }}</td>
+                        <td style="width: 26%;">{{ row.Team_QTD }}</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">SvT Estimated Payout</th>
+                        <td style="width: 26%;">{{ row.SvT_MTD }}</td>
+                        <td style="width: 26%;">{{ row.SvT_QTD }}</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="column-item" id="column-3">
+                <h2>Calls KPIs</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Call Rate</th>
+                        <td>{{ row.Call_Rate_MTD }}</td>
+                        <td>{{ row.Call_Rate_QTD }}</td>
+                        <td>{{ row.Call_Rate_YTD }}</td>
+                    </tr>
+                    <tr>
+                        <th>% Call Volume</th>
+                        <td>{{ row.Call_Rate_MTD }}</td>
+                        <td>{{ row.Call_Rate_QTD }}</td>
+                        <td>{{ row.Call_Rate_YTD }}</td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance</th>
+                        <td>{{ row['%Call_Compliance_MTD'] }}</td>
+                        <td>{{ row['%Call_Compliance_QTD'] }}</td>
+                        <td>{{ row['%Call_Compliance_YTD'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance A</th>
+                        <td>{{ row['%Call_Compliance_A_MTD'] }}</td>
+                        <td>{{ row['%Call_Compliance_A_QTD'] }}</td>
+                        <td>{{ row['%Call_Compliance_A_YTD'] }}</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-4">
+                <h2>Sales by Product Bucket</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th>Product Group</th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="column-item" id="column-5">
+                <h2>Sales-led Activities</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Events</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th># Touchpoint</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                </table>
+
+                <h2>Triggered Emails</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Email Sent</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Email Open Rate</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <th>% Click-through Rate</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                </table>
+
+                <h2>Coaching</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th></th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                        <th>YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Coaching (#Days)</th>
+                        <td>10%</td>
+                        <td>10%</td>
+                        <td>10%</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-6">
+                <h2>Top-20 customers</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>MTD</th>
+                        <th>QTD</th>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="footer">
+            &copy; 2024 Unity Project | ZP Therapeutics. All rights reserved.
+        </div>
+    </div>
+    <script>
+        function getColor(value) {
+            if (value < 80) {
+                return '#ff6f6f'; // red
+            } else if (value < 90) {
+                return '#ffd700'; // yellow
+            } else {
+                return '#6fbf73'; // green
+            }
+        }
+
+        function convertToPercentageString(num) {
+            return num.toFixed(2) + '%';
+        }
+
+        function createGaugeChart(ctx, value, text) {
+            const cappedValue = Math.min(value, 100);
+            const color = getColor(value);
+            return new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [cappedValue, 100 - cappedValue],
+                        backgroundColor: [color, '#f5f5f5'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '80%',
+                    rotation: -90,
+                    circumference: 180,
+                    plugins: {
+                        tooltip: { enabled: false },
+                        legend: { display: false }
+                    }
+                },
+                plugins: [{
+                    id: 'textPlugin',
+                    afterDatasetsDraw: (chart, easing) => {
+                        const ctx = chart.ctx;
+                        ctx.save();
+                        const x = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+                        const y = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 1.4;
+                        ctx.font = '16px Arial';
+                        ctx.fillStyle = '#000';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(text, x, y);
+                        ctx.restore();
+                    }
+                }]
+            });
+        }
+
+        const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
+        const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
+
+        const mtdValue = 75.53;
+        const qtdValue = 90.63;
+
+        createGaugeChart(ctxMTD, mtdValue, convertToPercentageString(mtdValue));
+        createGaugeChart(ctxQTD, qtdValue, convertToPercentageString(qtdValue));
+    </script>
+
+</body>
+
 </html>
