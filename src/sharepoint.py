@@ -80,7 +80,7 @@ def save_file_to_computer(site_id, file_id, file_name, headers):
         print(f"Error downloading file {file_name}: {e}")
     else:
         # Save the file to the local computer
-        with open(f"test_data/{file_name}", 'wb') as local_file:
+        with open(f"data/raw/{file_name}", 'wb') as local_file:
             local_file.write(file_content_response.content)
             print(f"{file_name} successfully saved to local computer")
 
