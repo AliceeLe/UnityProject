@@ -184,7 +184,7 @@
             justify-content: center;
             align-items: center;
             margin-top: 20px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             gap: 20px;
         }
 
@@ -216,11 +216,11 @@
                 <div class="info-row">
                     <div class="info-col">
                         <p class="box-1-header">Name</p>
-                        <p class="box-1-info">匡智 蕭</p>
+                        <p class="box-1-info">{{ row.Name }}</p>
                     </div>
                     <div class="info-col">
                         <p class="box-1-header">Role</p>
-                        <p class="box-1-info">B</p>
+                        <p class="box-1-info">{{ row.Role }}</p>
                     </div>
                 </div>
             </div>
@@ -244,34 +244,34 @@
                     </tr>
                     <tr>
                         <th style="width: 48%;">Target</th>
-                        <td style="width: 26%;">64928.42</td>
-                        <td style="width: 26%;">174113.71</td>
+                        <td style="width: 26%;">{{ row.Target_MTD }}</td>
+                        <td style="width: 26%;">{{ row.Target_QTD }}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Actual Sales</th>
-                        <td style="width: 26%;">70466.37</td>
-                        <td style="width: 26%;">186156.74</td>
+                        <td style="width: 26%;">{{ row.Actual_Sales_MTD }}</td>
+                        <td style="width: 26%;">{{ row.Actual_Sales_QTD }}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Balance To Go</th>
-                        <td style="width: 26%;">5537.95</td>
-                        <td style="width: 26%;">12043.03</td>
+                        <td style="width: 26%;">{{ row.Balance_MTD }}</td>
+                        <td style="width: 26%;">{{ row.Balance_QTD }}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">% Achievement</th>
-                        <td style="width: 26%;">109</td>
-                        <td style="width: 26%;">107</td>
+                        <td style="width: 26%;">{{ row['%Achievement_MTD'] }}</td>
+                        <td style="width: 26%;">{{ row['%Achievement_QTD'] }}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Team Achievement</th>
-                        <td style="width: 26%;"></td>
-                        <td style="width: 26%;"></td>
+                        <td style="width: 26%;">{{ row['%Achievement_MTD'] }}</td>
+                        <td style="width: 26%;">{{ row['%Achievement_QTD'] }}</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <th style="width: 48%;">SvT Estimated Payout</th>
-                        <td style="width: 26%;"></td>
-                        <td style="width: 26%;"></td>
-                    </tr>
+                        <td style="width: 26%;">{{ row.SvT_MTD }}</td>
+                        <td style="width: 26%;">{{ row.SvT_QTD }}</td>
+                    </tr> -->
                 </table>
 
             </div>
@@ -286,27 +286,31 @@
                     </tr>
                     <tr>
                         <th>Call Rate</th>
-                        <td>9.2</td>
-                        <td>8.51</td>
-                        <td></td>
+                        <td>{{ row.Call_Rate_MTD }}</td>
+                        <td>{{ row.Call_Rate_QTD }}</td>
+                        <!-- Temporary put QTD here -->
+                        <td>{{ row.Call_Rate_QTD }}</td>
                     </tr>
                     <tr>
                         <th>% Call Volume</th>
-                        <td>9.2</td>
-                        <td>8.51</td>
-                        <td></td>
+                        <td>{{ row.Call_Volume_MTD }}</td>
+                        <td>{{ row.Call_Volume_QTD }}</td>
+                        <!-- Temporary put QTD here -->
+                        <td>{{ row.Call_Volume_QTD }}</td>
                     </tr>
                     <tr>
                         <th>% Call Compliance</th>
-                        <td>0.99</td>
-                        <td>1.0</td>
-                        <td></td>
+                        <td>{{ row.Call_Compliance_MTD }}</td>
+                        <td>{{ row.Call_Compliance_QTD }}</td>
+                        <!-- Temporary put QTD here -->
+                        <td>{{ row.Call_Compliance_QTD }}</td>
                     </tr>
                     <tr>
                         <th>% Call Compliance A</th>
-                        <td>0.97</td>
-                        <td>1.0</td>
-                        <td></td>
+                        <td>{{ row.Call_Compliance_A_MTD }}</td>
+                        <td>{{ row.Call_Compliance_A_QTD }}</td>
+                        <!-- Temporary put QTD here -->
+                        <td>{{ row.Call_Compliance_A_QTD }}</td>
                     </tr>
                 </table>
 
@@ -321,29 +325,29 @@
                         <th>QTD</th>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:11px">PROPAN W/ IRON</td>
+                        <td>663,003</td>
+                        <td>1,734,080</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:11px">PROPAN SYRUP</td>
+                        <td>476,250</td>
+                        <td>1,497,838</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:11px">NIZORAL</td>
+                        <td>268,055</td>
+                        <td>814,131</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:11px">PHYSIONEAL</td>
+                        <td>121,201</td>
+                        <td>772,896</td>
                     </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                    <tr style="font-weight: bold;">
+                        <td>Total</td>
+                        <td>1,528,508</td>
+                        <td>4,818,936</td>
                     </tr>
                 </table>
             </div>
@@ -359,15 +363,15 @@
                     </tr>
                     <tr>
                         <th># Events</th>
-                        <td>10%</td>
-                        <td>10%</td>
-                        <td>10%</td>
+                        <td>{{ row.Event_MTD }}</td>
+                        <td>{{ row.Event_QTD }}</td>
+                        <td>{{ row.Event_YTD }}</td>
                     </tr>
                     <tr>
                         <th># Touchpoint</th>
-                        <td>10%</td>
-                        <td>10%</td>
-                        <td>10%</td>
+                        <td>{{ row.Touchpoint_MTD }}</td>
+                        <td>{{ row.Touchpoint_QTD }}</td>
+                        <td>{{ row.Touchpoint_YTD }}</td>
                     </tr>
                 </table>
 
@@ -381,21 +385,21 @@
                     </tr>
                     <tr>
                         <th># Email Sent</th>
-                        <td>10%</td>
-                        <td>10%</td>
-                        <td>10%</td>
+                        <td>{{ row.Email_Sent_MTD }}</td>
+                        <td>{{ row.Email_Sent_QTD }}</td>
+                        <td>{{ row.Email_Sent_YTD }}</td>
                     </tr>
                     <tr>
                         <th>% Email Open Rate</th>
-                        <td>10%</td>
-                        <td>10%</td>
-                        <td>10%</td>
+                        <td>{{ row.Mail_Open_Rate_MTD}}</td>
+                        <td>{{ row.Mail_Open_Rate_QTD}}</td>
+                        <td>{{ row.Mail_Open_Rate_YTD}}</td>
                     </tr>
                     <tr>
                         <th>% Click-through Rate</th>
-                        <td>10%</td>
-                        <td>10%</td>
-                        <td>10%</td>
+                        <td>{{row.Clickrate_MTD}}</td>
+                        <td>{{row.Clickrate_QTD}}</td>
+                        <td>{{row.Clickrate_YTD}}</td>
                     </tr>
                 </table>
 
@@ -426,105 +430,105 @@
                         <th>QTD</th>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">PAMELA YOUDE N.E.H.</td>
+                        <td>257,592</td>
+                        <td>724,984</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">PAMELA YOUDE NETHERS</td>
+                        <td>238,000</td>
+                        <td>687,568</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">UNITED CHRISTIAN HOS</td>
+                        <td>50,952</td>
+                        <td>197,728</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">QUALITY HEALTHCARE M</td>
+                        <td>35,388</td>
+                        <td>167,472</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">DEP8 CHAI WAN FAMILI</td>
+                        <td>0</td>
+                        <td>152,224</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">CARING MEDICAL CENTER</td>
+                        <td>63,350</td>
+                        <td>114,450</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">THE H.K. AND CHINA G</td>
+                        <td>19,600</td>
+                        <td>58,800</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">MANNINGS O/B THE DAI</td>
+                        <td>11,703</td>
+                        <td>43,147</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">RUTTONJEE HOSPITAL C</td>
+                        <td>13,926</td>
+                        <td>26,352</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">COMMUNITY HEALTH SER</td>
+                        <td>0</td>
+                        <td>25,920</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">PHARM + ST JAMES' SET</td>
+                        <td>25,920</td>
+                        <td>25,920</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">ST. JAMES' SETTLEMEN</td>
+                        <td>0</td>
+                        <td>25,920</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">DR. CHEUNG KWOK MING</td>
+                        <td>0</td>
+                        <td>22,418</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">CHEUNG CHOON DISPENS</td>
+                        <td>14,250</td>
+                        <td>14,250</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">HING SHING DISPENSAR</td>
+                        <td>12,960</td>
+                        <td>12,960</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">KWAN HING DISPENSARY</td>
+                        <td>12,960</td>
+                        <td>12,960</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">TIEN LU DISPENSARY</td>
+                        <td>12,960</td>
+                        <td>12,960</td>
                     </tr>
                     <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                        <td style="font-size:10px">TIEN LU DISPENSARY L</td>
+                        <td>12,960</td>
+                        <td>12,960</td>
                     </tr>
-                    <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
+                    <tr style="font-weight: bold;">
+                        <td>Total</td>
+                        <td>781,891</td>
+                        <td>2,377,853</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>10</td>
                         <td>10</td>
                         <td>10</td>
-                    </tr>
+                    </tr>  -->
                 </table>
             </div>
         </div>
@@ -589,11 +593,17 @@
         const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
         const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
 
-        const mtdValue = "109";
-        const qtdValue = "107";
+        const mtdValue = "{{ row['%Achievement_MTD']}}";
+        const qtdValue = "{{ row['%Achievement_QTD']}}";
 
-        createGaugeChart(ctxMTD, mtdValue, convertToPercentageString(mtdValue));
-        createGaugeChart(ctxQTD, qtdValue, convertToPercentageString(qtdValue));
+        function convertPercentageToNumber(percentageString) {
+            // Remove the '%' character and convert the string to a number
+            let number = parseFloat(percentageString.replace('%', ''));
+            return number;
+        }
+
+        createGaugeChart(ctxMTD, convertPercentageToNumber(mtdValue), mtdValue);
+        createGaugeChart(ctxQTD, convertPercentageToNumber(qtdValue), qtdValue);
     </script>
 
 </body>

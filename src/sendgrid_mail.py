@@ -44,7 +44,7 @@ def send_email(to_email, subject, html_content):
         print(f"Error sending email to {to_email}: {e}")
 
 # Read CSV file and send emails
-csv_file_path = 'data/Sample_renamed.csv'
+csv_file_path = 'data/processed/sample.csv'
 with open(csv_file_path, newline='') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
@@ -52,7 +52,7 @@ with open(csv_file_path, newline='') as csvfile:
         html_content = template.render(row=row)
         
         # Write the rendered HTML to a file
-        with open('src/email_template.html', 'w') as file:
+        with open('src/email_final.html', 'w') as file:
             file.write(html_content)
         
         # Run the Node.js script to convert the HTML to PNG
