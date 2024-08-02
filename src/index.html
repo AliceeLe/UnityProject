@@ -589,8 +589,8 @@
         const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
         const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
 
-        const mtdValue = 75.53;
-        const qtdValue = 90.63;
+        const mtdValue = "{{ row['%Achievement_MTD']}}";
+        const qtdValue = "{{ row['%Achievement_QTD']}}";
 
         createGaugeChart(ctxMTD, mtdValue, convertToPercentageString(mtdValue));
         createGaugeChart(ctxQTD, qtdValue, convertToPercentageString(qtdValue));

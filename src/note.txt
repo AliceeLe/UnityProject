@@ -1,0 +1,6 @@
+Tasks:
+1. Read data from Others file
+2. Rename CSV files (map column solution)
+3. HTML plug-in
+4. HTML customization 
+5. Gauge chart 

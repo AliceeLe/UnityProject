@@ -1,7 +1,3 @@
 ID,Name,Manager_name,Manager_id,Call_Rate_MTD,Call_Volume_MTD,Call_Compliance_MTD,Call_Compliance_A_MTD,Actual_Sales_MTD,Target_MTD,%Achievement_MTD,Balance_MTD,Actual_Sales_QTD,Target_QTD,%Achievement_QTD,Balance_QTD,Call_Rate_QTD,Call_Volume_QTD,Call_Compliance_QTD,Call_Compliance_A_QTD,Email
-0055h000005tjiOAAQ,Yiek Tshin Kate Chee,Wai Leng Wee,0055h0000062uaoAAA,9.15,1.14,0.71,1.0,90538.74,108928.08,0.83,-18389.34,276990.34,284325.05,0.97,-7334.71,8.68,1.08,0.99,1.0,vtvinh@zuelligpharma.com
-0055h000005tjiYAAQ,Qian-Xi Olivia Chua,Wai Leng Wee,0055h0000062uaoAAA,9.2,1.15,0.99,0.97,70466.37,64928.42,1.09,5537.95,186156.74,174113.71,1.07,12043.03,8.51,1.06,1.0,1.0,vtvinh@zuelligpharma.com
-0055h000005tXEiAAM,Wooi Ping Soo,Chean Joe Tan,0055h0000062uaOAAQ,8.5,1.21,0.8,0.58,485216.0,588350.0,0.82,-103134.0,1654468.0,1722999.0,0.96,-68531.0,7.83,1.12,0.97,1.0,anaufal@zuelligpharma.com
-0055h0000062ua0AAA,See Yong Tan,Woan Syen Liew,0055h0000062uaDAAQ,8.22,1.03,0.78,0.72,81662.06,82901.92,0.99,-1239.86,201348.86,223735.96,0.9,-22387.1,10.3,1.29,1.0,1.0,anaufal@zuelligpharma.com
-0055h0000062ua2AAA,Hui Yee Kho,Raymond Hah,0055h0000062uaMAAQ,8.59,1.07,1.0,1.0,58685.65,135663.05,0.43,-76977.4,221640.1,375307.15,0.59,-153667.05,8.48,1.06,0.98,0.98,ntpthuy@zuelligpharma.com
-0055h0000062ua5AAA,Pui Teng Yap,Siew Tung Catherine Yap,0055h0000062ua6AAA,8.41,1.05,1.0,1.0,182361.41,254754.12,0.72,-72392.71,582261.3,731113.23,0.8,-148851.93,8.38,1.05,0.99,1.0,ntpthuy@zuelligpharma.com
+0055h000005tjiOAAQ,Yiek Tshin Kate Chee,Wai Leng Wee,0055h0000062uaoAAA,9.15,1.14,0.71,1.0,90538.74,108928.08,83,-18389.34,276990.34,284325.05,97,-7334.71,8.68,1.08,0.99,1.0,lhcanh@zuelligpharma.com
+0055h000005tjiYAAQ,Qian-Xi Olivia Chua,Wai Leng Wee,0055h0000062uaoAAA,9.2,1.15,0.99,0.97,70466.37,64928.42,109,5537.95,186156.74,174113.71,107,12043.03,8.51,1.06,1.0,1.0,lhcanh@zuelligpharma.com
