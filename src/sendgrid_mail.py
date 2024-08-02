@@ -6,6 +6,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from dotenv import load_dotenv
 import base64
+from datetime import datetime
 
 # Function to encode image to Base64
 def encode_image_to_base64(image_path):
@@ -64,14 +65,23 @@ with open(csv_file_path, newline='') as csvfile:
         # Create the email content with the embedded image
         email_html_content = f"""
         <html>
-          <body>
-            <img src="data:image/png;base64,{image_png}" alt="Email Image" />
-          </body>
+            <body>
+                <table width="100%" height="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td align="center" valign="middle">
+                        <img src="data:image/png;base64,{image_png}" alt="Email Image" />
+                        </td>
+                    </tr>
+                </table>
+            </body>
         </html>
         """
         
+        now = datetime.now()
         # Define the subject
-        subject = f"Sales dashboard sample - {row['Name']}"
-        
+        subject = f"Sales dashboard - {row['Name']} - {now.strftime('%Y/%m/%d')}"
+        print("Email: " + subject)
         # Send the email
-        send_email(row['Email'], subject, email_html_content)
+        # send_email(row['Email'], subject, email_html_content)
+
+
