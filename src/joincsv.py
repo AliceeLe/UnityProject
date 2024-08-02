@@ -197,14 +197,29 @@ def process_data():
     # Convert specified columns from decimal format to percentage format
     for column in columns_percent:
         if column in df.columns:
-            df[column] = df[column].apply(lambda x: f"{round(x * 100, 2)}%" if pd.notnull(x) else "")
+            df[column] = df[column].apply(lambda x: f"{int(round(x * 100))}%" if pd.notnull(x) else "")
         else:
             print(f"Warning: Column '{column}' not found in the CSV file.")
+
+    # Process rows with thousands
     for column in columns_thousand:
         if column in df.columns:
             df[column] = df[column].apply(format_thousand)
         else:
             print(f"Warning: Column '{column}' not found in the CSV file.")
+
+    # Process Role row
+    def process_role(role):
+        if isinstance(role, str) and role.startswith('ZLG_') and role.endswith('_CRM'):
+            return role[4:-4]
+        return None
+
+    # Apply the process_role function to the Role column
+    df['Role'] = df['Role'].apply(process_role)
+
+    # Remove rows with None in the Role column or where Status is 'inactive'
+    df = df[df['Role'].notnull() & (df['Active_User'].str.lower() != 'inactive')]
+
 
 
     # Save the DataFrame with the converted columns to a new CSV file
