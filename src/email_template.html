@@ -290,53 +290,161 @@
                     </tr>
                     <tr>
                         <th>Call Rate</th>
-                        <td style="background-color: {% if row.Call_Rate_MTD[:-1]|int >= row.Call_Rate_Expected_MTD[:-1]|int %}green{% elif row.Call_Rate_Expected_MTD[:-1]|int - row.Call_Rate_MTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Rate_MTD[:-1]|int >= row.Call_Rate_Expected_MTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Rate_Expected_MTD[:-1]|int - row.Call_Rate_MTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Rate_MTD }}
                         </td>
-                        <td style="background-color: {% if row.Call_Rate_QTD[:-1]|int >= row.Call_Rate_Expected_QTD[:-1]|int %}green{% elif row.Call_Rate_Expected_QTD[:-1]|int - row.Call_Rate_QTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Rate_QTD[:-1]|int >= row.Call_Rate_Expected_QTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Rate_Expected_QTD[:-1]|int - row.Call_Rate_QTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Rate_QTD }}
                         </td>
                         <!-- Temporary put QTD here -->
-                        <td style="background-color: {% if row.Call_Rate_QTD[:-1]|int >= row.Call_Rate_Expected_QTD[:-1]|int %}green{% elif row.Call_Rate_Expected_QTD[:-1]|int - row.Call_Rate_QTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Rate_QTD[:-1]|int >= row.Call_Rate_Expected_QTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Rate_Expected_QTD[:-1]|int - row.Call_Rate_QTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Rate_QTD }}
                         </td>
                     </tr>
                     <tr>
                         <th>% Call Volume</th>
-                        <td style="background-color: {% if row.Call_Volume_MTD[:-1]|int >= row.Call_Volume_Expected_MTD[:-1]|int %}green{% elif row.Call_Volume_Expected_MTD[:-1]|int - row.Call_Volume_MTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Volume_MTD[:-1]|int >= row.Call_Volume_Expected_MTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Volume_Expected_MTD[:-1]|int - row.Call_Volume_MTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Volume_MTD }}
                         </td>
-                        <td style="background-color: {% if row.Call_Volume_QTD[:-1]|int >= row.Call_Volume_Expected_QTD[:-1]|int %}green{% elif row.Call_Volume_Expected_QTD[:-1]|int - row.Call_Volume_QTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Volume_QTD[:-1]|int >= row.Call_Volume_Expected_QTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Volume_Expected_QTD[:-1]|int - row.Call_Volume_QTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Volume_QTD }}
                         </td>
                         <!-- Temporary put QTD here -->
-                        <td style="background-color: {% if row.Call_Volume_QTD[:-1]|int >= row.Call_Volume_Expected_QTD[:-1]|int %}green{% elif row.Call_Volume_Expected_QTD[:-1]|int - row.Call_Volume_QTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Volume_QTD[:-1]|int >= row.Call_Volume_Expected_QTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Volume_Expected_QTD[:-1]|int - row.Call_Volume_QTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Volume_QTD }}
                         </td>
                     </tr>
                     <tr>
                         <th>% Call Compliance</th>
-                        <td style="background-color: {% if row.Call_Compliance_MTD[:-1]|int >= row.Call_Compliance_Expected_MTD[:-1]|int %}green{% elif row.Call_Compliance_Expected_MTD[:-1]|int - row.Call_Compliance_MTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Compliance_MTD[:-1]|int >= row.Call_Compliance_Expected_MTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Compliance_Expected_MTD[:-1]|int - row.Call_Compliance_MTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Compliance_MTD }}
                         </td>
-                        <td style="background-color: {% if row.Call_Compliance_QTD[:-1]|int >= row.Call_Compliance_Expected_QTD[:-1]|int %}green{% elif row.Call_Compliance_Expected_QTD[:-1]|int - row.Call_Compliance_QTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Compliance_QTD[:-1]|int >= row.Call_Compliance_Expected_QTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Compliance_Expected_QTD[:-1]|int - row.Call_Compliance_QTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Compliance_QTD }}
                         </td>
                         <!-- Temporary put QTD here -->
-                        <td style="background-color: {% if row.Call_Compliance_QTD[:-1]|int >= row.Call_Compliance_Expected_QTD[:-1]|int %}green{% elif row.Call_Compliance_Expected_QTD[:-1]|int - row.Call_Compliance_QTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Compliance_QTD[:-1]|int >= row.Call_Compliance_Expected_QTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Compliance_Expected_QTD[:-1]|int - row.Call_Compliance_QTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Compliance_QTD }}
                         </td>
                     </tr>
                     <tr>
                         <th>% Call Compliance A</th>
-                        <td style="background-color: {% if row.Call_Compliance_A_MTD[:-1]|int >= row.Call_Compliance_A_Expected_MTD[:-1]|int %}green{% elif row.Call_Compliance_A_Expected_MTD[:-1]|int - row.Call_Compliance_A_MTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Compliance_A_MTD[:-1]|int >= row.Call_Compliance_A_Expected_MTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Compliance_A_Expected_MTD[:-1]|int - row.Call_Compliance_A_MTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Compliance_A_MTD }}
                         </td>
-                        <td style="background-color: {% if row.Call_Compliance_A_QTD[:-1]|int >= row.Call_Compliance_A_Expected_QTD[:-1]|int %}green{% elif row.Call_Compliance_A_Expected_QTD[:-1]|int - row.Call_Compliance_A_QTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Compliance_A_QTD[:-1]|int >= row.Call_Compliance_A_Expected_QTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Compliance_A_Expected_QTD[:-1]|int - row.Call_Compliance_A_QTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Compliance_A_QTD }}
                         </td>
                         <!-- Temporary put QTD here -->
-                        <td style="background-color: {% if row.Call_Compliance_A_QTD[:-1]|int >= row.Call_Compliance_A_Expected_QTD[:-1]|int %}green{% elif row.Call_Compliance_A_Expected_QTD[:-1]|int - row.Call_Compliance_A_QTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Call_Compliance_A_QTD[:-1]|int >= row.Call_Compliance_A_Expected_QTD[:-1]|int %}
+                            #68A490
+                            {% elif row.Call_Compliance_A_Expected_QTD[:-1]|int - row.Call_Compliance_A_QTD[:-1]|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: white;">
                             {{ row.Call_Compliance_A_QTD }}
                         </td>
                     </tr>
@@ -419,13 +527,19 @@
                     </tr>
                     <tr>
                         <th>% Email Open Rate</th>
-                        <td style="background-color: {% if row.Mail_Open_Rate_MTD[:-1]|int >= row.Mail_Open_Rate_Expected_MTD[:-1]|int %}green{% elif row.Mail_Open_Rate_Expected_MTD[:-1]|int - row.Mail_Open_Rate_MTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td style="background-color: 
+                        {% if row.Mail_Open_Rate_MTD[:-1]|int >= row.Mail_Open_Rate_Expected_MTD[:-1]|int %}
+                        #68A490
+                        {% elif row.Mail_Open_Rate_Expected_MTD[:-1]|int - row.Mail_Open_Rate_MTD[:-1]|int <= 5 %}
+                        #EAC282{% else %}#F64F5C{% endif %}; color: white;">
                             {{ row.Mail_Open_Rate_MTD }}
                         </td>
-                        <td style="background-color: {% if row.Mail_Open_Rate_QTD[:-1]|int >= row.Mail_Open_Rate_Expected_QTD[:-1]|int %}green{% elif row.Mail_Open_Rate_Expected_QTD[:-1]|int - row.Mail_Open_Rate_QTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td
+                            style="background-color: {% if row.Mail_Open_Rate_QTD[:-1]|int >= row.Mail_Open_Rate_Expected_QTD[:-1]|int %}#68A490{% elif row.Mail_Open_Rate_Expected_QTD[:-1]|int - row.Mail_Open_Rate_QTD[:-1]|int <= 5 %}#EAC282{% else %}#F64F5C{% endif %}; color: white;">
                             {{ row.Mail_Open_Rate_QTD }}
                         </td>
-                        <td style="background-color: {% if row.Mail_Open_Rate_YTD[:-1]|int >= row.Mail_Open_Rate_Expected_YTD[:-1]|int %}green{% elif row.Mail_Open_Rate_Expected_YTD[:-1]|int - row.Mail_Open_Rate_YTD[:-1]|int <= 5 %}yellow{% else %}red{% endif %}; color: white;">
+                        <td
+                            style="background-color: {% if row.Mail_Open_Rate_YTD[:-1]|int >= row.Mail_Open_Rate_Expected_YTD[:-1]|int %}#68A490{% elif row.Mail_Open_Rate_Expected_YTD[:-1]|int - row.Mail_Open_Rate_YTD[:-1]|int <= 5 %}#EAC282{% else %}#F64F5C{% endif %}; color: white;">
                             {{ row.Mail_Open_Rate_YTD }}
                         </td>
                     </tr>
@@ -565,80 +679,83 @@
                     </tr>  -->
                 </table>
             </div>
-        </div>
-        <div class="footer">
-            &copy; 2024 Unity Project | ZP Therapeutics. All rights reserved.
-        </div>
-    </div>
-    <script>
-        function getColor(value) {
-            if (value < 80) {
-                return '#ff6f6f'; // red
-            } else if (value < 90) {
-                return '#ffd700'; // yellow
-            } else {
-                return '#6fbf73'; // green
-            }
-        }
 
-        function convertToPercentageString(num) {
-            return num.toFixed(2) + '%';
-        }
-
-        function createGaugeChart(ctx, value, text) {
-            const cappedValue = Math.min(value, 100);
-            const color = getColor(value);
-            return new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [cappedValue, 100 - cappedValue],
-                        backgroundColor: [color, '#f5f5f5'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    cutout: '80%',
-                    rotation: -90,
-                    circumference: 180,
-                    plugins: {
-                        tooltip: { enabled: false },
-                        legend: { display: false }
+            <div class="column-item" id="column-7">
+                
+            </div>
+                <div class="footer">
+                    &copy; 2024 Unity Project | ZP Therapeutics. All rights reserved.
+                </div>
+            </div>
+            <script>
+                function getColor(value) {
+                    if (value < 100) {
+                        return '#ff6f6f'; // red
+                        // } else if (value < 90) {
+                        //     return '#ffd700'; // yellow
+                    } else {
+                        return '#6fbf73'; // green
                     }
-                },
-                plugins: [{
-                    id: 'textPlugin',
-                    afterDatasetsDraw: (chart, easing) => {
-                        const ctx = chart.ctx;
-                        ctx.save();
-                        const x = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
-                        const y = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 1.4;
-                        ctx.font = '16px Arial';
-                        ctx.fillStyle = '#000';
-                        ctx.textAlign = 'center';
-                        ctx.fillText(text, x, y);
-                        ctx.restore();
-                    }
-                }]
-            });
-        }
+                }
 
-        const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
-        const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
+                function convertToPercentageString(num) {
+                    return num.toFixed(2) + '%';
+                }
 
-        const mtdValue = "{{ row['%Achievement_MTD']}}";
-        const qtdValue = "{{ row['%Achievement_QTD']}}";
+                function createGaugeChart(ctx, value, text) {
+                    const cappedValue = Math.min(value, 100);
+                    const color = getColor(value);
+                    return new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            datasets: [{
+                                data: [cappedValue, 100 - cappedValue],
+                                backgroundColor: [color, '#f5f5f5'],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            cutout: '80%',
+                            rotation: -90,
+                            circumference: 180,
+                            plugins: {
+                                tooltip: { enabled: false },
+                                legend: { display: false }
+                            }
+                        },
+                        plugins: [{
+                            id: 'textPlugin',
+                            afterDatasetsDraw: (chart, easing) => {
+                                const ctx = chart.ctx;
+                                ctx.save();
+                                const x = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+                                const y = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 1.4;
+                                ctx.font = '16px Arial';
+                                ctx.fillStyle = '#000';
+                                ctx.textAlign = 'center';
+                                ctx.fillText(text, x, y);
+                                ctx.restore();
+                            }
+                        }]
+                    });
+                }
 
-        function convertPercentageToNumber(percentageString) {
-            // Remove the '%' character and convert the string to a number
-            let number = parseFloat(percentageString.replace('%', ''));
-            return number;
-        }
+                const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
+                const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
 
-        createGaugeChart(ctxMTD, convertPercentageToNumber(mtdValue), mtdValue);
-        createGaugeChart(ctxQTD, convertPercentageToNumber(qtdValue), qtdValue);
-    </script>
+                const mtdValue = "{{ row['%Achievement_MTD']}}";
+                const qtdValue = "{{ row['%Achievement_QTD']}}";
+
+                function convertPercentageToNumber(percentageString) {
+                    // Remove the '%' character and convert the string to a number
+                    let number = parseFloat(percentageString.replace('%', ''));
+                    return number;
+                }
+
+                createGaugeChart(ctxMTD, convertPercentageToNumber(mtdValue), mtdValue);
+                createGaugeChart(ctxQTD, convertPercentageToNumber(qtdValue), qtdValue);
+            </script>
 
 </body>
 

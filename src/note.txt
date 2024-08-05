@@ -1,4 +1,3 @@
-Tasks:
-3. HTML plug-in
-4. HTML customization 
-5. Gauge chart 
+#68A490
+#EAC282
+#F64F5C
