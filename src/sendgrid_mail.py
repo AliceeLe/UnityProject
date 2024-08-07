@@ -67,14 +67,26 @@ with open(csv_file_path, newline='') as csvfile:
             <html>
                 <body>
                     <div style="position: relative; display: inline-block;">
-                        <a href="https://app.powerbi.com/Redirect?action=OpenReport&appId=369b5f26-0412-45ce-9d2c-fc9f8ada85c3&reportObjectId=644b908b-822b-4c6b-b965-79d227f12678&ctid=19cff0af-7bfb-4dfc-8fdc-ecd1a242439b&reportPage=ReportSection1a5a24c959e2be1c04bc&pbi_source=appShareLink&portalSessionId=9ab5af7b-505d-4879-91ca-e788b400762d">Visit Central Point</a>
-                        <br>
-                        <a href="https://app.powerbi.com/Redirect?action=OpenReport&appId=4b9f871b-24bd-4a16-861f-79f1d2ec66cb&reportObjectId=7a67aa2e-2a61-498b-8b93-b4ef2f972eeb&ctid=19cff0af-7bfb-4dfc-8fdc-ecd1a242439b&reportPage=ReportSectionb54baab67b043ae0b6bb&pbi_source=appShareLink&portalSessionId=9ab5af7b-505d-4879-91ca-e788b400762d">Visit 360</a>
-                        <table width="100%" height="100%" cellspacing="0" cellpadding="0">
+                        <table width="100%" height="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+                            <tr>
+                                <td style="height: 20px;">&nbsp;</td> <!-- Spacer row with fixed height -->
+                            </tr>
+                            <tr>
+                                <td align="center" valign="middle">
+                                    <a href="https://app.powerbi.com/Redirect?action=OpenReport&appId=369b5f26-0412-45ce-9d2c-fc9f8ada85c3&reportObjectId=644b908b-822b-4c6b-b965-79d227f12678&ctid=19cff0af-7bfb-4dfc-8fdc-ecd1a242439b&reportPage=ReportSection1a5a24c959e2be1c04bc&pbi_source=appShareLink&portalSessionId=9ab5af7b-505d-4879-91ca-e788b400762d" style="font-size: 15px;">Click to Visit Central Point</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" valign="middle">
+                                    <a href="https://app.powerbi.com/Redirect?action=OpenReport&appId=4b9f871b-24bd-4a16-861f-79f1d2ec66cb&reportObjectId=7a67aa2e-2a61-498b-8b93-b4ef2f972eeb&ctid=19cff0af-7bfb-4dfc-8fdc-ecd1a242439b&reportPage=ReportSectionb54baab67b043ae0b6bb&pbi_source=appShareLink&portalSessionId=9ab5af7b-505d-4879-91ca-e788b400762d" style="font-size: 15px;">Click to Visit Sales 360</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height: 20px;">&nbsp;</td> <!-- Spacer row with fixed height -->
+                            </tr>
                             <tr>
                                 <td align="center" valign="middle">
                                     <img src="data:image/png;base64,{image_png}" usemap="#image-map" alt="Email Image" />
-                                    
                                 </td>
                             </tr>
                         </table>
