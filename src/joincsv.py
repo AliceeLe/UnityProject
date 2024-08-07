@@ -129,6 +129,37 @@ def merge_qtd():
 
     print(f"Merged CSV file successfully saved as {output_file_path}")
 
+def rename_hcp(hcp_mapping):
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv("data/raw/Unity_Export_HCP202407.csv")
+
+    # List the original column names
+    original_column_names = df.columns.tolist()
+
+    # Check if all keys in the mapping exist in the original columns
+    missing_columns = [col for col in hcp_mapping.keys() if col not in original_column_names]
+    if missing_columns:
+        print(f"Error: The following columns in the mapping are missing in the CSV: {missing_columns}")
+        return
+
+    # Rename the columns using the mapping
+    df.rename(columns=hcp_mapping, inplace=True)
+
+    # Save the DataFrame with the new column names to a new CSV file
+    df.to_csv("data/raw/Unity_Export_HCP202407.csv", index=False)
+    print(f"HCP successfully renamed")
+
+hcp_mapping = {
+    'kpi_tracker_userlevel[Name]':'Name',
+    'kpi_tracker_useraccountlevel[account.Name]':'HCP_Name',
+    'kpi_tracker_userlevel[KPI_Ref_Time]':'HCP_Month',
+    "kpi_tracker_useraccountlevel[mc_cycle_plan_target.ZLG_Sales_Segment__c]":"HCP_Segment",
+    "kpi_tracker_useraccountlevel[Compliance?]":"HCP_Compliance",
+    "kpi_tracker_useraccountlevel[account.External_ID_vod__c]":"HCP_ID",
+    "[Sumactual_MTD]":"HCP_Actual_Call",
+    "[Sumtarget_MTD]":"HCP_Target_MTD",
+    "[Sumtarget_QTD]":"HCP_Target_QTD"
+}
 def rename_columns(column_name_mapping):
     # Read the CSV file into a DataFrame
     df = pd.read_csv("data/merged/output_merged.csv")
@@ -149,7 +180,7 @@ def rename_columns(column_name_mapping):
 
     # Save the DataFrame with the new column names to a new CSV file
     df.to_csv("data/processed/output_renamed.csv", index=False)
-    print(f"DataFrame successfully saved with new column names as output_renamed.csv")
+    print(f"output.csv is successfully renamed")
 
 
 # Define the mapping from old column names to new column names
@@ -248,10 +279,11 @@ def process_data():
 # merge_all()
 if __name__ == "__main__":
     # rename_col_country(country_name_mapping)
-    merge_qtd()
-    merge_all()
-    rename_columns(column_name_mapping)
-    process_data()
+    # merge_qtd()
+    # merge_all()
+    # rename_columns(column_name_mapping)
+    # process_data()
+    rename_hcp(hcp_mapping)
 
 
 
