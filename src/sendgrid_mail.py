@@ -67,9 +67,9 @@ with open(csv_file_path, newline='') as csvfile:
             <html>
                 <body>
                     <div style="position: relative; display: inline-block;">
-                        <a href="https://www.w3schools.com">Visit Central Point</a>
+                        <a href="https://app.powerbi.com/Redirect?action=OpenReport&appId=369b5f26-0412-45ce-9d2c-fc9f8ada85c3&reportObjectId=644b908b-822b-4c6b-b965-79d227f12678&ctid=19cff0af-7bfb-4dfc-8fdc-ecd1a242439b&reportPage=ReportSection1a5a24c959e2be1c04bc&pbi_source=appShareLink&portalSessionId=9ab5af7b-505d-4879-91ca-e788b400762d">Visit Central Point</a>
                         <br>
-                        <a href="https://www.w3schools.com">Visit 360</a>
+                        <a href="https://app.powerbi.com/Redirect?action=OpenReport&appId=4b9f871b-24bd-4a16-861f-79f1d2ec66cb&reportObjectId=7a67aa2e-2a61-498b-8b93-b4ef2f972eeb&ctid=19cff0af-7bfb-4dfc-8fdc-ecd1a242439b&reportPage=ReportSectionb54baab67b043ae0b6bb&pbi_source=appShareLink&portalSessionId=9ab5af7b-505d-4879-91ca-e788b400762d">Visit 360</a>
                         <table width="100%" height="100%" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td align="center" valign="middle">
