@@ -29,7 +29,7 @@ def rename_col_country(country_name_mapping):
     df.rename(columns=country_name_mapping, inplace=True)
 
     # Save the DataFrame with the new column names to a new CSV file
-    df.to_csv("data/processed/country_renamed.csv", index=False)
+    df.to_csv("data/raw/Country_Master_202406.csv", index=False)
     print(f"DataFrame successfully saved with new column names as country_renamed.csv")
 
 country_name_mapping = {
@@ -39,7 +39,29 @@ country_name_mapping = {
 }
 
 def merge_country():
+    # Define the paths to the CSV files
+    # path_name = get_current_month_year()
+    path_name = 202406
+    csv_file_1_path = f'data/raw/Country_Master_{path_name}.csv'
+    csv_file_2_path = f'data/raw/Unity_Export_S360_{path_name}.csv'  
+
+    # Read the CSV files into DataFrames
+    df1 = pd.read_csv(csv_file_1_path)
+    df2 = pd.read_csv(csv_file_2_path)
+
+    # Merge the DataFrames on the common columns
+    merged_df = pd.merge(df1, df2, on=["kpi_tracker_userlevel[kpi.OwnerId]","kpi_tracker_userlevel[Name]"])
     
+    # Define the path to save the merged DataFrame
+    output_file_path = f'data/raw/Country_Master_{path_name}.csv'
+
+    # Save the merged DataFrame to a new CSV file
+    merged_df.to_csv(output_file_path, index=False)
+
+    print(f"Merged CSV file successfully saved")
+
+
+
 def merge_all():
     # Define the paths to the CSV files
     # path_name = get_current_month_year()
@@ -47,7 +69,8 @@ def merge_all():
     csv_file_1_path = f'data/raw/Unity_Export_MTDCall_{path_name}.csv'
     csv_file_2_path = f'data/raw/Unity_Export_S360_{path_name}.csv'  
     csv_file_3_path = 'data/merged/merged_qtd.csv'
-    csv_file_4_path = 'data/raw/Unity_Export_Others_202406.csv'
+    csv_file_4_path = f'data/raw/Unity_Export_Others_{path_name}.csv'
+    csv_file_5_path = f'data/raw/Country_Master_{path_name}.csv'
 
 
     # Read the CSV files into DataFrames
@@ -55,14 +78,16 @@ def merge_all():
     df2 = pd.read_csv(csv_file_2_path)
     df3 = pd.read_csv(csv_file_3_path)
     df4 = pd.read_csv(csv_file_4_path)
+    df5 = pd.read_csv(csv_file_5_path)
 
     # Merge the DataFrames on the common columns
     merged_df = pd.merge(df1, df2, on=["kpi_tracker_userlevel[kpi.OwnerId]","kpi_tracker_userlevel[Name]", "kpi_tracker_userlevel[UserName_Level1]","kpi_tracker_userlevel[UserId_Level1]"])
     merged_df = pd.merge(merged_df, df3, on=["kpi_tracker_userlevel[kpi.OwnerId]","kpi_tracker_userlevel[Name]", "kpi_tracker_userlevel[UserName_Level1]","kpi_tracker_userlevel[UserId_Level1]"])
     merged_df = pd.merge(merged_df, df4, on=["kpi_tracker_userlevel[kpi.OwnerId]","kpi_tracker_userlevel[Name]", "kpi_tracker_userlevel[UserName_Level1]","kpi_tracker_userlevel[UserId_Level1]"])
+    merged_df = pd.merge(merged_df, df5, on=["kpi_tracker_userlevel[kpi.OwnerId]","kpi_tracker_userlevel[Name]"])
 
     # Define the path to save the merged DataFrame
-    output_file_path = 'data/merged/output.csv'
+    output_file_path = 'data/merged/output_merged.csv'
 
     # Save the merged DataFrame to a new CSV file
     merged_df.to_csv(output_file_path, index=False)
@@ -75,10 +100,10 @@ def merge_qtd():
 
     # Define the paths to the CSV files
     csv_files = [
-        f'data/Unity_Export_QTDCall_HKMMTWVN_{path_name}.csv',
-        f'data/Unity_Export_QTDCall_ID_{path_name}.csv',
-        f'data/Unity_Export_QTDCall_MYSGBNKH_{path_name}.csv',
-        f'data/Unity_Export_QTDCall_PHTH_{path_name}.csv'
+        f'data/raw/Unity_Export_QTDCall_HKMMTWVN_{path_name}.csv',
+        f'data/raw/Unity_Export_QTDCall_ID_{path_name}.csv',
+        f'data/raw/Unity_Export_QTDCall_MYSGBNKH_{path_name}.csv',
+        f'data/raw/Unity_Export_QTDCall_PHTH_{path_name}.csv'
     ]
 
     # List to hold DataFrames
@@ -104,43 +129,9 @@ def merge_qtd():
 
     print(f"Merged CSV file successfully saved as {output_file_path}")
 
-# def rename_columns(csv_file_path, new_column_names, output_file_path):
-#     # Read the CSV file into a DataFrame
-#     df = pd.read_csv(csv_file_path)
-
-#     df = df.round(2)
-
-#     # List the original column names
-#     original_column_names = df.columns.tolist()
-#     print(f"Original column names: {original_column_names}")
-
-#     # Check if the number of new column names matches the number of original column names
-#     if len(new_column_names) != len(original_column_names):
-#         print("Error: The number of new column names must match the number of original column names.")
-#         return
-
-#     # Rename the columns
-#     df.columns = new_column_names
-
-#     # List the new column names
-#     print(f"New column names: {df.columns.tolist()}")
-
-#     # Save the DataFrame with the new column names to a new CSV file
-#     df.to_csv(output_file_path, index=False)
-#     print(f"DataFrame successfully saved with new column names as {output_file_path}")
-
-
-# # Define the paths to the input and output CSV files
-# input_csv_file_path = 'data/Unity_sample.csv'
-# output_csv_file_path = 'data/Sample_renamed.csv'
-
-# # Define the new column names
-# new_column_names = ['ID', 'Name', 'Manager_name', 'Manager_id', 'Call_Rate_MTD', 'Call_Volume_MTD', 'Call_Compliance_MTD', 'Call_Compliance_A_MTD', 'Actual_Sales_MTD', 'Target_MTD', '%Achievement_MTD', 'Balance_MTD', 'Actual_Sales_QTD', 'Target_QTD', '%Achievement_QTD', 'Balance_QTD', 'Call_Rate_QTD', 'Call_Volume_QTD', 'Call_Compliance_QTD', 'Call_Compliance_A_QTD', 'Email']  # Replace with your new column names
-
-
 def rename_columns(column_name_mapping):
     # Read the CSV file into a DataFrame
-    df = pd.read_csv("data/merged/output.csv")
+    df = pd.read_csv("data/merged/output_merged.csv")
 
     df = df.round(2)
 
@@ -257,6 +248,8 @@ def process_data():
 # merge_all()
 if __name__ == "__main__":
     rename_col_country(country_name_mapping)
+    merge_qtd()
+    merge_all()
     rename_columns(column_name_mapping)
     process_data()
 

@@ -18,7 +18,7 @@ SCOPES = ["https://graph.microsoft.com/.default"]
 # SharePoint site and folder details
 SHAREPOINT_SITE = "zpssgpatientsolutions.sharepoint.com"
 SHAREPOINT_SITE_PATH = "/sites/BusinessAnalytics"
-FOLDER_PATH = "General/Dataset/Unity"  
+FOLDER_PATHS = ["General/Dataset/Unity", "General/Dataset/Unity/old"]
 
 def get_site_id(headers):
     # Get the site ID
@@ -41,22 +41,23 @@ def get_site_id(headers):
         if not site_id:
             print("Could not retrieve site ID. Check the site URL and path.")
         else:
-            get_folder_id(site_id, headers)
+            for folder_path in FOLDER_PATHS:
+                get_folder_id(site_id, headers, folder_path)
 
-def get_folder_id(site_id, headers):
+def get_folder_id(site_id, headers, folder_path):
     # Get the folder ID
     try:
         folder_response = requests.get(
-            f"https://graph.microsoft.com/v1.0/sites/{site_id}/drive/root:/{FOLDER_PATH}",
+            f"https://graph.microsoft.com/v1.0/sites/{site_id}/drive/root:/{folder_path}",
             headers=headers
         )
         folder_response.raise_for_status()
     except requests.exceptions.RequestException as e:
-        print(f"Error retrieving folder ID: {e}")
+        print(f"Error retrieving folder ID for {folder_path}: {e}")
     else:
         folder_id = folder_response.json().get('id')
         if not folder_id:
-            print("Could not retrieve folder ID. Check the folder path.")
+            print(f"Could not retrieve folder ID for {folder_path}. Check the folder path.")
         else:
             get_folder(site_id, folder_id, headers)
 
@@ -79,7 +80,7 @@ def save_file_to_computer(site_id, file_id, file_name, headers):
 def convert_xlsx_to_csv(file_name):
     # Load the xlsx file
     xlsx_path = "data/raw/"+file_name
-    csv_path = file_name.replace('.xlsx', '.csv')
+    csv_path = "data/raw/" + file_name.replace('.xlsx', '.csv')
     
     # Read the Excel file
     df = pd.read_excel(xlsx_path)
@@ -87,12 +88,19 @@ def convert_xlsx_to_csv(file_name):
     # Save the DataFrame to a CSV file
     df.to_csv(csv_path, index=False)
     
+    if os.path.exists(xlsx_path):
+        # Delete the file
+        os.remove(xlsx_path)
+        print(f"File {xlsx_path} has been deleted successfully.")
+    else:
+        print(f"File {xlsx_path} does not exist.")
+
+
     print(f"Converted {file_name} to {csv_path}")
 
 def find_csv_files(site_id, items_folder, headers):
     # List and download all CSV files
     files = [item for item in items_folder if item['name'].endswith('.csv') or item['name'].endswith('.xlsx')]
-
     if files:
         print("CSV and XLSX files in the folder:")
         for file in files:
@@ -105,6 +113,7 @@ def find_csv_files(site_id, items_folder, headers):
             
             # Convert XLSX to CSV if necessary
             if file_name.endswith('.xlsx'):
+                if file_name=="SplitRep_BQ_Unity.xlsx": pass
                 convert_xlsx_to_csv(file_name)
     else:
         print("No CSV or XLSX files found in the folder.")
@@ -138,7 +147,8 @@ def get_site(sharepoint_site, sharepoint_site_path, headers):
         if not site_id:
             print("Could not retrieve site ID. Check the site URL and path.")
         else:
-            get_folder_id(site_id, headers)
+            for folder_path in FOLDER_PATHS:
+                get_folder_id(site_id, headers, folder_path)
 
 
 if __name__ == '__main__':
@@ -171,5 +181,3 @@ if __name__ == '__main__':
 
     except Exception as e:
         print(f"An error occurred in main: {e}")
-
-
