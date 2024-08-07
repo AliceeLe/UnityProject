@@ -100,6 +100,6 @@ with open(csv_file_path, newline='') as csvfile:
         subject = f"Sales dashboard - {row['Name']} - {now.strftime('%Y/%m/%d')}"
         print("Email: " + subject)
         # Send the email
-        # send_email(row['Email'], subject, email_html_content)
+        send_email(row['Email'], subject, email_html_content)
 
 

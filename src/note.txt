@@ -1,5 +1,6 @@
-1. Change condition to compare
-2. Merge country into final csv
-3. 
-
+1. Merge country into final csv --> Render conditional rendering call rate 
+2. Merge other files (HCP) --> Auto create table based on max 50
+3. Render bar depending on %
 4. Check if xlsx can be read into csv (path, homebrew?)
+5. Incomplete: Team achievement, coaching (days), Call KPI YTD, Top 20 customers
+6. Map data from Product 

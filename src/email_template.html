@@ -88,7 +88,7 @@
 
             display: grid;
             gap: 20px 20px;
-            grid-template-areas: 
+            grid-template-areas:
                 "column-1 column-4 column-6"
                 "column-2 column-4 column-6"
                 "column-2 column-4 column-6"
@@ -289,13 +289,49 @@
                     </tr>
                     <tr>
                         <th style="width: 48%;">% Achievement</th>
-                        <td style="width: 26%;">{{ row['%Achievement_MTD'] }}</td>
-                        <td style="width: 26%;">{{ row['%Achievement_QTD'] }}</td>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                {% if row['%Achievement_MTD'].rstrip('%')|int >= 100 %}
+                                #68A490
+                                {% else %}
+                                #F64F5C
+                                {% endif %}; 
+                            ">
+                            {{ row['%Achievement_MTD'] }}</td>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                {% if row['%Achievement_QTD'].rstrip('%')|int >= 100 %}
+                                #68A490
+                                {% else %}
+                                #F64F5C
+                                {% endif %}; 
+                            ">
+                            {{ row['%Achievement_QTD'] }}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Team Achievement</th>
-                        <td style="width: 26%;">{{ row['%Achievement_MTD'] }}</td>
-                        <td style="width: 26%;">{{ row['%Achievement_QTD'] }}</td>
+                        <td style="
+                        width: 26%;
+                        color: 
+                            {% if row['%Achievement_MTD'].rstrip('%')|int >= 100 %}
+                            #68A490
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        ">
+                            {{ row['%Achievement_MTD'] }}</td>
+                        <td style="
+                        width: 26%;
+                        color: 
+                            {% if row['%Achievement_QTD'].rstrip('%')|int >= 100 %}
+                            #68A490
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        ">
+                            {{ row['%Achievement_QTD'] }}</td>
                     </tr>
                     <!-- <tr>
                         <th style="width: 48%;">SvT Estimated Payout</th>
@@ -374,7 +410,7 @@
                             white
                             {% endif %};
                         ">
-                        {{ row.Call_Volume_MTD }}
+                            {{ row.Call_Volume_MTD }}
                         </td>
                         <td style="
                         background-color: 
@@ -643,7 +679,7 @@
                             white
                             {% endif %};
                     ">
-                        {{ row.Mail_Open_Rate_MTD }}
+                            {{ row.Mail_Open_Rate_MTD }}
                         </td>
                         <td style="
                         background-color: 
@@ -927,8 +963,8 @@
                     </tr>
                 </table>
             </div>
-                
-                
+
+
             <!-- </div>
                 <div class="footer">
                     &copy; 2024 Unity Project | ZP Therapeutics. All rights reserved.
