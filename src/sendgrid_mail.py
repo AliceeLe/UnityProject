@@ -44,14 +44,27 @@ def send_email(to_email, subject, html_content):
     except Exception as e:
         print(f"Error sending email to {to_email}: {e}")
 
+country_call_rates = {
+    "BN": 8.0,
+    "HK": 8.0,
+    "ID": 10.0,
+    "KH": 10.0,
+    "MY": 8.0,
+    "PH": 10.0,
+    "SG": 8.0,
+    "TH": 10.0,
+    "TW": 10.0,
+    "VN": 11.0
+    # Add more countries and their expected values as needed
+}
+
 # Read CSV file and send emails
 csv_file_path = 'data/processed/sample.csv'
 with open(csv_file_path, newline='') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         # Render the template with variables from the CSV row
-        html_content = template.render(row=row)
-        
+        html_content = template.render(row=row, country_call_rates=country_call_rates)        
         # Write the rendered HTML to a file
         with open('src/email_final.html', 'w') as file:
             file.write(html_content)
@@ -100,6 +113,6 @@ with open(csv_file_path, newline='') as csvfile:
         subject = f"Sales dashboard - {row['Name']} - {now.strftime('%Y/%m/%d')}"
         print("Email: " + subject)
         # Send the email
-        send_email(row['Email'], subject, email_html_content)
+        # send_email(row['Email'], subject, email_html_content)
 
 

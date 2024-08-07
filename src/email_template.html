@@ -101,7 +101,6 @@
                 "column-7 column-7 column-7"
                 "column-7 column-7 column-7"
                 "column-7 column-7 column-7"
-
         }
 
         .column-item {
@@ -127,44 +126,30 @@
         #column-1 {
             background: #f7f0cc;
             grid-area: column-1;
-            /* grid-column: 1 / 2;
-            grid-row: 1 / 2; */
         }
 
         #column-2 {
             grid-area: column-2;
-            /* grid-column: 1 / 2;
-            grid-row: 2 / 5; */
         }
 
         #column-3 {
             grid-area: column-3;
-            /* grid-column: 1 / 2;
-            grid-row: 5 / 7; */
         }
 
         #column-4 {
             grid-area: column-4;
-            /* grid-column: 2 / 3;
-            grid-row: 1 / 4; */
         }
 
         #column-5 {
             grid-area: column-5;
-            /* grid-column: 2 / 3;
-            grid-row: 4 / 7; */
         }
 
         #column-6 {
             grid-area: column-6;
-            /* grid-column: 3 / 4;
-            grid-row: 1 / 7; */
         }
 
         #column-7 {
             grid-area: column-7;
-            /* grid-column: 1 / 4;
-            grid-row: 7 / 13; */
         }
 
         .box-1-header {
@@ -269,23 +254,23 @@
                 <table class="column-2-table">
                     <tr>
                         <th style="width: 48%;"></th>
-                        <th style="width: 26%;">MTD</th>
-                        <th style="width: 26%;">QTD</th>
+                        <th style="width: 26%;text-align: center;">MTD</th>
+                        <th style="width: 26%;text-align: center;">QTD</th>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Target</th>
-                        <td style="width: 26%;">{{ row.Target_MTD }}</td>
-                        <td style="width: 26%;">{{ row.Target_QTD }}</td>
+                        <td style="width: 26%; text-align: center;">{{ row.Target_MTD }}</td>
+                        <td style="width: 26%; text-align: center;">{{ row.Target_QTD }}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Actual Sales</th>
-                        <td style="width: 26%;">{{ row.Actual_Sales_MTD }}</td>
-                        <td style="width: 26%;">{{ row.Actual_Sales_QTD }}</td>
+                        <td style="width: 26%; text-align: center;">{{ row.Actual_Sales_MTD }}</td>
+                        <td style="width: 26%; text-align: center;">{{ row.Actual_Sales_QTD }}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">Balance To Go</th>
-                        <td style="width: 26%;">{{ row.Balance_MTD }}</td>
-                        <td style="width: 26%;">{{ row.Balance_QTD }}</td>
+                        <td style="width: 26%; text-align: center;">{{ row.Balance_MTD }}</td>
+                        <td style="width: 26%; text-align: center;">{{ row.Balance_QTD }}</td>
                     </tr>
                     <tr>
                         <th style="width: 48%;">% Achievement</th>
@@ -297,6 +282,8 @@
                                 {% else %}
                                 #F64F5C
                                 {% endif %}; 
+                            font-weight: bold;
+                            text-align: center;
                             ">
                             {{ row['%Achievement_MTD'] }}</td>
                         <td style="
@@ -307,6 +294,8 @@
                                 {% else %}
                                 #F64F5C
                                 {% endif %}; 
+                            font-weight: bold;
+                            text-align: center;
                             ">
                             {{ row['%Achievement_QTD'] }}</td>
                     </tr>
@@ -320,6 +309,8 @@
                             {% else %}
                             #F64F5C
                             {% endif %}; 
+                        font-weight: bold;
+                        text-align: center;
                         ">
                             {{ row['%Achievement_MTD'] }}</td>
                         <td style="
@@ -330,6 +321,8 @@
                             {% else %}
                             #F64F5C
                             {% endif %}; 
+                        font-weight: bold;
+                        text-align: center;
                         ">
                             {{ row['%Achievement_QTD'] }}</td>
                     </tr>
@@ -346,47 +339,56 @@
                 <table class="column-3-table">
                     <tr>
                         <th></th>
-                        <th>MTD</th>
-                        <th>QTD</th>
-                        <th>YTD</th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
                     </tr>
                     <tr>
                         <th>Call Rate</th>
                         <td style="
                         background-color: 
-                            {% if row.Call_Rate_MTD[:-1]|int >= row.Call_Rate_Expected_MTD[:-1]|int %}
+                            {% set expected_rate = country_call_rates[row.Country] %}
+                            {% set call_rate_mtd = row.Call_Rate_MTD | float %}
+                            {% if call_rate_mtd >= expected_rate %}
                             #68A490
-                            {% elif row.Call_Rate_Expected_MTD[:-1]|int - row.Call_Rate_MTD[:-1]|int <= 5 %}
+                            {% elif expected_rate - call_rate_mtd <= expected_rate * 0.05 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
+                        color: white;
+                        text-align: center;">
                             {{ row.Call_Rate_MTD }}
                         </td>
                         <td style="
                         background-color: 
-                            {% if row.Call_Rate_QTD[:-1]|int >= row.Call_Rate_Expected_QTD[:-1]|int %}
+                            {% set expected_rate = country_call_rates[row.Country] %}
+                            {% set call_rate_qtd = row.Call_Rate_QTD | float %}
+                            {% if call_rate_qtd >= expected_rate %}
                             #68A490
-                            {% elif row.Call_Rate_Expected_QTD[:-1]|int - row.Call_Rate_QTD[:-1]|int <= 5 %}
+                            {% elif expected_rate - call_rate_qtd <= expected_rate * 0.05 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
-                            {{ row.Call_Rate_QTD }}
+                        color: white;
+                        text-align: center;">
+                        {{ row.Call_Rate_QTD }}
                         </td>
                         <!-- Temporary put QTD here -->
                         <td style="
                         background-color: 
-                            {% if row.Call_Rate_QTD[:-1]|int >= row.Call_Rate_Expected_QTD[:-1]|int %}
+                            {% set expected_rate = country_call_rates[row.Country] %}
+                            {% set call_rate_ytd = row.Call_Rate_QTD | float %}
+                            {% if call_rate_ytd >= expected_rate %}
                             #68A490
-                            {% elif row.Call_Rate_Expected_QTD[:-1]|int - row.Call_Rate_QTD[:-1]|int <= 5 %}
+                            {% elif expected_rate - call_rate_ytd <= expected_rate * 0.05 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
+                        color: white;
+                        text-align: center;">
                             {{ row.Call_Rate_QTD }}
                         </td>
                     </tr>
@@ -409,7 +411,7 @@
                             {% else %}
                             white
                             {% endif %};
-                        ">
+                        text-align: center;">
                             {{ row.Call_Volume_MTD }}
                         </td>
                         <td style="
@@ -429,7 +431,7 @@
                             {% else %}
                             white
                             {% endif %};
-                        ">
+                        text-align: center;">
                             {{ row.Call_Volume_QTD }}
                         </td>
                         <!-- Temporary put QTD here -->
@@ -450,7 +452,7 @@
                             {% else %}
                             white
                             {% endif %};
-                        ">
+                        text-align: center;">
                             {{ row.Call_Volume_QTD }}
                         </td>
                     </tr>
@@ -473,7 +475,7 @@
                             {% else %}
                             white
                             {% endif %};
-                        ">
+                        text-align: center;">
                             {{ row.Call_Compliance_MTD }}
                         </td>
                         <td style="
@@ -493,7 +495,7 @@
                             {% else %}
                             white
                             {% endif %};
-                        ">
+                        text-align: center;">
                             {{ row.Call_Compliance_QTD }}
                         </td>
                         <!-- Temporary put QTD here -->
@@ -514,7 +516,7 @@
                             {% else %}
                             white
                             {% endif %};
-                        ">
+                        text-align: center;">
                             {{ row.Call_Compliance_QTD }}
                         </td>
                     </tr>
@@ -537,7 +539,7 @@
                             {% else %}
                             white
                             {% endif %};
-                        ">
+                        text-align: center;">
                             {{ row.Call_Compliance_A_MTD }}
                         </td>
                         <td style="
@@ -557,7 +559,7 @@
                             {% else %}
                             white
                             {% endif %};
-                        ">
+                        text-align: center;">
                             {{ row.Call_Compliance_A_QTD }}
                         </td>
                         <!-- Temporary put QTD here -->
@@ -578,7 +580,7 @@
                             {% else %}
                             white
                             {% endif %};
-                        ">
+                        text-align: center;">
                             {{ row.Call_Compliance_A_QTD }}
                         </td>
                     </tr>
@@ -591,33 +593,33 @@
                 <table class="column-5-table">
                     <tr>
                         <th>Product Group</th>
-                        <th>MTD</th>
-                        <th>QTD</th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
                     </tr>
                     <tr>
                         <td class="column-info">PROPAN W/ IRON</td>
-                        <td>663,003</td>
-                        <td>1,734,080</td>
+                        <td style="text-align: center;">663,003</td>
+                        <td style="text-align: center;">1,734,080</td>
                     </tr>
                     <tr>
                         <td class="column-info">PROPAN SYRUP</td>
-                        <td>476,250</td>
-                        <td>1,497,838</td>
+                        <td style="text-align: center;">476,250</td>
+                        <td style="text-align: center;">1,497,838</td>
                     </tr>
                     <tr>
                         <td class="column-info">NIZORAL</td>
-                        <td>268,055</td>
-                        <td>814,131</td>
+                        <td style="text-align: center;">268,055</td>
+                        <td style="text-align: center;">814,131</td>
                     </tr>
                     <tr>
                         <td class="column-info">PHYSIONEAL</td>
-                        <td>121,201</td>
-                        <td>772,896</td>
+                        <td style="text-align: center;">121,201</td>
+                        <td style="text-align: center;">772,896</td>
                     </tr>
                     <tr style="font-weight: bold;">
                         <td>Total</td>
-                        <td>1,528,508</td>
-                        <td>4,818,936</td>
+                        <td style="text-align: center;">1,528,508</td>
+                        <td style="text-align: center;">4,818,936</td>
                     </tr>
                 </table>
             </div>
@@ -627,21 +629,21 @@
                 <table class="column-5-table">
                     <tr>
                         <th></th>
-                        <th>MTD</th>
-                        <th>QTD</th>
-                        <th>YTD</th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
                     </tr>
                     <tr>
                         <th># Events</th>
-                        <td>{{ row.Event_MTD }}</td>
-                        <td>{{ row.Event_QTD }}</td>
-                        <td>{{ row.Event_YTD }}</td>
+                        <td style="text-align: center;">{{ row.Event_MTD }}</td>
+                        <td style="text-align: center;">{{ row.Event_QTD }}</td>
+                        <td style="text-align: center;">{{ row.Event_YTD }}</td>
                     </tr>
                     <tr>
                         <th># Touchpoint</th>
-                        <td>{{ row.Touchpoint_MTD }}</td>
-                        <td>{{ row.Touchpoint_QTD }}</td>
-                        <td>{{ row.Touchpoint_YTD }}</td>
+                        <td style="text-align: center;">{{ row.Touchpoint_MTD }}</td>
+                        <td style="text-align: center;">{{ row.Touchpoint_QTD }}</td>
+                        <td style="text-align: center;">{{ row.Touchpoint_YTD }}</td>
                     </tr>
                 </table>
 
@@ -649,15 +651,15 @@
                 <table class="column-5-table">
                     <tr>
                         <th></th>
-                        <th>MTD</th>
-                        <th>QTD</th>
-                        <th>YTD</th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
                     </tr>
                     <tr>
                         <th># Email Sent</th>
-                        <td>{{ row.Email_Sent_MTD }}</td>
-                        <td>{{ row.Email_Sent_QTD }}</td>
-                        <td>{{ row.Email_Sent_YTD }}</td>
+                        <td style="text-align: center;">{{ row.Email_Sent_MTD }}</td>
+                        <td style="text-align: center;">{{ row.Email_Sent_QTD }}</td>
+                        <td style="text-align: center;">{{ row.Email_Sent_YTD }}</td>
                     </tr>
                     <tr>
                         <th>% Email Open Rate</th>
@@ -678,6 +680,7 @@
                             {% else %}
                             white
                             {% endif %};
+                        text-align: center;
                     ">
                             {{ row.Mail_Open_Rate_MTD }}
                         </td>
@@ -698,6 +701,7 @@
                             {% else %}
                             white
                             {% endif %};
+                        text-align: center;
                     ">
                             {{ row.Mail_Open_Rate_QTD }}
                         </td>
@@ -718,15 +722,16 @@
                             {% else %}
                             white
                             {% endif %};
+                        text-align: center;
                     ">
                             {{ row.Mail_Open_Rate_YTD }}
                         </td>
                     </tr>
                     <tr>
                         <th>% Click-through Rate</th>
-                        <td>{{row.Clickrate_MTD}}</td>
-                        <td>{{row.Clickrate_QTD}}</td>
-                        <td>{{row.Clickrate_YTD}}</td>
+                        <td style="text-align: center;">{{row.Clickrate_MTD}}</td>
+                        <td style="text-align: center;">{{row.Clickrate_QTD}}</td>
+                        <td style="text-align: center;">{{row.Clickrate_YTD}}</td>
                     </tr>
                 </table>
 
@@ -734,15 +739,15 @@
                 <table class="column-3-table">
                     <tr>
                         <th></th>
-                        <th>MTD</th>
-                        <th>QTD</th>
-                        <th>YTD</th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
                     </tr>
                     <tr>
                         <th>Coaching (#Days)</th>
-                        <td>10%</td>
-                        <td>10%</td>
-                        <td>10%</td>
+                        <td style="text-align: center;">10</td>
+                        <td style="text-align: center;">12</td>
+                        <td style="text-align: center;">13</td>
                     </tr>
                 </table>
 
@@ -753,8 +758,8 @@
                 <table class="column-5-table">
                     <tr>
                         <th>Customer Name</th>
-                        <th>MTD</th>
-                        <th>QTD</th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
                     </tr>
                     <tr>
                         <td class="column-info">PAMELA YOUDE N.E.H.</td>
@@ -851,11 +856,6 @@
                         <td>781,891</td>
                         <td>2,377,853</td>
                     </tr>
-                    <!-- <tr>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                    </tr>  -->
                 </table>
             </div>
 
@@ -865,101 +865,101 @@
                         <th>Rep Name</th>
                         <th>HCP ID</th>
                         <th>HCP Name</th>
-                        <th>Segment</th>
-                        <th>Actual Call</th>
-                        <th>Month Target</th>
-                        <th>Quarter Target</th>
-                        <th>Compliance?</th>
+                        <th style="text-align: center;">Segment</th>
+                        <th style="text-align: center;">Actual Call</th>
+                        <th style="text-align: center;">Month Target</th>
+                        <th style="text-align: center;">Quarter Target</th>
+                        <th style="text-align: center;">Compliance?</th>
                     </tr>
                     <tr>
                         <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ALEXIS MOJICA</td>
-                        <td>A</td>
-                        <td>0.00</td>
-                        <td>0.67</td>
-                        <td>2.00</td>
-                        <td>No</td>
+                        <td style="text-align: center;">A</td>
+                        <td style="text-align: center;">0.00</td>
+                        <td style="text-align: center;">0.67</td>
+                        <td style="text-align: center;">2.00</td>
+                        <td style="text-align: center;">No</td>
                     </tr>
                     <tr>
                         <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>AMADO GURANGO</td>
-                        <td>A</td>
-                        <td>0.00</td>
-                        <td>0.67</td>
-                        <td>2.00</td>
-                        <td>No</td>
+                        <td style="text-align: center;">A</td>
+                        <td style="text-align: center;">0.00</td>
+                        <td style="text-align: center;">0.67</td>
+                        <td style="text-align: center;">2.00</td>
+                        <td style="text-align: center;">No</td>
                     </tr>
                     <tr>
                         <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ANA RIZZA JUSTIMBASTE</td>
-                        <td>A</td>
-                        <td>0.00</td>
-                        <td>0.67</td>
-                        <td>2.00</td>
-                        <td>No</td>
+                        <td style="text-align: center;">A</td>
+                        <td style="text-align: center;">0.00</td>
+                        <td style="text-align: center;">0.67</td>
+                        <td style="text-align: center;">2.00</td>
+                        <td style="text-align: center;">No</td>
                     </tr>
                     <tr>
                         <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ANNA SARAH PULUMBARIT</td>
-                        <td>A</td>
-                        <td>0.00</td>
-                        <td>0.67</td>
-                        <td>2.00</td>
-                        <td>No</td>
+                        <td style="text-align: center;">A</td>
+                        <td style="text-align: center;">0.00</td>
+                        <td style="text-align: center;">0.67</td>
+                        <td style="text-align: center;">2.00</td>
+                        <td style="text-align: center;">No</td>
                     </tr>
                     <tr>
                         <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ANTHONY CHARLES DALMACIO</td>
-                        <td>A</td>
-                        <td>0.00</td>
-                        <td>0.67</td>
-                        <td>2.00</td>
-                        <td>No</td>
+                        <td style="text-align: center;">A</td>
+                        <td style="text-align: center;">0.00</td>
+                        <td style="text-align: center;">0.67</td>
+                        <td style="text-align: center;">2.00</td>
+                        <td style="text-align: center;">No</td>
                     </tr>
                     <tr>
                         <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ARABELLE QUING</td>
-                        <td>A</td>
-                        <td>0.00</td>
-                        <td>0.67</td>
-                        <td>2.00</td>
-                        <td>No</td>
+                        <td style="text-align: center;">A</td>
+                        <td style="text-align: center;">0.00</td>
+                        <td style="text-align: center;">0.67</td>
+                        <td style="text-align: center;">2.00</td>
+                        <td style="text-align: center;">No</td>
                     </tr>
                     <tr>
                         <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ARIEL MADERAZO</td>
-                        <td>A</td>
-                        <td>0.00</td>
-                        <td>0.67</td>
-                        <td>2.00</td>
-                        <td>No</td>
+                        <td style="text-align: center;">A</td>
+                        <td style="text-align: center;">0.00</td>
+                        <td style="text-align: center;">0.67</td>
+                        <td style="text-align: center;">2.00</td>
+                        <td style="text-align: center;">No</td>
                     </tr>
                     <tr>
                         <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>AYESSA SILVA-FAUSTINO</td>
-                        <td>A</td>
-                        <td>0.00</td>
-                        <td>0.67</td>
-                        <td>2.00</td>
-                        <td>No</td>
+                        <td style="text-align: center;">A</td>
+                        <td style="text-align: center;">0.00</td>
+                        <td style="text-align: center;">0.67</td>
+                        <td style="text-align: center;">2.00</td>
+                        <td style="text-align: center;">No</td>
                     </tr>
                     <tr>
                         <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>BEA MARIE ADAJAR</td>
-                        <td>A</td>
-                        <td>0.00</td>
-                        <td>0.67</td>
-                        <td>2.00</td>
-                        <td>No</td>
+                        <td style="text-align: center;">A</td>
+                        <td style="text-align: center;">0.00</td>
+                        <td style="text-align: center;">0.67</td>
+                        <td style="text-align: center;">2.00</td>
+                        <td style="text-align: center;">No</td>
                     </tr>
                 </table>
             </div>
@@ -975,8 +975,6 @@
                 function getColor(value) {
                     if (value < 100) {
                         return '#ff6f6f'; // red
-                        // } else if (value < 90) {
-                        //     return '#ffd700'; // yellow
                     } else {
                         return '#6fbf73'; // green
                     }
@@ -1028,8 +1026,8 @@
                 const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
                 const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
 
-                const mtdValue = "83%";
-                const qtdValue = "97%";
+                const mtdValue = "{{ row['%Achievement_MTD'] }}";
+                const qtdValue = "{{ row['%Achievement_QTD'] }}";
 
                 function convertPercentageToNumber(percentageString) {
                     // Remove the '%' character and convert the string to a number
