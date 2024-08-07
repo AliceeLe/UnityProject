@@ -13,7 +13,33 @@ def get_current_month_year():
 current_month_year = get_current_month_year()
 print(current_month_year)
 
+def rename_col_country(country_name_mapping):
+    df = pd.read_csv("data/raw/Country_Master_202406.csv")
 
+    # List the original column names
+    original_column_names = df.columns.tolist()
+
+    # Check if all keys in the mapping exist in the original columns
+    missing_columns = [col for col in country_name_mapping.keys() if col not in original_column_names]
+    if missing_columns:
+        print(f"Error: The following columns in the mapping are missing in the CSV: {missing_columns}")
+        return
+
+    # Rename the columns using the mapping
+    df.rename(columns=country_name_mapping, inplace=True)
+
+    # Save the DataFrame with the new column names to a new CSV file
+    df.to_csv("data/processed/country_renamed.csv", index=False)
+    print(f"DataFrame successfully saved with new column names as country_renamed.csv")
+
+country_name_mapping = {
+    'kpi.OwnerId': 'kpi_tracker_userlevel[kpi.OwnerId]',
+    'Name': 'kpi_tracker_userlevel[Name]',
+    'AD_Group': 'Country',
+}
+
+def merge_country():
+    
 def merge_all():
     # Define the paths to the CSV files
     # path_name = get_current_month_year()
@@ -229,7 +255,11 @@ def process_data():
 
 # merge_qtd()
 # merge_all()
-rename_columns(column_name_mapping)
-process_data()
+if __name__ == "__main__":
+    rename_col_country(country_name_mapping)
+    rename_columns(column_name_mapping)
+    process_data()
+
+
 
 

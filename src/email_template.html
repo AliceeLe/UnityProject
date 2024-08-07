@@ -239,9 +239,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="./images/zpt.png" alt="zpt logo">
             <h1>ONE PAGE PERFORMANCE TRACKING</h1>
-            <img src="./images/central-point.png" alt="central-point logo">
         </div>
         <div class="content">
             <div class="column-item" id="column-1">
@@ -360,39 +358,63 @@
                         <th>% Call Volume</th>
                         <td style="
                         background-color: 
-                            {% if row.Call_Volume_MTD[:-1]|int >= row.Call_Volume_Expected_MTD[:-1]|int %}
+                            {% if row.Call_Volume_MTD.rstrip('%')|int >= 95 %}
                             #68A490
-                            {% elif row.Call_Volume_Expected_MTD[:-1]|int - row.Call_Volume_MTD[:-1]|int <= 5 %}
+                            {% elif 95 - row.Call_Volume_MTD.rstrip('%')|int <= 5 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
-                            {{ row.Call_Volume_MTD }}
+                        color: 
+                            {% if row.Call_Volume_MTD.rstrip('%')|int >= 95 %}
+                            white
+                            {% elif 95 - row.Call_Volume_MTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                        ">
+                        {{ row.Call_Volume_MTD }}
                         </td>
                         <td style="
                         background-color: 
-                            {% if row.Call_Volume_QTD[:-1]|int >= row.Call_Volume_Expected_QTD[:-1]|int %}
+                            {% if row.Call_Volume_QTD.rstrip('%')|int >= 95 %}
                             #68A490
-                            {% elif row.Call_Volume_Expected_QTD[:-1]|int - row.Call_Volume_QTD[:-1]|int <= 5 %}
+                            {% elif 95 - row.Call_Volume_QTD.rstrip('%')|int <= 5 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
+                        color: 
+                            {% if row.Call_Volume_QTD.rstrip('%')|int >= 95 %}
+                            white
+                            {% elif 95 - row.Call_Volume_QTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                        ">
                             {{ row.Call_Volume_QTD }}
                         </td>
                         <!-- Temporary put QTD here -->
                         <td style="
                         background-color: 
-                            {% if row.Call_Volume_QTD[:-1]|int >= row.Call_Volume_Expected_QTD[:-1]|int %}
+                            {% if row.Call_Volume_QTD.rstrip('%')|int >= 95 %}
                             #68A490
-                            {% elif row.Call_Volume_Expected_QTD[:-1]|int - row.Call_Volume_QTD[:-1]|int <= 5 %}
+                            {% elif 95 - row.Call_Volume_QTD.rstrip('%')|int <= 5 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
+                        color: 
+                            {% if row.Call_Volume_QTD.rstrip('%')|int >= 95 %}
+                            white
+                            {% elif 95 - row.Call_Volume_QTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                        ">
                             {{ row.Call_Volume_QTD }}
                         </td>
                     </tr>
@@ -400,39 +422,63 @@
                         <th>% Call Compliance</th>
                         <td style="
                         background-color: 
-                            {% if row.Call_Compliance_MTD[:-1]|int >= row.Call_Compliance_Expected_MTD[:-1]|int %}
+                            {% if row.Call_Compliance_MTD.rstrip('%')|int >= 80 %}
                             #68A490
-                            {% elif row.Call_Compliance_Expected_MTD[:-1]|int - row.Call_Compliance_MTD[:-1]|int <= 5 %}
+                            {% elif 80 - row.Call_Compliance_MTD.rstrip('%')|int <= 5 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
+                        color: 
+                            {% if row.Call_Compliance_MTD.rstrip('%')|int >= 80 %}
+                            white
+                            {% elif 80 - row.Call_Compliance_MTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                        ">
                             {{ row.Call_Compliance_MTD }}
                         </td>
                         <td style="
                         background-color: 
-                            {% if row.Call_Compliance_QTD[:-1]|int >= row.Call_Compliance_Expected_QTD[:-1]|int %}
+                            {% if row.Call_Compliance_QTD.rstrip('%')|int >= 80 %}
                             #68A490
-                            {% elif row.Call_Compliance_Expected_QTD[:-1]|int - row.Call_Compliance_QTD[:-1]|int <= 5 %}
+                            {% elif 80 - row.Call_Compliance_QTD.rstrip('%')|int <= 5 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
+                        color: 
+                            {% if row.Call_Compliance_QTD.rstrip('%')|int >= 80 %}
+                            white
+                            {% elif 80 - row.Call_Compliance_QTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                        ">
                             {{ row.Call_Compliance_QTD }}
                         </td>
                         <!-- Temporary put QTD here -->
                         <td style="
                         background-color: 
-                            {% if row.Call_Compliance_QTD[:-1]|int >= row.Call_Compliance_Expected_QTD[:-1]|int %}
+                            {% if row.Call_Compliance_QTD.rstrip('%')|int >= 80 %}
                             #68A490
-                            {% elif row.Call_Compliance_Expected_QTD[:-1]|int - row.Call_Compliance_QTD[:-1]|int <= 5 %}
+                            {% elif 80 - row.Call_Compliance_QTD.rstrip('%')|int <= 5 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
+                        color: 
+                            {% if row.Call_Compliance_QTD.rstrip('%')|int >= 80 %}
+                            white
+                            {% elif 80 - row.Call_Compliance_QTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                        ">
                             {{ row.Call_Compliance_QTD }}
                         </td>
                     </tr>
@@ -440,39 +486,63 @@
                         <th>% Call Compliance A</th>
                         <td style="
                         background-color: 
-                            {% if row.Call_Compliance_A_MTD[:-1]|int >= row.Call_Compliance_A_Expected_MTD[:-1]|int %}
+                            {% if row.Call_Compliance_A_MTD.rstrip('%')|int >= 90 %}
                             #68A490
-                            {% elif row.Call_Compliance_A_Expected_MTD[:-1]|int - row.Call_Compliance_A_MTD[:-1]|int <= 5 %}
+                            {% elif 90 - row.Call_Compliance_A_MTD.rstrip('%')|int <= 5 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
+                        color: 
+                            {% if row.Call_Compliance_A_MTD.rstrip('%')|int >= 90 %}
+                            white
+                            {% elif 90 - row.Call_Compliance_A_MTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                        ">
                             {{ row.Call_Compliance_A_MTD }}
                         </td>
                         <td style="
                         background-color: 
-                            {% if row.Call_Compliance_A_QTD[:-1]|int >= row.Call_Compliance_A_Expected_QTD[:-1]|int %}
+                            {% if row.Call_Compliance_A_QTD.rstrip('%')|int >= 90 %}
                             #68A490
-                            {% elif row.Call_Compliance_A_Expected_QTD[:-1]|int - row.Call_Compliance_A_QTD[:-1]|int <= 5 %}
+                            {% elif 90 - row.Call_Compliance_A_QTD.rstrip('%')|int <= 5 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
+                        color: 
+                            {% if row.Call_Compliance_A_QTD.rstrip('%')|int >= 90 %}
+                            white
+                            {% elif 90 - row.Call_Compliance_A_QTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                        ">
                             {{ row.Call_Compliance_A_QTD }}
                         </td>
                         <!-- Temporary put QTD here -->
                         <td style="
                         background-color: 
-                            {% if row.Call_Compliance_A_QTD[:-1]|int >= row.Call_Compliance_A_Expected_QTD[:-1]|int %}
+                            {% if row.Call_Compliance_A_QTD.rstrip('%')|int >= 90 %}
                             #68A490
-                            {% elif row.Call_Compliance_A_Expected_QTD[:-1]|int - row.Call_Compliance_A_QTD[:-1]|int <= 5 %}
+                            {% elif 90 - row.Call_Compliance_A_QTD.rstrip('%')|int <= 5 %}
                             #EAC282
                             {% else %}
                             #F64F5C
                             {% endif %}; 
-                        color: white;">
+                        color: 
+                            {% if row.Call_Compliance_A_QTD.rstrip('%')|int >= 90 %}
+                            white
+                            {% elif 90 - row.Call_Compliance_A_QTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                        ">
                             {{ row.Call_Compliance_A_QTD }}
                         </td>
                     </tr>
@@ -555,19 +625,64 @@
                     </tr>
                     <tr>
                         <th>% Email Open Rate</th>
-                        <td style="background-color: 
-                        {% if row.Mail_Open_Rate_MTD[:-1]|int >= row.Mail_Open_Rate_Expected_MTD[:-1]|int %}
-                        #68A490
-                        {% elif row.Mail_Open_Rate_Expected_MTD[:-1]|int - row.Mail_Open_Rate_MTD[:-1]|int <= 5 %}
-                        #EAC282{% else %}#F64F5C{% endif %}; color: white;">
-                            {{ row.Mail_Open_Rate_MTD }}
+                        <td style="
+                        background-color: 
+                            {% if row.Mail_Open_Rate_MTD.rstrip('%')|int >= 30 %}
+                            #68A490
+                            {% elif 30 - row.Mail_Open_Rate_MTD.rstrip('%')|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: 
+                            {% if row.Mail_Open_Rate_MTD.rstrip('%')|int >= 30 %}
+                            white
+                            {% elif 30 - row.Mail_Open_Rate_MTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                    ">
+                        {{ row.Mail_Open_Rate_MTD }}
                         </td>
-                        <td
-                            style="background-color: {% if row.Mail_Open_Rate_QTD[:-1]|int >= row.Mail_Open_Rate_Expected_QTD[:-1]|int %}#68A490{% elif row.Mail_Open_Rate_Expected_QTD[:-1]|int - row.Mail_Open_Rate_QTD[:-1]|int <= 5 %}#EAC282{% else %}#F64F5C{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Mail_Open_Rate_QTD.rstrip('%')|int >= 30 %}
+                            #68A490
+                            {% elif 30 - row.Mail_Open_Rate_QTD.rstrip('%')|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: 
+                            {% if row.Mail_Open_Rate_QTD.rstrip('%')|int >= 30 %}
+                            white
+                            {% elif 30 - row.Mail_Open_Rate_QTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                    ">
                             {{ row.Mail_Open_Rate_QTD }}
                         </td>
-                        <td
-                            style="background-color: {% if row.Mail_Open_Rate_YTD[:-1]|int >= row.Mail_Open_Rate_Expected_YTD[:-1]|int %}#68A490{% elif row.Mail_Open_Rate_Expected_YTD[:-1]|int - row.Mail_Open_Rate_YTD[:-1]|int <= 5 %}#EAC282{% else %}#F64F5C{% endif %}; color: white;">
+                        <td style="
+                        background-color: 
+                            {% if row.Mail_Open_Rate_YTD.rstrip('%')|int >= 30 %}
+                            #68A490
+                            {% elif 30 - row.Mail_Open_Rate_YTD.rstrip('%')|int <= 5 %}
+                            #EAC282
+                            {% else %}
+                            #F64F5C
+                            {% endif %}; 
+                        color: 
+                            {% if row.Mail_Open_Rate_YTD.rstrip('%')|int >= 30 %}
+                            white
+                            {% elif 30 - row.Mail_Open_Rate_YTD.rstrip('%')|int <= 5 %}
+                            black
+                            {% else %}
+                            white
+                            {% endif %};
+                    ">
                             {{ row.Mail_Open_Rate_YTD }}
                         </td>
                     </tr>
@@ -711,7 +826,7 @@
             <div class="column-item" id="column-7">
                 <table style="width:99%;padding-bottom: 5px;">
                     <tr>
-                        <th>Month</th>
+                        <th>Rep Name</th>
                         <th>HCP ID</th>
                         <th>HCP Name</th>
                         <th>Segment</th>
@@ -721,7 +836,7 @@
                         <th>Compliance?</th>
                     </tr>
                     <tr>
-                        <td>2024-08</td>
+                        <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ALEXIS MOJICA</td>
                         <td>A</td>
@@ -731,7 +846,7 @@
                         <td>No</td>
                     </tr>
                     <tr>
-                        <td>2024-08</td>
+                        <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>AMADO GURANGO</td>
                         <td>A</td>
@@ -741,7 +856,7 @@
                         <td>No</td>
                     </tr>
                     <tr>
-                        <td>2024-08</td>
+                        <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ANA RIZZA JUSTIMBASTE</td>
                         <td>A</td>
@@ -751,7 +866,7 @@
                         <td>No</td>
                     </tr>
                     <tr>
-                        <td>2024-08</td>
+                        <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ANNA SARAH PULUMBARIT</td>
                         <td>A</td>
@@ -761,7 +876,7 @@
                         <td>No</td>
                     </tr>
                     <tr>
-                        <td>2024-08</td>
+                        <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ANTHONY CHARLES DALMACIO</td>
                         <td>A</td>
@@ -771,7 +886,7 @@
                         <td>No</td>
                     </tr>
                     <tr>
-                        <td>2024-08</td>
+                        <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ARABELLE QUING</td>
                         <td>A</td>
@@ -781,7 +896,7 @@
                         <td>No</td>
                     </tr>
                     <tr>
-                        <td>2024-08</td>
+                        <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>ARIEL MADERAZO</td>
                         <td>A</td>
@@ -791,7 +906,7 @@
                         <td>No</td>
                     </tr>
                     <tr>
-                        <td>2024-08</td>
+                        <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>AYESSA SILVA-FAUSTINO</td>
                         <td>A</td>
@@ -801,7 +916,7 @@
                         <td>No</td>
                     </tr>
                     <tr>
-                        <td>2024-08</td>
+                        <td>{{ row.Name }}</td>
                         <td>PHMD093709</td>
                         <td>BEA MARIE ADAJAR</td>
                         <td>A</td>

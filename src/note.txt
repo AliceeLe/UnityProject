@@ -1,3 +1,5 @@
-#68A490
-#EAC282
-#F64F5C
+1. Change condition to compare
+2. Merge country into final csv
+3. 
+
+4. Check if xlsx can be read into csv (path, homebrew?)

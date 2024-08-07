@@ -2,6 +2,8 @@ import msal
 import requests
 import os
 from dotenv import load_dotenv
+import multiprocessing
+import pandas as pd
 
 # Load environment variables from .env file
 load_dotenv()
@@ -16,17 +18,7 @@ SCOPES = ["https://graph.microsoft.com/.default"]
 # SharePoint site and folder details
 SHAREPOINT_SITE = "zpssgpatientsolutions.sharepoint.com"
 SHAREPOINT_SITE_PATH = "/sites/BusinessAnalytics"
-FOLDER_PATH = "General/Dataset/Unity/old"  
-
-# Create a confidential client application
-app = msal.ConfidentialClientApplication(
-    CLIENT_ID,
-    authority=AUTHORITY,
-    client_credential=CLIENT_SECRET
-)
-
-# Acquire a token
-result = app.acquire_token_for_client(scopes=SCOPES)
+FOLDER_PATH = "General/Dataset/Unity"  
 
 def get_site_id(headers):
     # Get the site ID
@@ -84,18 +76,38 @@ def save_file_to_computer(site_id, file_id, file_name, headers):
             local_file.write(file_content_response.content)
             print(f"{file_name} successfully saved to local computer")
 
+def convert_xlsx_to_csv(file_name):
+    # Load the xlsx file
+    xlsx_path = "data/raw/"+file_name
+    csv_path = file_name.replace('.xlsx', '.csv')
+    
+    # Read the Excel file
+    df = pd.read_excel(xlsx_path)
+    
+    # Save the DataFrame to a CSV file
+    df.to_csv(csv_path, index=False)
+    
+    print(f"Converted {file_name} to {csv_path}")
+
 def find_csv_files(site_id, items_folder, headers):
     # List and download all CSV files
-    csv_files = [item for item in items_folder if item['name'].endswith('.csv')]
-    if csv_files:
-        print("CSV files in the folder:")
-        for csv_file in csv_files:
-            file_name = csv_file['name']
-            file_id = csv_file['id']
+    files = [item for item in items_folder if item['name'].endswith('.csv') or item['name'].endswith('.xlsx')]
+
+    if files:
+        print("CSV and XLSX files in the folder:")
+        for file in files:
+            file_name = file['name']
+            file_id = file['id']
             print(file_name)
+            
+            # Save the file to the computer
             save_file_to_computer(site_id, file_id, file_name, headers)
+            
+            # Convert XLSX to CSV if necessary
+            if file_name.endswith('.xlsx'):
+                convert_xlsx_to_csv(file_name)
     else:
-        print("No CSV files found in the folder.")
+        print("No CSV or XLSX files found in the folder.")
 
 def get_folder(site_id, folder_id, headers):
     # Get the items in the folder
@@ -128,14 +140,36 @@ def get_site(sharepoint_site, sharepoint_site_path, headers):
         else:
             get_folder_id(site_id, headers)
 
-if "access_token" in result:
-    access_token = result['access_token']
-    headers = {
-        'Authorization': f'Bearer {access_token}'
-    }
 
-    get_site(SHAREPOINT_SITE, SHAREPOINT_SITE_PATH, headers)
-else:
-    print("No token found.")
-    print(result.get("error"))
-    print(result.get("error_description"))
+if __name__ == '__main__':
+    try:
+        # Create a confidential client application
+        app = msal.ConfidentialClientApplication(
+            CLIENT_ID,
+            authority=AUTHORITY,
+            client_credential=CLIENT_SECRET
+        )
+
+        # Acquire a token
+        result = app.acquire_token_for_client(scopes=SCOPES)
+
+        if "access_token" in result:
+            access_token = result['access_token']
+            headers = {
+                'Authorization': f'Bearer {access_token}'
+            }
+            # Define arguments for the get_site function
+            args = [(SHAREPOINT_SITE, SHAREPOINT_SITE_PATH, headers) for _ in range(4)]  # Example arguments
+
+            # Create a Pool of workers and use map to apply the function in parallel
+            with multiprocessing.Pool(processes=4) as pool:
+                pool.starmap(get_site, args)  # Use starmap for multiple arguments
+        else:
+            print("No token found.")
+            print(result.get("error"))
+            print(result.get("error_description"))
+
+    except Exception as e:
+        print(f"An error occurred in main: {e}")
+
+
