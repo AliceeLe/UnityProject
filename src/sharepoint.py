@@ -77,46 +77,36 @@ def save_file_to_computer(site_id, file_id, file_name, headers):
             local_file.write(file_content_response.content)
             print(f"{file_name} successfully saved to local computer")
 
-def convert_xlsx_to_csv(file_name):
-    # Load the xlsx file
-    xlsx_path = "data/raw/"+file_name
-    csv_path = "data/raw/" + file_name.replace('.xlsx', '.csv')
-    
-    # Read the Excel file
-    df = pd.read_excel(xlsx_path)
-    
-    # Save the DataFrame to a CSV file
-    df.to_csv(csv_path, index=False)
-    
-    if os.path.exists(xlsx_path):
-        # Delete the file
-        os.remove(xlsx_path)
-        print(f"File {xlsx_path} has been deleted successfully.")
-    else:
-        print(f"File {xlsx_path} does not exist.")
-
-
-    print(f"Converted {file_name} to {csv_path}")
-
 def find_csv_files(site_id, items_folder, headers):
+    for item in items_folder:
+        if item['name'].endswith('.xlsx'):
+            # Convert to csv
+            xlsx_file_name = item['name']
+            csv_file_name = xlsx_file_name.replace('.xlsx', '.csv')
+            xlsx_file_path = os.path.join("data/raw", xlsx_file_name)
+            csv_file_path = os.path.join("data/raw", csv_file_name)
+            
+            # Download the xlsx file
+            save_file_to_computer(site_id, item['id'], xlsx_file_name, headers)
+            
+            # Convert xlsx to csv
+            excel_data = pd.read_excel(xlsx_file_path)
+            excel_data.to_csv(csv_file_path, index=False)
+            
+            # Optionally, remove the xlsx file if not needed
+            os.remove(xlsx_file_path)
+
     # List and download all CSV files
-    files = [item for item in items_folder if item['name'].endswith('.csv') or item['name'].endswith('.xlsx')]
-    if files:
-        print("CSV and XLSX files in the folder:")
-        for file in files:
-            file_name = file['name']
-            file_id = file['id']
+    csv_files = [item for item in items_folder if item['name'].endswith('.csv')]
+    if csv_files:
+        print("CSV files in the folder:")
+        for csv_file in csv_files:
+            file_name = csv_file['name']
+            file_id = csv_file['id']
             print(file_name)
-            
-            # Save the file to the computer
             save_file_to_computer(site_id, file_id, file_name, headers)
-            
-            # Convert XLSX to CSV if necessary
-            if file_name.endswith('.xlsx'):
-                if file_name=="SplitRep_BQ_Unity.xlsx": pass
-                convert_xlsx_to_csv(file_name)
     else:
-        print("No CSV or XLSX files found in the folder.")
+        print("No CSV files found in the folder.")
 
 def get_folder(site_id, folder_id, headers):
     # Get the items in the folder
@@ -174,6 +164,8 @@ if __name__ == '__main__':
             # Create a Pool of workers and use map to apply the function in parallel
             with multiprocessing.Pool(processes=4) as pool:
                 pool.starmap(get_site, args)  # Use starmap for multiple arguments
+
+        # run convert csv to xlsx
         else:
             print("No token found.")
             print(result.get("error"))

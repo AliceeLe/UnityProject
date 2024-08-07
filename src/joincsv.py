@@ -247,7 +247,7 @@ def process_data():
 # merge_qtd()
 # merge_all()
 if __name__ == "__main__":
-    rename_col_country(country_name_mapping)
+    # rename_col_country(country_name_mapping)
     merge_qtd()
     merge_all()
     rename_columns(column_name_mapping)
