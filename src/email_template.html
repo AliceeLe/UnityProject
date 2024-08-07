@@ -41,23 +41,23 @@
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 25px;
         }
 
         h2 {
-            font-size: 12px;
+            font-size: 15px;
             font-style: italic;
         }
 
         p {
-            margin: 2px;
+            margin: 12px;
             padding: 0;
         }
 
         .container {
             /* Ipad size: 16-9 */
-            max-width: 2160px;
-            max-height: 1620px;
+            width: 950px;
+            max-height: 1286px;
             padding: 10px;
             background-color: #2e6271;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -76,8 +76,8 @@
         }
 
         .header>img {
-            height: 80%;
-            width: 15%;
+            height: 70%;
+            width: 10%;
             object-fit: cover;
         }
 
@@ -87,17 +87,28 @@
             max-width: 100%;
 
             display: grid;
-            grid-gap: 20px;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px 20px;
+            grid-template-areas: 
+                "column-1 column-4 column-6"
+                "column-2 column-4 column-6"
+                "column-2 column-4 column-6"
+                "column-2 column-5 column-6"
+                "column-2 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+
         }
 
         .column-item {
-            background-color: rgba(213, 225, 201, 255);
+            background-color: #d5e1c9;
             width: 100%;
-            padding: 10px;
-            padding-right: 0px;
-            border-radius: 5px;
-
+            padding: 5px 0px 10px 12px;
+            border-radius: 15px;
         }
 
 
@@ -115,49 +126,65 @@
 
         #column-1 {
             background: #f7f0cc;
-            grid-column: 1 / 2;
-            grid-row: 1 / 2;
+            grid-area: column-1;
+            /* grid-column: 1 / 2;
+            grid-row: 1 / 2; */
         }
 
         #column-2 {
-            grid-column: 1 / 2;
-            grid-row: 2 / 7;
+            grid-area: column-2;
+            /* grid-column: 1 / 2;
+            grid-row: 2 / 5; */
         }
 
         #column-3 {
-            grid-column: 1 / 2;
-            grid-row: 7 / 11;
+            grid-area: column-3;
+            /* grid-column: 1 / 2;
+            grid-row: 5 / 7; */
         }
 
         #column-4 {
-            grid-column: 2 / 3;
-            grid-row: 1 / 4;
+            grid-area: column-4;
+            /* grid-column: 2 / 3;
+            grid-row: 1 / 4; */
         }
 
         #column-5 {
-            grid-column: 2 / 3;
-            grid-row: 4 / 11;
+            grid-area: column-5;
+            /* grid-column: 2 / 3;
+            grid-row: 4 / 7; */
         }
 
         #column-6 {
-            grid-column: 3 / 4;
-            grid-row: 1 / 11;
+            grid-area: column-6;
+            /* grid-column: 3 / 4;
+            grid-row: 1 / 7; */
+        }
+
+        #column-7 {
+            grid-area: column-7;
+            /* grid-column: 1 / 4;
+            grid-row: 7 / 13; */
         }
 
         .box-1-header {
-            font-size: 10px;
+            font-size: 14px;
             color: gray;
+            padding: 10px 5px 5px 5px;
+            margin: 0;
         }
 
         .box-1-info {
-            font-size: 14px;
+            font-size: 12px;
             text-align: center;
+            padding: 10px 5px 5px 5px;
+            margin: 0;
         }
 
         .footer {
             text-align: center;
             color: white;
-            font-size: 12px;
+            font-size: 5px;
             margin-top: 20px;
         }
 
@@ -170,13 +197,13 @@
 
         table {
             border-collapse: collapse;
-            width: 98%;
+            width: 97%;
             background-color: white;
         }
 
         th,
         td {
-            padding: 5px;
+            padding: 8px;
         }
 
         .master-chart-container {
@@ -200,10 +227,11 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            margin: 20px 10px;
         }
 
-        .customer-name {
-            font-size: 10px;
+        .column-info {
+            font-size: 11px;
         }
     </style>
 </head>
@@ -461,22 +489,22 @@
                         <th>QTD</th>
                     </tr>
                     <tr>
-                        <td style="font-size:11px">PROPAN W/ IRON</td>
+                        <td class="column-info">PROPAN W/ IRON</td>
                         <td>663,003</td>
                         <td>1,734,080</td>
                     </tr>
                     <tr>
-                        <td style="font-size:11px">PROPAN SYRUP</td>
+                        <td class="column-info">PROPAN SYRUP</td>
                         <td>476,250</td>
                         <td>1,497,838</td>
                     </tr>
                     <tr>
-                        <td style="font-size:11px">NIZORAL</td>
+                        <td class="column-info">NIZORAL</td>
                         <td>268,055</td>
                         <td>814,131</td>
                     </tr>
                     <tr>
-                        <td style="font-size:11px">PHYSIONEAL</td>
+                        <td class="column-info">PHYSIONEAL</td>
                         <td>121,201</td>
                         <td>772,896</td>
                     </tr>
@@ -578,92 +606,92 @@
                         <th>QTD</th>
                     </tr>
                     <tr>
-                        <td class="customer-name">PAMELA YOUDE N.E.H.</td>
+                        <td class="column-info">PAMELA YOUDE N.E.H.</td>
                         <td>257,592</td>
                         <td>724,984</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">PAMELA YOUDE NETHERS</td>
+                        <td class="column-info">PAMELA YOUDE NETHERS</td>
                         <td>238,000</td>
                         <td>687,568</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">UNITED CHRISTIAN HOS</td>
+                        <td class="column-info">UNITED CHRISTIAN HOS</td>
                         <td>50,952</td>
                         <td>197,728</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">QUALITY HEALTHCARE M</td>
+                        <td class="column-info">QUALITY HEALTHCARE M</td>
                         <td>35,388</td>
                         <td>167,472</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">DEP8 CHAI WAN FAMILI</td>
+                        <td class="column-info">DEP8 CHAI WAN FAMILI</td>
                         <td>0</td>
                         <td>152,224</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">CARING MEDICAL CENTER</td>
+                        <td class="column-info">CARING MEDICAL CENTER</td>
                         <td>63,350</td>
                         <td>114,450</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">THE H.K. AND CHINA G</td>
+                        <td class="column-info">THE H.K. AND CHINA G</td>
                         <td>19,600</td>
                         <td>58,800</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">MANNINGS O/B THE DAI</td>
+                        <td class="column-info">MANNINGS O/B THE DAI</td>
                         <td>11,703</td>
                         <td>43,147</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">RUTTONJEE HOSPITAL C</td>
+                        <td class="column-info">RUTTONJEE HOSPITAL C</td>
                         <td>13,926</td>
                         <td>26,352</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">COMMUNITY HEALTH SER</td>
+                        <td class="column-info">COMMUNITY HEALTH SER</td>
                         <td>0</td>
                         <td>25,920</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">PHARM + ST JAMES' SET</td>
+                        <td class="column-info">PHARM + ST JAMES' SET</td>
                         <td>25,920</td>
                         <td>25,920</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">ST. JAMES' SETTLEMEN</td>
+                        <td class="column-info">ST. JAMES' SETTLEMEN</td>
                         <td>0</td>
                         <td>25,920</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">DR. CHEUNG KWOK MING</td>
+                        <td class="column-info">DR. CHEUNG KWOK MING</td>
                         <td>0</td>
                         <td>22,418</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">CHEUNG CHOON DISPENS</td>
+                        <td class="column-info">CHEUNG CHOON DISPENS</td>
                         <td>14,250</td>
                         <td>14,250</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">HING SHING DISPENSAR</td>
+                        <td class="column-info">HING SHING DISPENSAR</td>
                         <td>12,960</td>
                         <td>12,960</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">KWAN HING DISPENSARY</td>
+                        <td class="column-info">KWAN HING DISPENSARY</td>
                         <td>12,960</td>
                         <td>12,960</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">TIEN LU DISPENSARY</td>
+                        <td class="column-info">TIEN LU DISPENSARY</td>
                         <td>12,960</td>
                         <td>12,960</td>
                     </tr>
                     <tr>
-                        <td class="customer-name">TIEN LU DISPENSARY L</td>
+                        <td class="column-info">TIEN LU DISPENSARY L</td>
                         <td>12,960</td>
                         <td>12,960</td>
                     </tr>
@@ -681,12 +709,117 @@
             </div>
 
             <div class="column-item" id="column-7">
-                
+                <table style="width:99%;padding-bottom: 5px;">
+                    <tr>
+                        <th>Month</th>
+                        <th>HCP ID</th>
+                        <th>HCP Name</th>
+                        <th>Segment</th>
+                        <th>Actual Call</th>
+                        <th>Month Target</th>
+                        <th>Quarter Target</th>
+                        <th>Compliance?</th>
+                    </tr>
+                    <tr>
+                        <td>2024-08</td>
+                        <td>PHMD093709</td>
+                        <td>ALEXIS MOJICA</td>
+                        <td>A</td>
+                        <td>0.00</td>
+                        <td>0.67</td>
+                        <td>2.00</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>2024-08</td>
+                        <td>PHMD093709</td>
+                        <td>AMADO GURANGO</td>
+                        <td>A</td>
+                        <td>0.00</td>
+                        <td>0.67</td>
+                        <td>2.00</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>2024-08</td>
+                        <td>PHMD093709</td>
+                        <td>ANA RIZZA JUSTIMBASTE</td>
+                        <td>A</td>
+                        <td>0.00</td>
+                        <td>0.67</td>
+                        <td>2.00</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>2024-08</td>
+                        <td>PHMD093709</td>
+                        <td>ANNA SARAH PULUMBARIT</td>
+                        <td>A</td>
+                        <td>0.00</td>
+                        <td>0.67</td>
+                        <td>2.00</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>2024-08</td>
+                        <td>PHMD093709</td>
+                        <td>ANTHONY CHARLES DALMACIO</td>
+                        <td>A</td>
+                        <td>0.00</td>
+                        <td>0.67</td>
+                        <td>2.00</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>2024-08</td>
+                        <td>PHMD093709</td>
+                        <td>ARABELLE QUING</td>
+                        <td>A</td>
+                        <td>0.00</td>
+                        <td>0.67</td>
+                        <td>2.00</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>2024-08</td>
+                        <td>PHMD093709</td>
+                        <td>ARIEL MADERAZO</td>
+                        <td>A</td>
+                        <td>0.00</td>
+                        <td>0.67</td>
+                        <td>2.00</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>2024-08</td>
+                        <td>PHMD093709</td>
+                        <td>AYESSA SILVA-FAUSTINO</td>
+                        <td>A</td>
+                        <td>0.00</td>
+                        <td>0.67</td>
+                        <td>2.00</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>2024-08</td>
+                        <td>PHMD093709</td>
+                        <td>BEA MARIE ADAJAR</td>
+                        <td>A</td>
+                        <td>0.00</td>
+                        <td>0.67</td>
+                        <td>2.00</td>
+                        <td>No</td>
+                    </tr>
+                </table>
             </div>
+                
+                
+            <!-- </div>
                 <div class="footer">
                     &copy; 2024 Unity Project | ZP Therapeutics. All rights reserved.
                 </div>
-            </div>
+            </div> -->
+
             <script>
                 function getColor(value) {
                     if (value < 100) {
@@ -744,8 +877,8 @@
                 const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
                 const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
 
-                const mtdValue = "{{ row['%Achievement_MTD']}}";
-                const qtdValue = "{{ row['%Achievement_QTD']}}";
+                const mtdValue = "83%";
+                const qtdValue = "97%";
 
                 function convertPercentageToNumber(percentageString) {
                     // Remove the '%' character and convert the string to a number

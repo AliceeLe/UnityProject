@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Map Example</title>
+    <style>
+        .map-container {
+            position: relative;
+            display: inline-block;
+        }
+        .map-container img {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="map-container">
+        <img src="./images/zpt.png" usemap="#image-map" alt="Image with links">
+        <map name="image-map">
+            <!-- Define clickable areas -->
+            <area shape="rect" coords="0,0,50,100" href="https://example.com/link1" alt="Link 1">
+            <area shape="rect" coords="51,0,100,100" href="https://example.com/link2" alt="Link 2">
+        </map>
+    </div>
+</body>
+</html>
