@@ -9,6 +9,22 @@ import base64
 from datetime import datetime
 import pandas as pd
 import math
+import uuid  # To generate unique filenames
+from concurrent.futures import ThreadPoolExecutor
+
+country_call_rates = {
+    "BN": 8.0,
+    "HK": 8.0,
+    "ID": 10.0,
+    "KH": 10.0,
+    "MY": 8.0,
+    "PH": 10.0,
+    "SG": 8.0,
+    "TH": 10.0,
+    "TW": 10.0,
+    "VN": 11.0
+}
+
 
 # Function to encode image to Base64
 def encode_image_to_base64(image_path):
@@ -86,7 +102,7 @@ if not SENDGRID_API_KEY:
 # Set up Jinja environment
 env = Environment(loader=FileSystemLoader('.'))
 
-# Register the custom filters with the Jinja2 environment
+# Register custom filters with the Jinja2 environment
 env.filters['format_thousands'] = format_to_thousands
 env.filters['format_percent'] = format_percent
 env.filters['format_one_decimal'] = round_to_one_decimal
@@ -108,42 +124,7 @@ def send_email(to_email, subject, html_content):
     except Exception as e:
         print(f"Error sending email to {to_email}: {e}")
 
-country_call_rates = {
-    "BN": 8.0,
-    "HK": 8.0,
-    "ID": 10.0,
-    "KH": 10.0,
-    "MY": 8.0,
-    "PH": 10.0,
-    "SG": 8.0,
-    "TH": 10.0,
-    "TW": 10.0,
-    "VN": 11.0
-    # Add more countries and their expected values as needed
-}
-
-# Paths to the CSV files
-hcp_csv = 'data/raw/Unity_Export_HCP202407.csv'
-general_csv = 'data/processed/sample.csv'
-product_csv = 'data/raw/Unity_Export_Product_202406.csv'
-
-# Reading the first CSV file
-with open(hcp_csv, newline='', encoding='utf-8') as csvfile1:
-    reader1 = csv.DictReader(csvfile1)
-    hcp_dataset = list(reader1)
-
-# Reading the second CSV file
-with open(general_csv, newline='', encoding='utf-8') as csvfile2:
-    reader2 = csv.DictReader(csvfile2)
-    general_dataset = list(reader2)
-
-# Reading the third CSV file
-with open(product_csv, newline='', encoding='utf-8') as csvfile3:
-    reader3 = csv.DictReader(csvfile3)
-    product_dataset = list(reader3)
-
-# Read CSV file and send emails
-for row in general_dataset:
+def process_email(row):
     sales_rep_name = row['Name']
     hcp_filtered = [d for d in hcp_dataset if d['Name'] == sales_rep_name]
     product_filtered  = [d for d in product_dataset if d['Name'] == sales_rep_name]
@@ -152,19 +133,23 @@ for row in general_dataset:
     hcp_filtered = hcp_filtered[:50]
     product_filtered = product_filtered[:4]
 
+    # Generate a unique identifier for this thread/process
+    unique_id = uuid.uuid4().hex
+    html_filename = f'src/email_final_{unique_id}.html'
+    png_filename = f'src/email_{unique_id}.png'
+
     # Render the template with variables from the CSV row and additional data
-    # The template will render even if hcp_filtered is empty
     html_content = template.render(row=row, country_call_rates=country_call_rates, hcp_filtered=hcp_filtered, product_filtered=product_filtered)        
-    
-    # Write the rendered HTML to a file
-    with open('src/email_final.html', 'w', encoding='utf-8') as file:
+
+    # Write the rendered HTML to a unique file in the src/ directory
+    with open(html_filename, 'w', encoding='utf-8') as file:
         file.write(html_content)
     
     # Run the Node.js script to convert the HTML to PNG
-    subprocess.run(['node', 'src/convert_html_to_png.js'], check=True)
+    subprocess.run(['node', 'src/convert_html_to_png.js', html_filename, png_filename], check=True)
     
     # Encode the generated PNG image to Base64
-    image_png = encode_image_to_base64('src/email.png')
+    image_png = encode_image_to_base64(png_filename)
     
     # Create the email content with the embedded image
     email_html_content = f"""
@@ -204,4 +189,23 @@ for row in general_dataset:
     subject = f"Sales dashboard - {row['Name']} - {now.strftime('%Y/%m/%d')}"
     print("Email: " + subject)
     # Send the email
-    # send_email(row['Email'], subject, email_html_content)
+    send_email(row['Email'], subject, email_html_content)
+    
+    # Clean up files if necessary
+    os.remove(html_filename)
+    os.remove(png_filename)
+
+# Paths to the CSV files
+hcp_csv = 'data/raw/Unity_Export_HCP202407.csv'
+general_csv = 'data/processed/sample.csv'
+product_csv = 'data/raw/Unity_Export_Product_202406.csv'
+
+# Reading the CSV files
+hcp_dataset = pd.read_csv(hcp_csv).to_dict(orient='records')
+general_dataset = pd.read_csv(general_csv).to_dict(orient='records')
+product_dataset = pd.read_csv(product_csv).to_dict(orient='records')
+
+# Run the process in parallel
+with ThreadPoolExecutor(max_workers=5) as executor:
+    executor.map(process_email, general_dataset)
+
