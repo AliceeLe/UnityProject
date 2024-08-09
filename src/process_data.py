@@ -183,32 +183,10 @@ def rename_csv_column(col_dict, csv_input, csv_output):
     # Save the DataFrame with the new column names to a new CSV file
     df.to_csv(csv_output, index=False)
     print(f"{csv_output} successfully renamed")
-
-def format_thousand(value):
-    """
-    This function takes a float or integer value, removes the decimal points,
-    and adds commas as thousand separators.
-    """
-    try:
-        # Convert the number to an integer (this removes the decimal points)
-        int_value = int(value)
-        # Format the number with commas as thousand separators
-        formatted_value = f"{int_value:,}"
-        return formatted_value
-    except (ValueError, TypeError):
-        return value  # Return the original value if conversion fails
     
 def process_general():
     # Read the CSV file into a DataFrame
     df = pd.read_csv("data/processed/output_renamed.csv")
-
-    # columns_percent = ['%Achievement_MTD', '%Achievement_QTD','Call_Volume_MTD','Call_Volume_QTD','Call_Compliance_MTD','Call_Compliance_QTD','Call_Compliance_A_MTD','Call_Compliance_A_QTD',"Mail_Open_Rate_MTD","Mail_Open_Rate_QTD","Mail_Open_Rate_YTD","Clickrate_MTD","Clickrate_QTD","Clickrate_YTD"]
-    # # Convert specified columns from decimal format to percentage format
-    # for column in columns_percent:
-    #     if column in df.columns:
-    #         df[column] = df[column].apply(lambda x: f"{int(round(x * 100))}%" if pd.notnull(x) else "")
-    #     else:
-    #         print(f"Warning: Column '{column}' not found in the CSV file.")
 
     # Process Role row
     def process_role(role):
@@ -237,16 +215,101 @@ def process_product():
     df_sorted.to_csv('data/raw/Unity_Export_Product_202406.csv', index=False)
     print("Finished processing product")
 
+def split_xlsx(file_path):
+    excel_data = pd.ExcelFile(file_path)
+
+    # Iterate through each sheet and save it as a CSV file
+    for sheet_name in excel_data.sheet_names:
+        # Read each sheet into a DataFrame
+        df = pd.read_excel(excel_data, sheet_name=sheet_name)
+        
+        # Define the CSV file name
+        csv_file_name = f"data/raw/{sheet_name}.csv"
+        
+        # Save the DataFrame to a CSV file
+        df.to_csv(csv_file_name, index=False)
+        
+        print(f"Saved {sheet_name} as {csv_file_name}")
+
+    print("All sheets have been saved as CSV files.")
+
+def process_svt_unity():
+    df = pd.read_csv('data/raw/SvT_Unity.csv')
+
+    # Group using UserKey & yearmonth
+    df_sorted = df.groupby(['UserKey_4Map', 'yearmonth'], as_index=False).agg({
+        'Country': 'first',  # Retain the first value (assuming it's consistent)
+        'SalesRep_Code': 'first',  # Retain the first value (assuming it's consistent)
+        'salesrepemployeeid_z': 'first',  # Retain the first value (assuming it's consistent)
+        'MTD Sales': 'sum',  # Sum the sales
+        'MTD Target': 'sum'  # Sum the targets
+    })
+
+    # Create QTD Sales & Target by grouping UserKey, then finding sum of MTD Sales and MTD Target
+    df_sorted['QTD Sales'] = df_sorted.groupby('UserKey_4Map')['MTD Sales'].transform('sum')
+    df_sorted['QTD Target'] = df_sorted.groupby('UserKey_4Map')['MTD Target'].transform('sum')
+
+    # Create MTD, QTD Balance by subtracting the columns
+    # Neu Sales > Target thi Balance = 0 hay la mot gia tri am?
+    df_sorted['MTD Balance'] = df_sorted['MTD Target'] - df_sorted['MTD Sales']
+    df_sorted['QTD Balance'] = df_sorted['QTD Target'] - df_sorted['QTD Sales']
+
+    # Create MTD, QTD % Achievement by divding the columns
+    # Neu Target = 0 thi sao. Hien tai dang de 100%
+    df_sorted['%Achievement_MTD'] = df_sorted.apply(
+        lambda row: row['MTD Sales'] / row['MTD Target'] if row['MTD Target'] != 0 else 1,
+        axis=1
+    )
+    # Calculate %Achievement_QTD
+    df_sorted['%Achievement_QTD'] = df_sorted.apply(
+        lambda row: row['QTD Sales'] / row['QTD Target'] if row['QTD Target'] != 0 else 1,
+        axis=1
+    )
+
+    df_sorted.to_csv('data/raw/SvT_Unity_Processed.csv', index=False)
+    print("Finished processing SvT Unity")
 
 
+def process_product_unity():
+    df = pd.read_csv('data/raw/Product_List_Unity.csv')
+
+    # Group by yearmonth and UserKey_4Map
+    grouped_df = df.groupby(['yearmonth', 'UserKey_4Map'], as_index=False).first()
+
+    # Sort the DataFrame by 'MTD Sales' in descending order
+    sorted_df = grouped_df.sort_values(by='MTD Sales', ascending=False)
+
+    sorted_df.to_csv('data/raw/Product_List_Unity_Processed.csv', index=False)
+    print("Finished processing product")
+
+
+def process_customer_unity():
+    df = pd.read_csv('data/raw/Customer_List_Unity.csv')
+
+    # Group by yearmonth and UserKey_4Map
+    grouped_df = df.groupby(['yearmonth', 'UserKey_4Map'], as_index=False).first()
+
+    # Sort the DataFrame by 'MTD Sales' in descending order
+    sorted_df = grouped_df.sort_values(by='MTD Sales', ascending=False)
+
+    sorted_df.to_csv('data/raw/Customer_List_Unity_Processed.csv', index=False)
+    print("Finished processing Customer")
+
+
+"""
+Define flow: 
+1. Download files in sharepoint
+2. Rename column in country 
+"""
 if __name__ == "__main__":
-    rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
-    merge_qtd()
-    merge_all()
-    rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP202407.csv","data/raw/Unity_Export_HCP202407.csv")
-    rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
-    rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
-    process_general()
-    process_product()
-    df = pd.read_csv('data/processed/sample.csv')
-    print(df.dtypes)
+    # split_xlsx("data/raw/Sales360_Unity.xlsx")
+    process_svt_unity()
+    # process_customer_unity()
+    # rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
+    # merge_qtd()
+    # merge_all()
+    # rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP202407.csv","data/raw/Unity_Export_HCP202407.csv")
+    # rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
+    # rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
+    # process_general()
+    # process_product()
