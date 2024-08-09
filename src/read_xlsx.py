@@ -1,28 +1,42 @@
 import pandas as pd
-import pyodbc
+from openpyxl import load_workbook
 
-# Define the path to your Excel file
+# Path to the Excel file
 excel_file_path = 'data/raw/SplitRep_BQ_Unity.xlsx'
 
-# Define the connection string for the Excel file
-conn_str = (
-    r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
-    r'DBQ=' + excel_file_path + ';'
-    r'Extended Properties="Excel 12.0;HDR=Yes;IMEX=1";'
-)
+# Load the workbook
+wb = load_workbook(excel_file_path, read_only=True)
 
-# Establish a connection to the Excel file
-conn = pyodbc.connect(conn_str, autocommit=True)
+# Get the sheet names (which can represent table names)
+sheet_names = wb.sheetnames
 
-# Define your SQL query to access the data model
-# Replace 'your_table_or_query' with the actual name of the table or query
-query = 'SELECT * FROM [your_table_or_query]'
+# Print the sheet names
+print("Table names (sheet names) in the Excel file:")
+for sheet in sheet_names:
+    print(sheet)
 
-# Read the data into a pandas DataFrame
-df = pd.read_sql(query, conn)
+# Function to read data from a specific sheet and save it to a CSV file
+def save_sheet_to_csv(sheet_name):
+    # Read the sheet into a DataFrame
+    df = pd.read_excel(excel_file_path, sheet_name=sheet_name, engine='openpyxl')
 
-# Close the connection
-conn.close()
+    # Check if the DataFrame is empty
+    if df.empty:
+        print(f"No data found in sheet {sheet_name}.")
+    else:
+        # Print the DataFrame for verification
+        print(f"Data from sheet {sheet_name}:")
+        print(df.head())
 
-# Display the DataFrame
-print(df.head())
+        # Path to save the CSV file
+        csv_file_path = f"data/raw/{sheet_name}.csv"
+
+        # Convert the DataFrame to a CSV file
+        df.to_csv(csv_file_path, index=False)
+
+        print(f"Data from {sheet_name} has been successfully saved to {csv_file_path}")
+
+# Example: Read data from a specific sheet and save it as a CSV file
+# Replace 'YourSheetName' with the actual sheet name you want to extract
+for sheet in sheet_names:
+    save_sheet_to_csv(sheet)

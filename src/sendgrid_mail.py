@@ -61,6 +61,7 @@ country_call_rates = {
 # Paths to the CSV files
 hcp_csv = 'data/raw/Unity_Export_HCP202407.csv'
 general_csv = 'data/processed/sample.csv'
+product_csv = 'data/raw/Unity_Export_Product_202406.csv'
 
 # Reading the first CSV file
 with open(hcp_csv, newline='', encoding='utf-8') as csvfile1:
@@ -72,17 +73,24 @@ with open(general_csv, newline='', encoding='utf-8') as csvfile2:
     reader2 = csv.DictReader(csvfile2)
     general_dataset = list(reader2)
 
+# Reading the third CSV file
+with open(product_csv, newline='', encoding='utf-8') as csvfile3:
+    reader3 = csv.DictReader(csvfile3)
+    product_dataset = list(reader3)
+
 # Read CSV file and send emails
 for row in general_dataset:
     sales_rep_name = row['Name']
-    filtered_data = [d for d in hcp_dataset if d['Name'] == sales_rep_name]
+    hcp_filtered = [d for d in hcp_dataset if d['Name'] == sales_rep_name]
+    product_filtered  = [d for d in product_dataset if d['Name'] == sales_rep_name]
     
-    # Limit the number of rows to 50
-    filtered_data = filtered_data[:50]
+    # Limit the number of rows to 50 and 5
+    hcp_filtered = hcp_filtered[:50]
+    product_filtered = product_filtered[:4]
 
     # Render the template with variables from the CSV row and additional data
-    # The template will render even if filtered_data is empty
-    html_content = template.render(row=row, country_call_rates=country_call_rates, filtered_data=filtered_data)        
+    # The template will render even if hcp_filtered is empty
+    html_content = template.render(row=row, country_call_rates=country_call_rates, hcp_filtered=hcp_filtered, product_filtered=product_filtered)        
     
     # Write the rendered HTML to a file
     with open('src/email_final.html', 'w', encoding='utf-8') as file:

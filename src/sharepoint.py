@@ -78,26 +78,26 @@ def save_file_to_computer(site_id, file_id, file_name, headers):
             print(f"{file_name} successfully saved to local computer")
 
 def find_csv_files(site_id, items_folder, headers):
-    for item in items_folder:
-        if item['name'].endswith('.xlsx'):
-            # Convert to csv
-            xlsx_file_name = item['name']
-            csv_file_name = xlsx_file_name.replace('.xlsx', '.csv')
-            xlsx_file_path = os.path.join("data/raw", xlsx_file_name)
-            csv_file_path = os.path.join("data/raw", csv_file_name)
+    # for item in items_folder:
+        # if item['name'].endswith('.xlsx'):
+        #     # Convert to csv
+        #     xlsx_file_name = item['name']
+        #     csv_file_name = xlsx_file_name.replace('.xlsx', '.csv')
+        #     xlsx_file_path = os.path.join("data/raw", xlsx_file_name)
+        #     csv_file_path = os.path.join("data/raw", csv_file_name)
             
-            # Download the xlsx file
-            save_file_to_computer(site_id, item['id'], xlsx_file_name, headers)
+        #     # Download the xlsx file
+        #     save_file_to_computer(site_id, item['id'], xlsx_file_name, headers)
             
-            # Convert xlsx to csv
-            excel_data = pd.read_excel(xlsx_file_path)
-            excel_data.to_csv(csv_file_path, index=False)
+        #     # Convert xlsx to csv
+        #     excel_data = pd.read_excel(xlsx_file_path)
+        #     excel_data.to_csv(csv_file_path, index=False)
             
-            # Optionally, remove the xlsx file if not needed
-            os.remove(xlsx_file_path)
+        #     # Optionally, remove the xlsx file if not needed
+        #     os.remove(xlsx_file_path)
 
     # List and download all CSV files
-    csv_files = [item for item in items_folder if item['name'].endswith('.csv')]
+    csv_files = [item for item in items_folder if item['name'].endswith('.csv') or item['name'].endswith('.xlsx')]
     if csv_files:
         print("CSV files in the folder:")
         for csv_file in csv_files:

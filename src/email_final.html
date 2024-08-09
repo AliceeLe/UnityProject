@@ -75,8 +75,8 @@
         }
 
         .header>img {
-            height: 70%;
-            width: 10%;
+            height: 80%;
+            width: 15%;
             object-fit: cover;
         }
 
@@ -223,6 +223,7 @@
 <body>
     <div class="container">
         <div class="header">
+            <img src="./images/zpt-white.png" alt="zpt-logo">
             <h1>ONE PAGE PERFORMANCE TRACKING</h1>
         </div>
         <div class="content">
@@ -497,7 +498,64 @@
 
             <div class="column-item" id="column-4">
                 <h2>Sales by Product Bucket</h2>
-                <table class="column-5-table">
+                <table class="column-5-table" style="width:99%;padding-bottom: 5px;">
+                    <thead>
+                        <tr>
+                            <th>Product Group</th>
+                            <th style="text-align: center;">MTD</th>
+                            <th style="text-align: center;">QTD</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        
+                        
+            
+                        
+                        <tr>
+                            <td style="text-align: center;">CYMBALTA</td>
+                            <td style="text-align: center;">30929.5</td>
+                            <td style="text-align: center;">140607.6</td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td style="text-align: center;">ZYPREXA</td>
+                            <td style="text-align: center;">9648.63</td>
+                            <td style="text-align: center;">94239.25</td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td style="text-align: center;">MALTOFER</td>
+                            <td style="text-align: center;">26703.14</td>
+                            <td style="text-align: center;">84026.22</td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td style="text-align: center;">FERINJ</td>
+                            <td style="text-align: center;">22680.0</td>
+                            <td style="text-align: center;">65082.0</td>
+                        </tr>
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td style="text-align: center;font-weight: bold;">Total:</td>
+                            <td style="text-align: center;">0</td>
+                            <td style="text-align: center;">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- <table class="column-5-table">
                     <tr>
                         <th>Product Group</th>
                         <th style="text-align: center;">MTD</th>
@@ -528,8 +586,8 @@
                         <td style="text-align: center;">1,528,508</td>
                         <td style="text-align: center;">4,818,936</td>
                     </tr>
-                </table>
-            </div>
+                </table> -->
+            </div> 
 
             <div class="column-item" id="column-5">
                 <h2>Sales-led Activities</h2>
@@ -637,7 +695,7 @@
             </div>
 
             <div class="column-item" id="column-6">
-                <h2>Top-20 customers</h2>
+                <h2>Sales by Customer / Account</h2>
                 <table class="column-5-table">
                     <tr>
                         <th>Customer Name</th>

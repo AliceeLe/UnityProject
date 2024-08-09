@@ -2,41 +2,77 @@ import pandas as pd
 import os
 from datetime import datetime
 
+country_name_mapping = {
+    'kpi.OwnerId': 'kpi_tracker_userlevel[kpi.OwnerId]',
+    'Name': 'kpi_tracker_userlevel[Name]',
+    'AD_Group': 'Country',
+}
+
+hcp_mapping = {
+    'kpi_tracker_userlevel[Name]':'Name',
+    'kpi_tracker_useraccountlevel[account.Name]':'HCP_Name',
+    'kpi_tracker_userlevel[KPI_Ref_Time]':'HCP_Month',
+    "kpi_tracker_useraccountlevel[mc_cycle_plan_target.ZLG_Sales_Segment__c]":"HCP_Segment",
+    "kpi_tracker_useraccountlevel[Compliance?]":"HCP_Compliance",
+    "kpi_tracker_useraccountlevel[account.External_ID_vod__c]":"HCP_ID",
+    "[Sumactual_MTD]":"HCP_Actual_Call",
+    "[Sumtarget_MTD]":"HCP_Target_MTD",
+    "[Sumtarget_QTD]":"HCP_Target_QTD"
+}
+
+general_mapping = {
+    'kpi_tracker_userlevel[kpi.OwnerId]': 'ID',
+    'kpi_tracker_userlevel[Name]': 'Name',
+    'kpi_tracker_userlevel[UserName_Level1]': 'Manager_name',
+    'kpi_tracker_userlevel[UserId_Level1]': 'Manager_id',
+    '[KPI_ACT_MTD_CallRate]': 'Call_Rate_MTD',
+    '[KPI_ACT_MTD_CallVolume]': 'Call_Volume_MTD',
+    '[KPI_ACT_MTD_CallCompliance]': 'Call_Compliance_MTD',
+    '[KPI_ACT_MTD_CallComplianceA]': 'Call_Compliance_A_MTD',
+    '[Value_Qty_Transaction_Market]': 'Actual_Sales_MTD',
+    '[Value_QTY_Target]': 'Target_MTD',
+    '[v__Done]': '%Achievement_MTD',
+    '[Gap]': 'Balance_MTD',
+    '[QTD_Value_QTY_Transaction_Market]': 'Actual_Sales_QTD',
+    '[QTD_Value_QTY_Target]': 'Target_QTD',
+    '[QTD___Done]': '%Achievement_QTD',
+    '[QTD_Gap]': 'Balance_QTD',
+    '[KPI_ACT_QTD_CallRate]': 'Call_Rate_QTD',
+    '[KPI_ACT_QTD_CallVolume]': 'Call_Volume_QTD',
+    '[KPI_ACT_QTD_CallCompliance]': 'Call_Compliance_QTD',
+    '[KPI_ACT_QTD_CallComplianceA]': 'Call_Compliance_A_QTD',
+    'kpi_tracker_userlevel[Profile_Name_vod__c]':'Role',
+    "[Summtd_event_count]":"Event_MTD",
+    "[Sumqtd_event_count]":"Event_QTD",
+    "[Sumytd_event_count]":"Event_YTD",
+    "[Summtd_touchpoint_count]":"Touchpoint_MTD",
+    "[Sumqtd_touchpoint_count]":"Touchpoint_QTD",
+    "[Summtd_emailusercount]":"Email_Sent_MTD",
+    "[Sumqtd_emailusercount]":"Email_Sent_QTD",
+    "[Sumytd_emailusercount]":"Email_Sent_YTD",
+    "[KPI_ACT_MTD_OpenRate]":"Mail_Open_Rate_MTD",
+    "[KPI_ACT_QTD_OpenRate]":"Mail_Open_Rate_QTD",
+    "[KPI_ACT_YTD_OpenRate]":"Mail_Open_Rate_YTD",
+    "[KPI_ACT_MTD_ClickRate]":"Clickrate_MTD",
+    "[KPI_ACT_QTD_ClickRate]":"Clickrate_QTD",
+    "[KPI_ACT_YTD_ClickRate]":"Clickrate_YTD",
+    "kpi_tracker_userlevel[Latest_Active_User]":"Active_User"}
+
+product_mapping = {
+    'REF_TIME[KPI_Ref_Time]':'Product_Month',
+    'SplitRep_BQ[Product Group]':'Product_Group',
+    "user[Name]": 'Name',
+    "user[Id]":'ID',
+    "[QTD_Value_QTY_Transaction_Market]":'Product_QTD',
+    "[Value_Qty_Transaction_Market]":'Product_MTD'
+}
+
 def get_current_month_year():
     # Get the current date
     now = datetime.now()
     # Format the date as YYYYMM
     formatted_date = now.strftime("%Y%m")
     return formatted_date
-
-# Example usage
-current_month_year = get_current_month_year()
-print(current_month_year)
-
-def rename_col_country(country_name_mapping):
-    df = pd.read_csv("data/raw/Country_Master_202406.csv")
-
-    # List the original column names
-    original_column_names = df.columns.tolist()
-
-    # Check if all keys in the mapping exist in the original columns
-    missing_columns = [col for col in country_name_mapping.keys() if col not in original_column_names]
-    if missing_columns:
-        print(f"Error: The following columns in the mapping are missing in the CSV: {missing_columns}")
-        return
-
-    # Rename the columns using the mapping
-    df.rename(columns=country_name_mapping, inplace=True)
-
-    # Save the DataFrame with the new column names to a new CSV file
-    df.to_csv("data/raw/Country_Master_202406.csv", index=False)
-    print(f"DataFrame successfully saved with new column names as country_renamed.csv")
-
-country_name_mapping = {
-    'kpi.OwnerId': 'kpi_tracker_userlevel[kpi.OwnerId]',
-    'Name': 'kpi_tracker_userlevel[Name]',
-    'AD_Group': 'Country',
-}
 
 def merge_country():
     # Define the paths to the CSV files
@@ -59,8 +95,6 @@ def merge_country():
     merged_df.to_csv(output_file_path, index=False)
 
     print(f"Merged CSV file successfully saved")
-
-
 
 def merge_all():
     # Define the paths to the CSV files
@@ -129,98 +163,25 @@ def merge_qtd():
 
     print(f"Merged CSV file successfully saved as {output_file_path}")
 
-def rename_hcp(hcp_mapping):
+def rename_csv_column(col_dict, csv_input, csv_output):
     # Read the CSV file into a DataFrame
-    df = pd.read_csv("data/raw/Unity_Export_HCP202407.csv")
+    df = pd.read_csv(csv_input)
 
     # List the original column names
     original_column_names = df.columns.tolist()
 
     # Check if all keys in the mapping exist in the original columns
-    missing_columns = [col for col in hcp_mapping.keys() if col not in original_column_names]
+    missing_columns = [col for col in col_dict.keys() if col not in original_column_names]
     if missing_columns:
         print(f"Error: The following columns in the mapping are missing in the CSV: {missing_columns}")
         return
 
     # Rename the columns using the mapping
-    df.rename(columns=hcp_mapping, inplace=True)
+    df.rename(columns=col_dict, inplace=True)
 
     # Save the DataFrame with the new column names to a new CSV file
-    df.to_csv("data/raw/Unity_Export_HCP202407.csv", index=False)
-    print(f"HCP successfully renamed")
-
-hcp_mapping = {
-    'kpi_tracker_userlevel[Name]':'Name',
-    'kpi_tracker_useraccountlevel[account.Name]':'HCP_Name',
-    'kpi_tracker_userlevel[KPI_Ref_Time]':'HCP_Month',
-    "kpi_tracker_useraccountlevel[mc_cycle_plan_target.ZLG_Sales_Segment__c]":"HCP_Segment",
-    "kpi_tracker_useraccountlevel[Compliance?]":"HCP_Compliance",
-    "kpi_tracker_useraccountlevel[account.External_ID_vod__c]":"HCP_ID",
-    "[Sumactual_MTD]":"HCP_Actual_Call",
-    "[Sumtarget_MTD]":"HCP_Target_MTD",
-    "[Sumtarget_QTD]":"HCP_Target_QTD"
-}
-def rename_columns(column_name_mapping):
-    # Read the CSV file into a DataFrame
-    df = pd.read_csv("data/merged/output_merged.csv")
-
-    df = df.round(2)
-
-    # List the original column names
-    original_column_names = df.columns.tolist()
-
-    # Check if all keys in the mapping exist in the original columns
-    missing_columns = [col for col in column_name_mapping.keys() if col not in original_column_names]
-    if missing_columns:
-        print(f"Error: The following columns in the mapping are missing in the CSV: {missing_columns}")
-        return
-
-    # Rename the columns using the mapping
-    df.rename(columns=column_name_mapping, inplace=True)
-
-    # Save the DataFrame with the new column names to a new CSV file
-    df.to_csv("data/processed/output_renamed.csv", index=False)
-    print(f"output.csv is successfully renamed")
-
-
-# Define the mapping from old column names to new column names
-column_name_mapping = {
-    'kpi_tracker_userlevel[kpi.OwnerId]': 'ID',
-    'kpi_tracker_userlevel[Name]': 'Name',
-    'kpi_tracker_userlevel[UserName_Level1]': 'Manager_name',
-    'kpi_tracker_userlevel[UserId_Level1]': 'Manager_id',
-    '[KPI_ACT_MTD_CallRate]': 'Call_Rate_MTD',
-    '[KPI_ACT_MTD_CallVolume]': 'Call_Volume_MTD',
-    '[KPI_ACT_MTD_CallCompliance]': 'Call_Compliance_MTD',
-    '[KPI_ACT_MTD_CallComplianceA]': 'Call_Compliance_A_MTD',
-    '[Value_Qty_Transaction_Market]': 'Actual_Sales_MTD',
-    '[Value_QTY_Target]': 'Target_MTD',
-    '[v__Done]': '%Achievement_MTD',
-    '[Gap]': 'Balance_MTD',
-    '[QTD_Value_QTY_Transaction_Market]': 'Actual_Sales_QTD',
-    '[QTD_Value_QTY_Target]': 'Target_QTD',
-    '[QTD___Done]': '%Achievement_QTD',
-    '[QTD_Gap]': 'Balance_QTD',
-    '[KPI_ACT_QTD_CallRate]': 'Call_Rate_QTD',
-    '[KPI_ACT_QTD_CallVolume]': 'Call_Volume_QTD',
-    '[KPI_ACT_QTD_CallCompliance]': 'Call_Compliance_QTD',
-    '[KPI_ACT_QTD_CallComplianceA]': 'Call_Compliance_A_QTD',
-    'kpi_tracker_userlevel[Profile_Name_vod__c]':'Role',
-    "[Summtd_event_count]":"Event_MTD",
-    "[Sumqtd_event_count]":"Event_QTD",
-    "[Sumytd_event_count]":"Event_YTD",
-    "[Summtd_touchpoint_count]":"Touchpoint_MTD",
-    "[Sumqtd_touchpoint_count]":"Touchpoint_QTD",
-    "[Summtd_emailusercount]":"Email_Sent_MTD",
-    "[Sumqtd_emailusercount]":"Email_Sent_QTD",
-    "[Sumytd_emailusercount]":"Email_Sent_YTD",
-    "[KPI_ACT_MTD_OpenRate]":"Mail_Open_Rate_MTD",
-    "[KPI_ACT_QTD_OpenRate]":"Mail_Open_Rate_QTD",
-    "[KPI_ACT_YTD_OpenRate]":"Mail_Open_Rate_YTD",
-    "[KPI_ACT_MTD_ClickRate]":"Clickrate_MTD",
-    "[KPI_ACT_QTD_ClickRate]":"Clickrate_QTD",
-    "[KPI_ACT_YTD_ClickRate]":"Clickrate_YTD",
-    "kpi_tracker_userlevel[Latest_Active_User]":"Active_User"}
+    df.to_csv(csv_output, index=False)
+    print(f"{csv_output} successfully renamed")
 
 def format_thousand(value):
     """
@@ -236,7 +197,7 @@ def format_thousand(value):
     except (ValueError, TypeError):
         return value  # Return the original value if conversion fails
     
-def process_data():
+def process_general():
     # Read the CSV file into a DataFrame
     df = pd.read_csv("data/processed/output_renamed.csv")
 
@@ -269,22 +230,40 @@ def process_data():
     df = df[df['Role'].notnull() & (df['Active_User'].str.lower() != 'inactive')]
 
 
-
     # Save the DataFrame with the converted columns to a new CSV file
     df.to_csv("data/processed/output_processed.csv", index=False)
     print(f"DataFrame successfully saved with converted columns as data/processed/output_processed")
 
+def format_to_thousands(number):
+    """Converts a float or integer to a string with commas as thousand separators, rounding to the nearest integer."""
+    return "{:,.0f}".format(number)
 
-# merge_qtd()
-# merge_all()
+def process_product():
+    df = pd.read_csv('data/raw/Unity_Export_Product_202406.csv')
+
+    # Sort by 'Name' and then by 'Product_QTD' within each name group in descending order
+    df_sorted = df.sort_values(by=['Name', 'Product_QTD'], ascending=[True, False])
+
+    print(df.dtypes)
+    columns_thousand = ['Product_MTD','Product_QTD']
+    for column in columns_thousand:
+        if column in df.columns:
+            df[column] = df[column].apply(format_to_thousands)
+        else:
+            print(f"Warning: Column '{column}' not found in the CSV file.")
+
+    # Save the sorted DataFrame back to a CSV file if needed
+    df_sorted.to_csv('data/raw/Unity_Export_Product_202406.csv', index=False)
+    print("Finish processing product")
+
+
 if __name__ == "__main__":
-    # rename_col_country(country_name_mapping)
+    # rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
     # merge_qtd()
     # merge_all()
-    # rename_columns(column_name_mapping)
-    # process_data()
-    rename_hcp(hcp_mapping)
-
-
-
-
+    # rename_columns(general_mapping)
+    # process_general()
+    # rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP202407.csv","data/raw/Unity_Export_HCP202407.csv")
+    # rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
+    # rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
+    process_product()
