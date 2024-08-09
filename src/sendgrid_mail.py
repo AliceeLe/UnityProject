@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import base64
 from datetime import datetime
 import pandas as pd
+import math
 
 # Function to encode image to Base64
 def encode_image_to_base64(image_path):

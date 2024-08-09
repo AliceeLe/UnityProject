@@ -18,7 +18,7 @@ SCOPES = ["https://graph.microsoft.com/.default"]
 # SharePoint site and folder details
 SHAREPOINT_SITE = "zpssgpatientsolutions.sharepoint.com"
 SHAREPOINT_SITE_PATH = "/sites/BusinessAnalytics"
-FOLDER_PATHS = ["General/Dataset/Unity", "General/Dataset/Unity/old"]
+FOLDER_PATHS = ["General/Dataset/Unity/PY_model"]
 
 def get_site_id(headers):
     # Get the site ID
@@ -168,6 +168,9 @@ if __name__ == '__main__':
             # convert country_master to csv
             excel_data = pd.read_excel("data/raw/Country_Master_202406.xlsx")
             excel_data.to_csv("data/raw/Country_Master_202406.csv", index=False)
+
+            excel_data = pd.read_excel("data/raw/Sales360_Unity.xlsx")
+            excel_data.to_csv("data/raw/Sales360_Unity.csv", index=False)
 
         # run convert csv to xlsx
         else:

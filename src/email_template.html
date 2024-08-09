@@ -223,7 +223,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="./images/zpt-white.png" alt="zpt-logo">
+            <!-- <img src="./images/zpt-white.png" alt="zpt-logo"> -->
             <h1>ONE PAGE PERFORMANCE TRACKING</h1>
         </div>
         <div class="content">
@@ -396,7 +396,7 @@
                         <th>% Call Volume</th>
                         <td style="
                         background-color: 
-                            {% if row.Call_Volume_MTD | int >= 0.95 %}
+                            {% if row.Call_Volume_MTD | float >= 0.95 %}
                             #68A490
                             {% elif 95 - row.Call_Volume_MTD | int <= 0.05 %}
                             #EAC282
@@ -412,7 +412,7 @@
                             white
                             {% endif %};
                         text-align: center;">
-                            {{ row.Call_Volume_MTD | format_percent| format_percent }}
+                            {{ row.Call_Volume_MTD | format_percent }}
                         </td>
                         <td style="
                         background-color: 
@@ -599,26 +599,29 @@
                             </tr>
                     </thead>
                     <tbody>
-                        {% set total_mtd = 0 | float %}
-                        {% set total_qtd = 0 | float %}
-            
+                        {% set total_mtd = 0.0 %}
+                        {% set total_qtd = 0.0 %}
+                    
                         {% for product in product_filtered %}
-
-                        {% set mtd = total_mtd + product.Product_MTD | float %}
-                        {% set qtd = total_qtd + product.Product_QTD | float %}
+                        
+                        {% set mtd = product.Product_MTD | float %}
+                        {% set qtd = product.Product_QTD | float %}
+                        
+                        {%  set total_mtd = total_mtd + mtd %}
+                        {%  set total_qtd = total_qtd + qtd %}
+                        
                         <tr>
-                            <td style="text-align: center;">{{ product.Product_Group }}</td>
+                            <td>{{ product.Product_Group }}</td>
                             <td style="text-align: center;">{{ product.Product_MTD | format_thousands }}</td>
                             <td style="text-align: center;">{{ product.Product_QTD | format_thousands }}</td>
                         </tr>
-                        {% set total_mtd = total_mtd + mtd  %}
-                        {% set total_qtd = total_qtd + qtd  %}
                         
                         {% endfor %}
+                        
                         <tr>
-                            <td style="text-align: center;font-weight: bold;">Total:</td>
-                            <td style="text-align: center;">{{ total_mtd | format_thousands }}</td>
-                            <td style="text-align: center;">{{ total_qtd | format_thousands }}</td>
+                            <td style="font-weight: bold;">Total:</td>
+                            <td style="text-align: center;">{{ total_mtd  }}</td>
+                            <td style="text-align: center;">{{ total_qtd  }}</td>
                         </tr>
                     </tbody>
                 </table>
