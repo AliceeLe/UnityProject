@@ -165,6 +165,10 @@ if __name__ == '__main__':
             with multiprocessing.Pool(processes=4) as pool:
                 pool.starmap(get_site, args)  # Use starmap for multiple arguments
 
+            # convert country_master to csv
+            excel_data = pd.read_excel("data/raw/Country_Master_202406.xlsx")
+            excel_data.to_csv("data/raw/Country_Master_202406.csv", index=False)
+
         # run convert csv to xlsx
         else:
             print("No token found.")

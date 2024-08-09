@@ -2,10 +2,11 @@
 2. Merge other files (HCP) --> Auto create table based on max 50 (DONE)
 3. Render bar depending on %
 4. Check if xlsx can be read into csv (path, homebrew?) (DONE)
-6. Map data from Product 
+6. Map data from Product (DONE)
 
 5. Incomplete: Team achievement, coaching (days), Call KPI YTD, Top 20 customers
 
 
-1, 2: Done
-Ask: What to do if HCP is empty for the person
+Remaining error:
+- Balance as a negative number doesnt display 
+- Total cannot be calculated 

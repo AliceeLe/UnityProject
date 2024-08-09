@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 from datetime import datetime
+import math 
 
 country_name_mapping = {
     'kpi.OwnerId': 'kpi_tracker_userlevel[kpi.OwnerId]',
@@ -201,21 +202,13 @@ def process_general():
     # Read the CSV file into a DataFrame
     df = pd.read_csv("data/processed/output_renamed.csv")
 
-    columns_percent = ['%Achievement_MTD', '%Achievement_QTD','Call_Volume_MTD','Call_Volume_QTD','Call_Compliance_MTD','Call_Compliance_QTD','Call_Compliance_A_MTD','Call_Compliance_A_QTD',"Mail_Open_Rate_MTD","Mail_Open_Rate_QTD","Mail_Open_Rate_YTD","Clickrate_MTD","Clickrate_QTD","Clickrate_YTD"]
-    columns_thousand = ['Target_MTD','Target_QTD','Actual_Sales_MTD','Actual_Sales_QTD','Balance_MTD','Balance_QTD','Email_Sent_MTD','Email_Sent_QTD','Email_Sent_YTD']
-    # Convert specified columns from decimal format to percentage format
-    for column in columns_percent:
-        if column in df.columns:
-            df[column] = df[column].apply(lambda x: f"{int(round(x * 100))}%" if pd.notnull(x) else "")
-        else:
-            print(f"Warning: Column '{column}' not found in the CSV file.")
-
-    # Process rows with thousands
-    for column in columns_thousand:
-        if column in df.columns:
-            df[column] = df[column].apply(format_thousand)
-        else:
-            print(f"Warning: Column '{column}' not found in the CSV file.")
+    # columns_percent = ['%Achievement_MTD', '%Achievement_QTD','Call_Volume_MTD','Call_Volume_QTD','Call_Compliance_MTD','Call_Compliance_QTD','Call_Compliance_A_MTD','Call_Compliance_A_QTD',"Mail_Open_Rate_MTD","Mail_Open_Rate_QTD","Mail_Open_Rate_YTD","Clickrate_MTD","Clickrate_QTD","Clickrate_YTD"]
+    # # Convert specified columns from decimal format to percentage format
+    # for column in columns_percent:
+    #     if column in df.columns:
+    #         df[column] = df[column].apply(lambda x: f"{int(round(x * 100))}%" if pd.notnull(x) else "")
+    #     else:
+    #         print(f"Warning: Column '{column}' not found in the CSV file.")
 
     # Process Role row
     def process_role(role):
@@ -234,36 +227,26 @@ def process_general():
     df.to_csv("data/processed/output_processed.csv", index=False)
     print(f"DataFrame successfully saved with converted columns as data/processed/output_processed")
 
-def format_to_thousands(number):
-    """Converts a float or integer to a string with commas as thousand separators, rounding to the nearest integer."""
-    return "{:,.0f}".format(number)
-
 def process_product():
     df = pd.read_csv('data/raw/Unity_Export_Product_202406.csv')
 
     # Sort by 'Name' and then by 'Product_QTD' within each name group in descending order
     df_sorted = df.sort_values(by=['Name', 'Product_QTD'], ascending=[True, False])
 
-    print(df.dtypes)
-    columns_thousand = ['Product_MTD','Product_QTD']
-    for column in columns_thousand:
-        if column in df.columns:
-            df[column] = df[column].apply(format_to_thousands)
-        else:
-            print(f"Warning: Column '{column}' not found in the CSV file.")
-
-    # Save the sorted DataFrame back to a CSV file if needed
+    # Save the formatted and sorted DataFrame back to a CSV file
     df_sorted.to_csv('data/raw/Unity_Export_Product_202406.csv', index=False)
-    print("Finish processing product")
+    print("Finished processing product")
+
 
 
 if __name__ == "__main__":
-    # rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
-    # merge_qtd()
-    # merge_all()
-    # rename_columns(general_mapping)
-    # process_general()
-    # rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP202407.csv","data/raw/Unity_Export_HCP202407.csv")
-    # rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
-    # rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
+    rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
+    merge_qtd()
+    merge_all()
+    rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP202407.csv","data/raw/Unity_Export_HCP202407.csv")
+    rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
+    rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
+    process_general()
     process_product()
+    df = pd.read_csv('data/processed/sample.csv')
+    print(df.dtypes)

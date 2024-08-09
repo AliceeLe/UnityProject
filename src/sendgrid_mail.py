@@ -7,12 +7,69 @@ from sendgrid.helpers.mail import Mail
 from dotenv import load_dotenv
 import base64
 from datetime import datetime
+import pandas as pd
 
 # Function to encode image to Base64
 def encode_image_to_base64(image_path):
     with open(image_path, 'rb') as image_file:
         encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
     return encoded_string
+
+def format_to_thousands(number):
+    """Converts a string, float, or integer to a string with commas as thousand separators, rounding to the nearest integer."""
+    try:
+        # Check if the number is already a float or int
+        if isinstance(number, (float, int)):
+            rounded_number = round(number)
+            return "{:,.0f}".format(rounded_number)
+        # If it's a string that represents a number, including negative numbers, convert it
+        elif isinstance(number, str):
+            # Remove commas and check if the remaining string is a valid number
+            clean_number = number.replace(',', '')
+            if clean_number.replace('.', '', 1).replace('-', '', 1).isdigit():
+                rounded_number = round(float(clean_number))
+                return "{:,.0f}".format(rounded_number)
+            else:
+                return ""
+        else:
+            # If it's not a number or cannot be converted, return an empty string
+            return ""
+    except (ValueError, TypeError) as e:
+        print(f"Error formatting number {number}: {e}")
+        return number  # Return the original value if conversion fails
+
+# Function to format a number as a percentage
+def format_percent(number):
+    """Converts a string or float representing a decimal to a percentage string, rounded to the nearest integer, with a '%' sign."""
+    try:
+        # Check if the number is already a float
+        if isinstance(number, float):
+            return f"{int(round(number * 100))}%"
+        # If it's a string that represents a number, convert it
+        elif isinstance(number, str) and number.replace('.', '', 1).isdigit():
+            return f"{int(round(float(number) * 100))}%"
+        else:
+            # If it's not a number or cannot be converted, return an empty string
+            return ""
+    except (ValueError, TypeError) as e:
+        print(f"Error formatting number {number}: {e}")
+        return number  # Return the original value if conversion fails
+
+def round_to_one_decimal(number):
+    """Rounds a number to 1 decimal place."""
+    try:
+        # Check if the number is a float or an int
+        if isinstance(number, (float, int)):
+            return round(number, 1)
+        # If it's a string that represents a number, convert it and then round
+        elif isinstance(number, str) and number.replace(',', '').replace('.', '', 1).isdigit():
+            return round(float(number), 1)
+        else:
+            # If it's not a number or cannot be converted, return the original value
+            return number
+    except (ValueError, TypeError) as e:
+        print(f"Error rounding number {number}: {e}")
+        return number  # Return the original value if conversion fails
 
 # Load environment variables from .env file
 load_dotenv()
@@ -27,6 +84,12 @@ if not SENDGRID_API_KEY:
 
 # Set up Jinja environment
 env = Environment(loader=FileSystemLoader('.'))
+
+# Register the custom filters with the Jinja2 environment
+env.filters['format_thousands'] = format_to_thousands
+env.filters['format_percent'] = format_percent
+env.filters['format_one_decimal'] = round_to_one_decimal
+
 template = env.get_template('src/email_template.html')
 
 # Function to send email
