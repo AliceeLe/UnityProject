@@ -1,5 +1,4 @@
-
 5. Incomplete: Team achievement, coaching (days), Call KPI YTD, Top 20 customers
 
-
-4. How to automate 
+How to automate 
+How to map across all the tables 
