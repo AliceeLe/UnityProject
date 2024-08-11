@@ -68,6 +68,12 @@ product_mapping = {
     "[Value_Qty_Transaction_Market]":'Product_MTD'
 }
 
+def find_month():
+    now = datetime.now()
+    formatted_time = now.strftime("%Y-%m-01")
+    print(formatted_time)
+    return formatted_time
+
 def get_current_month_year():
     # Get the current date
     now = datetime.now()
@@ -256,17 +262,34 @@ def process_svt_unity():
 
     # Create MTD, QTD % Achievement by divding the columns
     # Neu Target = 0 thi sao. Hien tai dang de 100%
-    df_sorted['%Achievement_MTD'] = df_sorted.apply(
-        lambda row: row['MTD Sales'] / row['MTD Target'] if row['MTD Target'] != 0 else 1,
-        axis=1
-    )
-    # Calculate %Achievement_QTD
-    df_sorted['%Achievement_QTD'] = df_sorted.apply(
-        lambda row: row['QTD Sales'] / row['QTD Target'] if row['QTD Target'] != 0 else 1,
-        axis=1
-    )
+    def calculate_achievement_mtd(row):
+        if pd.isna(row['MTD Target']) or row['MTD Target'] == 0:
+            if pd.isna(row['MTD Sales']) or row['MTD Sales'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            return row['MTD Sales'] / row['MTD Target']
 
-    df_sorted.to_csv('data/raw/SvT_Unity_Processed.csv', index=False)
+    # Define the function to calculate %Achievement_QTD
+    def calculate_achievement_qtd(row):
+        if pd.isna(row['QTD Target']) or row['QTD Target'] == 0:
+            if pd.isna(row['QTD Sales']) or row['QTD Sales'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            return row['QTD Sales'] / row['QTD Target']
+
+    # Apply the functions to the DataFrame
+    df_sorted['%Achievement_MTD'] = df_sorted.apply(calculate_achievement_mtd, axis=1)
+    df_sorted['%Achievement_QTD'] = df_sorted.apply(calculate_achievement_qtd, axis=1)
+
+
+    # Filter out other months
+    filtered_df = df_sorted[df_sorted['yearmonth'] ==  find_month()]
+
+    filtered_df.to_csv('data/raw/SvT_Unity_Processed.csv', index=False)
     print("Finished processing SvT Unity")
 
 
@@ -279,7 +302,13 @@ def process_product_unity():
     # Sort the DataFrame by 'MTD Sales' in descending order
     sorted_df = grouped_df.sort_values(by='MTD Sales', ascending=False)
 
-    sorted_df.to_csv('data/raw/Product_List_Unity_Processed.csv', index=False)
+    # QTD Sales 
+    sorted_df['QTD Sales'] = sorted_df.groupby('UserKey_4Map')['MTD Sales'].transform('sum')
+
+    # Filter out other months
+    filtered_df = sorted_df[sorted_df['yearmonth'] ==  find_month()]
+
+    filtered_df.to_csv('data/raw/Product_List_Unity_Processed.csv', index=False)
     print("Finished processing product")
 
 
@@ -292,7 +321,13 @@ def process_customer_unity():
     # Sort the DataFrame by 'MTD Sales' in descending order
     sorted_df = grouped_df.sort_values(by='MTD Sales', ascending=False)
 
-    sorted_df.to_csv('data/raw/Customer_List_Unity_Processed.csv', index=False)
+    # QTD Sales 
+    sorted_df['QTD Sales'] = sorted_df.groupby('UserKey_4Map')['MTD Sales'].transform('sum')
+
+    # Filter out other months
+    filtered_df = sorted_df[sorted_df['yearmonth'] ==  find_month()]
+
+    filtered_df.to_csv('data/raw/Customer_List_Unity_Processed.csv', index=False)
     print("Finished processing Customer")
 
 
@@ -303,8 +338,9 @@ Define flow:
 """
 if __name__ == "__main__":
     # split_xlsx("data/raw/Sales360_Unity.xlsx")
+    process_product_unity()
     process_svt_unity()
-    # process_customer_unity()
+    process_customer_unity()
     # rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
     # merge_qtd()
     # merge_all()
