@@ -1,12 +1,5 @@
-3. Render bar depending on %
 
 5. Incomplete: Team achievement, coaching (days), Call KPI YTD, Top 20 customers
 
 
-Remaining error:
-- Total cannot be calculated 
-
-1. Read xlsx into 3 csv files (each tab - 1 file)
-2. Group based on YearMonth, sum MTD Sales
-3. Process data based on Customer, Product, SvT tabs 
 4. How to automate 

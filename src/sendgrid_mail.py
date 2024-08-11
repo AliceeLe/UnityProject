@@ -189,11 +189,11 @@ def process_email(row):
     subject = f"Sales dashboard - {row['Name']} - {now.strftime('%Y/%m/%d')}"
     print("Email: " + subject)
     # Send the email
-    send_email(row['Email'], subject, email_html_content)
+    # send_email(row['Email'], subject, email_html_content)
     
-    # Clean up files if necessary
-    os.remove(html_filename)
-    os.remove(png_filename)
+    # # Clean up files if necessary
+    # os.remove(html_filename)
+    # os.remove(png_filename)
 
 # Paths to the CSV files
 hcp_csv = 'data/raw/Unity_Export_HCP202407.csv'

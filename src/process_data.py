@@ -217,6 +217,34 @@ def process_product():
     # Sort by 'Name' and then by 'Product_QTD' within each name group in descending order
     df_sorted = df.sort_values(by=['Name', 'Product_QTD'], ascending=[True, False])
 
+    df_sorted['Product_Total_MTD'] = df_sorted.groupby('Name')['Product_MTD'].transform('sum')
+    df_sorted['Product_Total_QTD'] = df_sorted.groupby('Name')['Product_QTD'].transform('sum')
+
+    df_sorted['Max_MTD'] = df_sorted.groupby(['Name', 'ID'])['Product_MTD'].transform('max')
+    df_sorted['Max_QTD'] = df_sorted.groupby(['Name', 'ID'])['Product_QTD'].transform('max')
+
+    def calculate_percent_mtd(row):
+        if pd.isna(row['Max_MTD']) or row['Max_MTD'] == 0:
+            if pd.isna(row['Product_MTD']) or row['Product_MTD'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            return row['Product_MTD'] / row['Max_MTD']
+
+    def calculate_percent_qtd(row):
+        if pd.isna(row['Max_QTD']) or row['Max_QTD'] == 0:
+            if pd.isna(row['Product_QTD']) or row['Product_QTD'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            return row['Product_QTD'] / row['Max_QTD']
+
+    df_sorted['Percent_MTD'] = df_sorted.apply(calculate_percent_mtd, axis=1)
+    df_sorted['Percent_QTD'] = df_sorted.apply(calculate_percent_qtd, axis=1)
+
+
     # Save the formatted and sorted DataFrame back to a CSV file
     df_sorted.to_csv('data/raw/Unity_Export_Product_202406.csv', index=False)
     print("Finished processing product")
@@ -321,6 +349,33 @@ def process_product_unity():
     # QTD Sales 
     sorted_df['Product_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('sum')
 
+    sorted_df['Product_Total_MTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('sum')
+    sorted_df['Product_Total_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_QTD'].transform('sum')
+
+    sorted_df['Max_MTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('max')
+    sorted_df['Max_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_QTD'].transform('max')
+
+    def calculate_percent_mtd(row):
+        if pd.isna(row['Max_MTD']) or row['Max_MTD'] == 0:
+            if pd.isna(row['Product_MTD']) or row['Product_MTD'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            return row['Product_MTD'] / row['Max_MTD']
+
+    def calculate_percent_qtd(row):
+        if pd.isna(row['Max_QTD']) or row['Max_QTD'] == 0:
+            if pd.isna(row['Product_QTD']) or row['Product_QTD'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            return row['Product_QTD'] / row['Max_QTD']
+
+    sorted_df['Percent_MTD'] = sorted_df.apply(calculate_percent_mtd, axis=1)
+    sorted_df['Percent_QTD'] = sorted_df.apply(calculate_percent_qtd, axis=1)
+
     # Filter out other months
     filtered_df = sorted_df[sorted_df['yearmonth'] ==  find_month()]
 
@@ -347,6 +402,33 @@ def process_customer_unity():
     # QTD Sales 
     sorted_df['Customer_QTD'] = sorted_df.groupby('UserKey_4Map')['Customer_MTD'].transform('sum')
 
+    sorted_df['Customer_Total_MTD'] = sorted_df.groupby('UserKey_4Map')['Customer_MTD'].transform('sum')
+    sorted_df['Customer_Total_QTD'] = sorted_df.groupby('UserKey_4Map')['Customer_QTD'].transform('sum')
+
+    sorted_df['Customer_Max_MTD'] = sorted_df.groupby('UserKey_4Map')['Customer_MTD'].transform('max')
+    sorted_df['Customer_Max_QTD'] = sorted_df.groupby('UserKey_4Map')['Customer_QTD'].transform('max')
+
+    def calculate_percent_mtd(row):
+        if pd.isna(row['Customer_Max_MTD']) or row['Customer_Max_MTD'] == 0:
+            if pd.isna(row['Customer_MTD']) or row['Customer_MTD'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            return row['Customer_MTD'] / row['Customer_Max_MTD']
+
+    def calculate_percent_qtd(row):
+        if pd.isna(row['Customer_Max_QTD']) or row['Customer_Max_QTD'] == 0:
+            if pd.isna(row['Customer_QTD']) or row['Customer_QTD'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            return row['Customer_QTD'] / row['Customer_Max_QTD']
+
+    sorted_df['Customer_Percent_MTD'] = sorted_df.apply(calculate_percent_mtd, axis=1)
+    sorted_df['Customer_Percent_QTD'] = sorted_df.apply(calculate_percent_qtd, axis=1)
+
     # Filter out other months
     filtered_df = sorted_df[sorted_df['yearmonth'] ==  find_month()]
 
@@ -371,4 +453,6 @@ if __name__ == "__main__":
     # rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
     # rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
     # process_general()
-    # process_product()
+    process_product()
+
+
