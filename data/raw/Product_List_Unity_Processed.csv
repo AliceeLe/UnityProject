@@ -1,4 +1,4 @@
-yearmonth,UserKey_4Map,Country,productgroupcode,SalesRep_Code,salesrepemployeeid_z,MTD Sales,QTD Sales
+yearmonth,UserKey_4Map,Country,productgroupcode,SalesRep_Code,salesrepemployeeid_z,Product_MTD,Product_QTD
 2024-08-01,ID_MR_MRTAEDC1,ID,JAM,MRTAEDC1,,410640716.0,2866925524.0
 2024-08-01,ID_MR_MRSBAL02,ID,JVM,MRSBAL02,ipusari,363532892.0,373717892.0
 2024-08-01,ID_MR_MRJKRE05,ID,SPV,MRJKRE05,jtawan,361378880.0,366619758.0

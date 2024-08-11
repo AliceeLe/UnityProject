@@ -242,44 +242,52 @@ def split_xlsx(file_path):
 def process_svt_unity():
     df = pd.read_csv('data/raw/SvT_Unity.csv')
 
+    col_dict = {
+        "MTD Sales": "Sales_MTD",
+        "MTD Target": "Target_MTD"
+    }
+
+    # Rename the columns using the mapping
+    df.rename(columns=col_dict, inplace=True)
+
     # Group using UserKey & yearmonth
     df_sorted = df.groupby(['UserKey_4Map', 'yearmonth'], as_index=False).agg({
         'Country': 'first',  # Retain the first value (assuming it's consistent)
         'SalesRep_Code': 'first',  # Retain the first value (assuming it's consistent)
         'salesrepemployeeid_z': 'first',  # Retain the first value (assuming it's consistent)
-        'MTD Sales': 'sum',  # Sum the sales
-        'MTD Target': 'sum'  # Sum the targets
+        'Sales_MTD': 'sum',  # Sum the sales
+        'Target_MTD': 'sum'  # Sum the targets
     })
 
-    # Create QTD Sales & Target by grouping UserKey, then finding sum of MTD Sales and MTD Target
-    df_sorted['QTD Sales'] = df_sorted.groupby('UserKey_4Map')['MTD Sales'].transform('sum')
-    df_sorted['QTD Target'] = df_sorted.groupby('UserKey_4Map')['MTD Target'].transform('sum')
+    # Create QTD Sales & Target by grouping UserKey, then finding sum of Sales_MTD and Target_MTD
+    df_sorted['Sales_QTD'] = df_sorted.groupby('UserKey_4Map')['Sales_MTD'].transform('sum')
+    df_sorted['Target_QTD'] = df_sorted.groupby('UserKey_4Map')['Target_MTD'].transform('sum')
 
     # Create MTD, QTD Balance by subtracting the columns
     # Neu Sales > Target thi Balance = 0 hay la mot gia tri am?
-    df_sorted['MTD Balance'] = df_sorted['MTD Target'] - df_sorted['MTD Sales']
-    df_sorted['QTD Balance'] = df_sorted['QTD Target'] - df_sorted['QTD Sales']
+    df_sorted['Balance_MTD'] = df_sorted['Target_MTD'] - df_sorted['Sales_MTD']
+    df_sorted['Balance_QTD'] = df_sorted['Target_QTD'] - df_sorted['Sales_QTD']
 
     # Create MTD, QTD % Achievement by divding the columns
     # Neu Target = 0 thi sao. Hien tai dang de 100%
     def calculate_achievement_mtd(row):
-        if pd.isna(row['MTD Target']) or row['MTD Target'] == 0:
-            if pd.isna(row['MTD Sales']) or row['MTD Sales'] == 0:
+        if pd.isna(row['Target_MTD']) or row['Target_MTD'] == 0:
+            if pd.isna(row['Sales_MTD']) or row['Sales_MTD'] == 0:
                 return 0
             else:
                 return 1  # 100% in decimal
         else:
-            return row['MTD Sales'] / row['MTD Target']
+            return row['Sales_MTD'] / row['Target_MTD']
 
     # Define the function to calculate %Achievement_QTD
     def calculate_achievement_qtd(row):
-        if pd.isna(row['QTD Target']) or row['QTD Target'] == 0:
-            if pd.isna(row['QTD Sales']) or row['QTD Sales'] == 0:
+        if pd.isna(row['Target_QTD']) or row['Target_QTD'] == 0:
+            if pd.isna(row['Sales_QTD']) or row['Sales_QTD'] == 0:
                 return 0
             else:
                 return 1  # 100% in decimal
         else:
-            return row['QTD Sales'] / row['QTD Target']
+            return row['Sales_QTD'] / row['Target_QTD']
 
     # Apply the functions to the DataFrame
     df_sorted['%Achievement_MTD'] = df_sorted.apply(calculate_achievement_mtd, axis=1)
@@ -296,14 +304,22 @@ def process_svt_unity():
 def process_product_unity():
     df = pd.read_csv('data/raw/Product_List_Unity.csv')
 
+    col_dict = {
+        "MTD Sales": "Product_MTD",
+    }
+
+    # Rename the columns using the mapping
+    df.rename(columns=col_dict, inplace=True)
+
+
     # Group by yearmonth and UserKey_4Map
     grouped_df = df.groupby(['yearmonth', 'UserKey_4Map'], as_index=False).first()
 
     # Sort the DataFrame by 'MTD Sales' in descending order
-    sorted_df = grouped_df.sort_values(by='MTD Sales', ascending=False)
+    sorted_df = grouped_df.sort_values(by='Product_MTD', ascending=False)
 
     # QTD Sales 
-    sorted_df['QTD Sales'] = sorted_df.groupby('UserKey_4Map')['MTD Sales'].transform('sum')
+    sorted_df['Product_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('sum')
 
     # Filter out other months
     filtered_df = sorted_df[sorted_df['yearmonth'] ==  find_month()]
@@ -315,14 +331,21 @@ def process_product_unity():
 def process_customer_unity():
     df = pd.read_csv('data/raw/Customer_List_Unity.csv')
 
+    col_dict = {
+        "MTD Sales": "Customer_MTD",
+    }
+
+    # Rename the columns using the mapping
+    df.rename(columns=col_dict, inplace=True)
+
     # Group by yearmonth and UserKey_4Map
     grouped_df = df.groupby(['yearmonth', 'UserKey_4Map'], as_index=False).first()
 
     # Sort the DataFrame by 'MTD Sales' in descending order
-    sorted_df = grouped_df.sort_values(by='MTD Sales', ascending=False)
+    sorted_df = grouped_df.sort_values(by='Customer_MTD', ascending=False)
 
     # QTD Sales 
-    sorted_df['QTD Sales'] = sorted_df.groupby('UserKey_4Map')['MTD Sales'].transform('sum')
+    sorted_df['Customer_QTD'] = sorted_df.groupby('UserKey_4Map')['Customer_MTD'].transform('sum')
 
     # Filter out other months
     filtered_df = sorted_df[sorted_df['yearmonth'] ==  find_month()]

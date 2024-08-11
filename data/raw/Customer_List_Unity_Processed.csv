@@ -1,4 +1,4 @@
-yearmonth,UserKey_4Map,Country,j_soldtocustomercode,SalesRep_Code,salesrepemployeeid_z,MTD Sales,QTD Sales
+yearmonth,UserKey_4Map,Country,j_soldtocustomercode,SalesRep_Code,salesrepemployeeid_z,Customer_MTD,Customer_QTD
 2024-08-01,ID_MR_MRDPALZ1,ID,116248,MRDPALZ1,,650761040.0,3249985906.0
 2024-08-01,ID_MR_MRSBAL02,ID,266202,MRSBAL02,ipusari,363532892.0,465386087.0
 2024-08-01,ID_MR_MRJKRE02,ID,288381,MRJKRE02,adrahman,254463870.0,254723438.0
