@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Bold-Italic.ttf') format('truetype');
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Italic.ttf') format('truetype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        body {
+            font-family: SegoeUI, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        h1 {
+            font-size: 25px;
+        }
+
+        h2 {
+            font-size: 15px;
+            font-style: italic;
+        }
+
+        p {
+            margin: 12px;
+            padding: 0;
+        }
+
+        .container {
+            /* Ipad size: 16-9 */
+            width: 930px;
+            padding: 10px;
+            background-color: #2e6271;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 24px;
+
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            overflow: hidden;
+        }
+
+        .header>img {
+            height: 80%;
+            width: 15%;
+            object-fit: cover;
+        }
+
+        .content {
+            margin: 20px 20px;
+            font-size: 12px;
+            max-width: 100%;
+
+            display: grid;
+            gap: 20px 20px;
+            grid-template-areas:
+                "column-1 column-4 column-6"
+                "column-2 column-4 column-6"
+                "column-2 column-4 column-6"
+                "column-2 column-5 column-6"
+                "column-2 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+        }
+
+        .column-item {
+            background-color: #d5e1c9;
+            width: 100%;
+            padding: 5px 0px 10px 12px;
+            border-radius: 15px;
+        }
+
+
+        .info-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            justify-content: space-around;
+        }
+
+        #column-1 {
+            background: #f7f0cc;
+            grid-area: column-1;
+        }
+
+        #column-2 {
+            grid-area: column-2;
+        }
+
+        #column-3 {
+            grid-area: column-3;
+        }
+
+        #column-4 {
+            grid-area: column-4;
+        }
+
+        #column-5 {
+            grid-area: column-5;
+        }
+
+        #column-6 {
+            grid-area: column-6;
+        }
+
+        #column-7 {
+            grid-area: column-7;
+        }
+
+        .box-1-header {
+            font-size: 14px;
+            color: gray;
+            padding: 10px 5px 5px 5px;
+            margin: 0;
+        }
+
+        .box-1-info {
+            font-size: 12px;
+            text-align: center;
+            padding: 10px 5px 5px 5px;
+            margin: 0;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        table,
+        td,
+        th {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 97%;
+            background-color: white;
+        }
+
+        th,
+        td {
+            padding: 8px;
+        }
+
+        .master-chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ebebeb;
+        }
+
+        .chart-container {
+            width: 100px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 20px 10px;
+        }
+
+        .column-info {
+            font-size: 11px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <!-- <img src="./images/zpt-white.png" alt="zpt-logo"> -->
+            <h1>ONE PAGE PERFORMANCE TRACKING</h1>
+        </div>
+        <div class="content">
+            <div class="column-item" id="column-1">
+                <div class="info-row">
+                    <div class="info-col">
+                        <p class="box-1-header">Name</p>
+                        <p class="box-1-info">Yiek Tshin Kate Chee</p>
+                    </div>
+                    <div class="info-col">
+                        <p class="box-1-header">Role</p>
+                        <p class="box-1-info">SG_MR_E007</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column-item" id="column-2">
+                <div class="master-chart-container">
+                    <div class="chart-container">
+                        <h2>%Achievement MTD</h2>
+                        <canvas id="gaugeChartMTD"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h2>%Achievement QTD</h2>
+                        <canvas id="gaugeChartQTD"></canvas>
+                    </div>
+                </div>
+
+                <table class="column-2-table">
+                    <tr>
+                        <th style="width: 48%;"></th>
+                        <th style="width: 26%;text-align: center;">MTD</th>
+                        <th style="width: 26%;text-align: center;">QTD</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Target</th>
+                        <td style="width: 26%; text-align: center;">108,928</td>
+                        <td style="width: 26%; text-align: center;">284,325</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Actual Sales</th>
+                        <td style="width: 26%; text-align: center;">90,539</td>
+                        <td style="width: 26%; text-align: center;">276,990</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Balance To Go</th>
+                        <td style="width: 26%; text-align: center;">-18,389</td>
+                        <td style="width: 26%; text-align: center;">-7,335</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">% Achievement</th>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                
+                                #F64F5C
+                                ; 
+                            font-weight: bold;
+                            text-align: center;
+                            ">
+                            83%</td>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                
+                                #F64F5C
+                                ; 
+                            font-weight: bold;
+                            text-align: center;
+                            ">
+                            97%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Team Achievement</th>
+                        <td style="
+                        width: 26%;
+                        color: 
+                            
+                            #F64F5C
+                            ; 
+                        font-weight: bold;
+                        text-align: center;
+                        ">
+                            83%</td>
+                        <td style="
+                        width: 26%;
+                        color: 
+                            
+                            #F64F5C
+                            ; 
+                        font-weight: bold;
+                        text-align: center;
+                        ">
+                            97%</td>
+                    </tr>
+                    <!-- <tr>
+                        <th style="width: 48%;">SvT Estimated Payout</th>
+                        <td style="width: 26%;"></td>
+                        <td style="width: 26%;"></td>
+                    </tr> -->
+                </table>
+
+            </div>
+            <div class="column-item" id="column-3">
+                <h2>Calls KPIs</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Call Rate</th>
+                        <td style="
+                        background-color: 
+                            
+                            
+                            
+                            #68A490
+                            ; 
+                        color: white;
+                        text-align: center;">
+                            9.2
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            
+                            
+                            #68A490
+                            ; 
+                        color: white;
+                        text-align: center;">
+                        8.7
+                        </td>
+                        <!-- Temporary put QTD here -->
+                        <td style="
+                        background-color: 
+                            
+                            
+                            
+                            #68A490
+                            ; 
+                        color: white;
+                        text-align: center;">
+                            8.7
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Call Volume</th>
+                        <td style="
+                        background-color: 
+                            
+                            #68A490
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            114%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #68A490
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            108%
+                        </td>
+                        <!-- Temporary put QTD here -->
+                        <td style="
+                        background-color: 
+                            
+                            #68A490
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            108%
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance</th>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            71%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            99%
+                        </td>
+                        <!-- Temporary put QTD here -->
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            99%
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance A</th>
+                        <td style="
+                        background-color: 
+                            
+                            #68A490
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            100%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #68A490
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            100%
+                        </td>
+                        <!-- Temporary put QTD here -->
+                        <td style="
+                        background-color: 
+                            
+                            #68A490
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            100%
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-4">
+                <h2>Sales by Product Bucket</h2>
+                <table class="column-5-table" style="width:99%;padding-bottom: 5px;">
+                    <thead>
+                        <tr>
+                            <th>Product Group</th>
+                            <th style="text-align: center;">MTD</th>
+                            <th style="text-align: center;">QTD</th>
+                        </tr>
+                    </thead>
+                    <tbody>                    
+                                                
+                        <tr>
+                            <td>JANUXR</td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    20,317
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 57.505547504755015%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    55,649
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 100.0%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                        </tr>
+
+                        
+
+                        <tr>
+                            <td style="font-weight: bold;">Total:</td>
+                            <td style="font-weight: bold; text-align: center;">55,649</td>
+                            <td style="font-weight: bold; text-align: center;">111,297</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                
+                <!-- <table class="column-5-table">
+                    <tr>
+                        <th>Product Group</th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                    </tr>
+                    <tr>
+                        <td class="column-info">PROPAN W/ IRON</td>
+                        <td style="text-align: center;">663,003</td>
+                        <td style="text-align: center;">1,734,080</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">PROPAN SYRUP</td>
+                        <td style="text-align: center;">476,250</td>
+                        <td style="text-align: center;">1,497,838</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">NIZORAL</td>
+                        <td style="text-align: center;">268,055</td>
+                        <td style="text-align: center;">814,131</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">PHYSIONEAL</td>
+                        <td style="text-align: center;">121,201</td>
+                        <td style="text-align: center;">772,896</td>
+                    </tr>
+                    <tr style="font-weight: bold;">
+                        <td>Total</td>
+                        <td style="text-align: center;">1,528,508</td>
+                        <td style="text-align: center;">4,818,936</td>
+                    </tr>
+                </table> -->
+            </div> 
+
+            <div class="column-item" id="column-5">
+                <h2>Sales-led Activities</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Events</th>
+                        <td style="text-align: center;">7</td>
+                        <td style="text-align: center;">28</td>
+                        <td style="text-align: center;">44</td>
+                    </tr>
+                    <tr>
+                        <th># Touchpoint</th>
+                        <td style="text-align: center;">13</td>
+                        <td style="text-align: center;">43</td>
+                        <td style="text-align: center;"></td>
+                    </tr>
+                </table>
+
+                <h2>Triggered Emails</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Email Sent</th>
+                        <td style="text-align: center;">8</td>
+                        <td style="text-align: center;">30</td>
+                        <td style="text-align: center;">66</td>
+                    </tr>
+                    <tr>
+                        <th>% Email Open Rate</th>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;
+                    ">
+                            70%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;
+                    ">
+                            59%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;
+                    ">
+                            39%
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Click-through Rate</th>
+                        <td style="text-align: center;">57%</td>
+                        <td style="text-align: center;">60%</td>
+                        <td style="text-align: center;">46%</td>
+                    </tr>
+                </table>
+
+                <h2>Coaching</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Coaching (#Days)</th>
+                        <td style="text-align: center;">10</td>
+                        <td style="text-align: center;">12</td>
+                        <td style="text-align: center;">13</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-6">
+                <h2>Sales by Customer / Account</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                    </tr>
+                    <!--  -->
+
+                    <tr>
+                        <td class="column-info">PAMELA YOUDE N.E.H.</td>
+                        <td>257,592</td>
+                        <td>724,984</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">PAMELA YOUDE NETHERS</td>
+                        <td>238,000</td>
+                        <td>687,568</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">UNITED CHRISTIAN HOS</td>
+                        <td>50,952</td>
+                        <td>197,728</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">QUALITY HEALTHCARE M</td>
+                        <td>35,388</td>
+                        <td>167,472</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">DEP8 CHAI WAN FAMILI</td>
+                        <td>0</td>
+                        <td>152,224</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">CARING MEDICAL CENTER</td>
+                        <td>63,350</td>
+                        <td>114,450</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">THE H.K. AND CHINA G</td>
+                        <td>19,600</td>
+                        <td>58,800</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">MANNINGS O/B THE DAI</td>
+                        <td>11,703</td>
+                        <td>43,147</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">RUTTONJEE HOSPITAL C</td>
+                        <td>13,926</td>
+                        <td>26,352</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">COMMUNITY HEALTH SER</td>
+                        <td>0</td>
+                        <td>25,920</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">PHARM + ST JAMES' SET</td>
+                        <td>25,920</td>
+                        <td>25,920</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">ST. JAMES' SETTLEMEN</td>
+                        <td>0</td>
+                        <td>25,920</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">DR. CHEUNG KWOK MING</td>
+                        <td>0</td>
+                        <td>22,418</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">CHEUNG CHOON DISPENS</td>
+                        <td>14,250</td>
+                        <td>14,250</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">HING SHING DISPENSAR</td>
+                        <td>12,960</td>
+                        <td>12,960</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">KWAN HING DISPENSARY</td>
+                        <td>12,960</td>
+                        <td>12,960</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">TIEN LU DISPENSARY</td>
+                        <td>12,960</td>
+                        <td>12,960</td>
+                    </tr>
+                    <tr>
+                        <td class="column-info">TIEN LU DISPENSARY L</td>
+                        <td>12,960</td>
+                        <td>12,960</td>
+                    </tr>
+                    <tr style="font-weight: bold;">
+                        <td>Total</td>
+                        <td>781,891</td>
+                        <td>2,377,853</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="column-item" id="column-7">
+                <table style="width:99%;padding-bottom: 5px;">
+                    <thead>
+                        <tr>
+                            <th>Rep Name</th>
+                            <th>HCP ID</th>
+                            <th>HCP Name</th>
+                            <th>Segment</th>
+                            <th>Actual Call</th>
+                            <th>Month Target</th>
+                            <th>Quarter Tartet</th>
+                            <th>Compliance?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M19500F</td>
+                            <td>Bernhard Otto Boehm</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M16574C</td>
+                            <td>Bingfeng Matthew Chuah</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M11216Z</td>
+                            <td>Boon Wah Liew</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M11611D</td>
+                            <td>Cheang Han Christopher Leo</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M08310J</td>
+                            <td>Chee Guan David Foo</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M02994G</td>
+                            <td>Chun Kwok Alex Fok</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M08045D</td>
+                            <td>Fang Yung Angela Koh</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M09223A</td>
+                            <td>Guan Teoswee</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M15334F</td>
+                            <td>Hee Hwa Ho</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M10038B</td>
+                            <td>Hui Jeremy Chow</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M07198F</td>
+                            <td>Ing Haan Lim</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M16041E</td>
+                            <td>Jafary Fahim Haider</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M11117A</td>
+                            <td>Jee Kam Timothy Koh</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M62176E</td>
+                            <td>Jian Jee Shaun Lee</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M63158B</td>
+                            <td>Jun Hong Kevin Kwek</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M61011I</td>
+                            <td>Mei Yi Lynette Lee</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M13874F</td>
+                            <td>Min Er Ching</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M15294C</td>
+                            <td>Min Evelyn Lee</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M04787B</td>
+                            <td>Ping Ping Goh</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M09392J</td>
+                            <td>Pow-Li Chia</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M13161Z</td>
+                            <td>Rui-En Ryan Choo</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M18749F</td>
+                            <td>Shu Min Brenda Chiang</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M00257G</td>
+                            <td>Sou Fong Rosslyn Leong</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M10378J</td>
+                            <td>Stanley Chia</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M18609J</td>
+                            <td>Tian Rui Ray Lai</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M09980E</td>
+                            <td>Wan Xian Chan</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M09477C</td>
+                            <td>Yian Ping Lee</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M12459A</td>
+                            <td>Yingshan Lee</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M19463H</td>
+                            <td>Yun Ann Chin</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Yiek Tshin Kate Chee</td>
+                            <td>M63952D</td>
+                            <td>Yun Qing Koh</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1.0</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+
+            </div>
+                <div class="footer">
+                    &copy; 2024 Unity Project | ZP Therapeutics. All rights reserved.
+                </div>
+            </div> 
+
+            <script>
+                function getColor(value) {
+                    if (value < 100) {
+                        return '#ff6f6f'; // red
+                    } else {
+                        return '#6fbf73'; // green
+                    }
+                }
+
+                function convertToPercentageString(num) {
+                    return num.toFixed(2) + '%';
+                }
+
+                function createGaugeChart(ctx, value, text) {
+                    const cappedValue = Math.min(value, 100);
+                    const color = getColor(value);
+                    return new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            datasets: [{
+                                data: [cappedValue, 100 - cappedValue],
+                                backgroundColor: [color, '#f5f5f5'],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            cutout: '80%',
+                            rotation: -90,
+                            circumference: 180,
+                            plugins: {
+                                tooltip: { enabled: false },
+                                legend: { display: false }
+                            }
+                        },
+                        plugins: [{
+                            id: 'textPlugin',
+                            afterDatasetsDraw: (chart, easing) => {
+                                const ctx = chart.ctx;
+                                ctx.save();
+                                const x = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+                                const y = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 1.4;
+                                ctx.font = '16px Arial';
+                                ctx.fillStyle = '#000';
+                                ctx.textAlign = 'center';
+                                ctx.fillText(text, x, y);
+                                ctx.restore();
+                            }
+                        }]
+                    });
+                }
+
+                const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
+                const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
+
+                const mtdValue = "83%";
+                const qtdValue = "97%";
+
+                function convertPercentageToNumber(percentageString) {
+                    // Remove the '%' character and convert the string to a number
+                    let number = parseFloat(percentageString.replace('%', ''));
+                    return number;
+                }
+
+                createGaugeChart(ctxMTD, convertPercentageToNumber(mtdValue), mtdValue);
+                createGaugeChart(ctxQTD, convertPercentageToNumber(qtdValue), qtdValue);
+            </script>
+
+</body>
+
+</html>

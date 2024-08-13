@@ -1,6 +1,6 @@
 Acitvate virtual environment
 ```
-source /Users/chauanhle/Documents/UnityProject/.venv/bin/activate
+source /Users/chauanhle/Documents/Projects/ZPT/UnityProject/.venv/bin/activate
 ```
 
 or for Windows:

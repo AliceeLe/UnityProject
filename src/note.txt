@@ -2,3 +2,8 @@
 
 How to automate 
 How to map across all the tables 
+
+Bug: Rank and filter out Product and Customer CSV 
+Integrate into HTML 
+Need testing 
+

@@ -18,7 +18,7 @@ SCOPES = ["https://graph.microsoft.com/.default"]
 # SharePoint site and folder details
 SHAREPOINT_SITE = "zpssgpatientsolutions.sharepoint.com"
 SHAREPOINT_SITE_PATH = "/sites/BusinessAnalytics"
-FOLDER_PATHS = ["General/Dataset/Unity/PY_model"]
+FOLDER_PATHS = ["General/Dataset/Unity/PY_model", "General/Dataset/Unity", "General/Dataset/Unity/new"]
 
 def get_site_id(headers):
     # Get the site ID
@@ -162,15 +162,15 @@ if __name__ == '__main__':
             args = [(SHAREPOINT_SITE, SHAREPOINT_SITE_PATH, headers) for _ in range(4)]  # Example arguments
 
             # Create a Pool of workers and use map to apply the function in parallel
-            with multiprocessing.Pool(processes=4) as pool:
-                pool.starmap(get_site, args)  # Use starmap for multiple arguments
+            # with multiprocessing.Pool(processes=4) as pool:
+            #     pool.starmap(get_site, args)  # Use starmap for multiple arguments
 
             # convert country_master to csv
-            excel_data = pd.read_excel("data/raw/Country_Master_202406.xlsx")
-            excel_data.to_csv("data/raw/Country_Master_202406.csv", index=False)
+            # excel_data = pd.read_excel("data/raw/Country_Master_202406.xlsx")
+            # excel_data.to_csv("data/raw/Country_Master_202406.csv", index=False)
 
-            excel_data = pd.read_excel("data/raw/Sales360_Unity.xlsx")
-            excel_data.to_csv("data/raw/Sales360_Unity.csv", index=False)
+            excel_data = pd.read_excel("data/raw/UserMaster_4Map.xlsx")
+            excel_data.to_csv("data/raw/UserMaster_4Map.csv", index=False)
 
         # run convert csv to xlsx
         else:

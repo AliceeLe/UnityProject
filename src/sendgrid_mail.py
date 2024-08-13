@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 import base64
 from datetime import datetime
 import pandas as pd
-import math
 import uuid  # To generate unique filenames
 from concurrent.futures import ThreadPoolExecutor
 
@@ -125,13 +124,17 @@ def send_email(to_email, subject, html_content):
         print(f"Error sending email to {to_email}: {e}")
 
 def process_email(row):
-    sales_rep_name = row['Name']
-    hcp_filtered = [d for d in hcp_dataset if d['Name'] == sales_rep_name]
-    product_filtered  = [d for d in product_dataset if d['Name'] == sales_rep_name]
-    
-    # Limit the number of rows to 50 and 5
+    name = row['Name']
+    user_key = row['UserKey_4Map']
+
+    hcp_filtered = [d for d in hcp_dataset if d['Name'] == name]
+    product_filtered  = [d for d in product_dataset if d['UserKey_4Map'] == user_key]
+    customer_filtered  = [d for d in customer_dataset if d['UserKey_4Map'] == user_key]
+
+    # Limit the number of rows to 50 and 4
     hcp_filtered = hcp_filtered[:50]
     product_filtered = product_filtered[:4]
+    customer_filtered = customer_filtered[:20]
 
     # Generate a unique identifier for this thread/process
     unique_id = uuid.uuid4().hex
@@ -198,12 +201,14 @@ def process_email(row):
 # Paths to the CSV files
 hcp_csv = 'data/raw/Unity_Export_HCP202407.csv'
 general_csv = 'data/processed/sample.csv'
-product_csv = 'data/raw/Unity_Export_Product_202406.csv'
+product_csv = 'data/raw/Product_List_Unity_Processed.csv'
+customer_csv = 'data/raw/Customer_List_Unity_Processed.csv'
 
 # Reading the CSV files
 hcp_dataset = pd.read_csv(hcp_csv).to_dict(orient='records')
 general_dataset = pd.read_csv(general_csv).to_dict(orient='records')
 product_dataset = pd.read_csv(product_csv).to_dict(orient='records')
+customer_dataset = pd.read_csv(customer_csv).to_dict(orient='records')
 
 # Run the process in parallel
 with ThreadPoolExecutor(max_workers=5) as executor:

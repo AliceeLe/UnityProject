@@ -235,7 +235,7 @@
                     </div>
                     <div class="info-col">
                         <p class="box-1-header">Role</p>
-                        <p class="box-1-info">{{ row.Role }}</p>
+                        <p class="box-1-info">{{ row.UserKey_4Map }}</p>
                     </div>
                 </div>
             </div>
@@ -800,6 +800,26 @@
                         <th style="text-align: center;">MTD</th>
                         <th style="text-align: center;">QTD</th>
                     </tr>
+                    <!-- {% for customer in customer_filtered %}                        
+                    <tr>
+                        <td>{{ customer.j_soldtocustomercode }}</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                {{ customer.Customer_MTD | format_thousands }}
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: {{ customer.Customer_Percent_MTD * 100 }}%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                {{ customer.Customer_QTD | format_thousands }}
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: {{ customer.Customer_Percent_QTD * 100 }}%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %} -->
+
                     <tr>
                         <td class="column-info">PAMELA YOUDE N.E.H.</td>
                         <td>257,592</td>

@@ -68,6 +68,15 @@ product_mapping = {
     "[Value_Qty_Transaction_Market]":'Product_MTD'
 }
 
+usermaster_mapping = {
+    'Id':'ID',
+    'userrole.Name':'Role',
+    'ManagerId': 'Manager_id',
+    'Username':'Email',
+    'Profile':'Role',
+    'userrole.Name':'UserKey_4Map',
+}
+
 def find_month():
     now = datetime.now()
     formatted_time = now.strftime("%Y-%m-01")
@@ -112,7 +121,6 @@ def merge_all():
     csv_file_3_path = 'data/merged/merged_qtd.csv'
     csv_file_4_path = f'data/raw/Unity_Export_Others_{path_name}.csv'
     csv_file_5_path = f'data/raw/Country_Master_{path_name}.csv'
-
 
     # Read the CSV files into DataFrames
     df1 = pd.read_csv(csv_file_1_path)
@@ -194,6 +202,11 @@ def process_general():
     # Read the CSV file into a DataFrame
     df = pd.read_csv("data/processed/output_renamed.csv")
 
+    user_master_df = pd.read_csv('data/raw/UserMaster_4Map.csv')
+    merged_df = pd.merge(df, user_master_df, on=["Country", "ID", "Role", "Manager_id", "Name"])
+
+
+
     # Process Role row
     def process_role(role):
         if isinstance(role, str) and role.startswith('ZLG_') and role.endswith('_CRM'):
@@ -201,14 +214,14 @@ def process_general():
         return None
 
     # Apply the process_role function to the Role column
-    df['Role'] = df['Role'].apply(process_role)
+    merged_df['Role'] = merged_df['Role'].apply(process_role)
 
     # Remove rows with None in the Role column or where Status is 'inactive'
-    df = df[df['Role'].notnull() & (df['Active_User'].str.lower() != 'inactive')]
+    merged_df = merged_df[merged_df['Role'].notnull() & (merged_df['Active_User'].str.lower() != 'inactive')]
 
 
     # Save the DataFrame with the converted columns to a new CSV file
-    df.to_csv("data/processed/output_processed.csv", index=False)
+    merged_df.to_csv("data/processed/output_processed.csv", index=False)
     print(f"DataFrame successfully saved with converted columns as data/processed/output_processed")
 
 def process_product():
@@ -341,42 +354,42 @@ def process_product_unity():
 
 
     # Group by yearmonth and UserKey_4Map
-    grouped_df = df.groupby(['yearmonth', 'UserKey_4Map'], as_index=False).first()
+    # grouped_df = df.groupby(['yearmonth', 'UserKey_4Map'], as_index=False)
 
     # Sort the DataFrame by 'MTD Sales' in descending order
-    sorted_df = grouped_df.sort_values(by='Product_MTD', ascending=False)
+    sorted_df = df.sort_values(by=['UserKey_4Map','Product_MTD'], ascending=False)
 
     # QTD Sales 
-    sorted_df['Product_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('sum')
+    # sorted_df['Product_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('sum')
 
-    sorted_df['Product_Total_MTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('sum')
-    sorted_df['Product_Total_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_QTD'].transform('sum')
+    # sorted_df['Product_Total_MTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('sum')
+    # sorted_df['Product_Total_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_QTD'].transform('sum')
 
-    sorted_df['Max_MTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('max')
-    sorted_df['Max_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_QTD'].transform('max')
+    # sorted_df['Max_MTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('max')
+    # sorted_df['Max_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_QTD'].transform('max')
 
-    def calculate_percent_mtd(row):
-        if pd.isna(row['Max_MTD']) or row['Max_MTD'] == 0:
-            if pd.isna(row['Product_MTD']) or row['Product_MTD'] == 0:
-                return 0
-            else:
-                return 1  # 100% in decimal
-        else:
-            return row['Product_MTD'] / row['Max_MTD']
+    # def calculate_percent_mtd(row):
+    #     if pd.isna(row['Max_MTD']) or row['Max_MTD'] == 0:
+    #         if pd.isna(row['Product_MTD']) or row['Product_MTD'] == 0:
+    #             return 0
+    #         else:
+    #             return 1  # 100% in decimal
+    #     else:
+    #         return row['Product_MTD'] / row['Max_MTD']
 
-    def calculate_percent_qtd(row):
-        if pd.isna(row['Max_QTD']) or row['Max_QTD'] == 0:
-            if pd.isna(row['Product_QTD']) or row['Product_QTD'] == 0:
-                return 0
-            else:
-                return 1  # 100% in decimal
-        else:
-            return row['Product_QTD'] / row['Max_QTD']
+    # def calculate_percent_qtd(row):
+    #     if pd.isna(row['Max_QTD']) or row['Max_QTD'] == 0:
+    #         if pd.isna(row['Product_QTD']) or row['Product_QTD'] == 0:
+    #             return 0
+    #         else:
+    #             return 1  # 100% in decimal
+    #     else:
+    #         return row['Product_QTD'] / row['Max_QTD']
 
-    sorted_df['Percent_MTD'] = sorted_df.apply(calculate_percent_mtd, axis=1)
-    sorted_df['Percent_QTD'] = sorted_df.apply(calculate_percent_qtd, axis=1)
+    # sorted_df['Percent_MTD'] = sorted_df.apply(calculate_percent_mtd, axis=1)
+    # sorted_df['Percent_QTD'] = sorted_df.apply(calculate_percent_qtd, axis=1)
 
-    # Filter out other months
+    # # Filter out other months
     filtered_df = sorted_df[sorted_df['yearmonth'] ==  find_month()]
 
     filtered_df.to_csv('data/raw/Product_List_Unity_Processed.csv', index=False)
@@ -444,15 +457,17 @@ Define flow:
 if __name__ == "__main__":
     # split_xlsx("data/raw/Sales360_Unity.xlsx")
     process_product_unity()
-    process_svt_unity()
-    process_customer_unity()
+    # process_svt_unity()
+    # process_customer_unity()
     # rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
     # merge_qtd()
     # merge_all()
     # rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP202407.csv","data/raw/Unity_Export_HCP202407.csv")
     # rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
     # rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
+    # rename_csv_column(usermaster_mapping,"data/raw/UserMaster_4Map.csv","data/raw/UserMaster_4Map.csv")
+
     # process_general()
-    process_product()
+    # process_product()
 
 
