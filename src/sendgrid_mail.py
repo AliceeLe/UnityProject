@@ -10,6 +10,7 @@ from datetime import datetime
 import pandas as pd
 import uuid  # To generate unique filenames
 from concurrent.futures import ThreadPoolExecutor
+import math 
 
 country_call_rates = {
     "BN": 8.0,
@@ -32,8 +33,13 @@ def encode_image_to_base64(image_path):
     return encoded_string
 
 def format_to_thousands(number):
-    """Converts a string, float, or integer to a string with commas as thousand separators, rounding to the nearest integer."""
+    """Converts a string, float, or integer to a string with commas as thousand separators, rounding to the nearest integer.
+       If the number is NaN, returns NaN."""
     try:
+        # Check for NaN
+        if isinstance(number, float) and math.isnan(number):
+            return float('nan')
+        
         # Check if the number is already a float or int
         if isinstance(number, (float, int)):
             rounded_number = round(number)
@@ -58,6 +64,10 @@ def format_to_thousands(number):
 def format_percent(number):
     """Converts a string or float representing a decimal to a percentage string, rounded to the nearest integer, with a '%' sign."""
     try:
+        # Check for NaN
+        if isinstance(number, float) and math.isnan(number):
+            return float('nan')
+
         # Check if the number is already a float
         if isinstance(number, float):
             return f"{int(round(number * 100))}%"
@@ -74,6 +84,10 @@ def format_percent(number):
 def round_to_one_decimal(number):
     """Rounds a number to 1 decimal place."""
     try:
+        # Check for NaN
+        if isinstance(number, float) and math.isnan(number):
+            return float('nan')
+
         # Check if the number is a float or an int
         if isinstance(number, (float, int)):
             return round(number, 1)
@@ -85,6 +99,26 @@ def round_to_one_decimal(number):
             return number
     except (ValueError, TypeError) as e:
         print(f"Error rounding number {number}: {e}")
+        return number  # Return the original value if conversion fails
+
+def format_decimal_percent(number):
+    """Converts a string or float representing a decimal to a percentage string, rounded to one decimal place, with a '%' sign."""
+    try:
+        # Check for NaN
+        if isinstance(number, float) and math.isnan(number):
+            return float('nan')
+
+        # Check if the number is already a float
+        if isinstance(number, float):
+            return f"{round(number * 100, 1)}%"
+        # If it's a string that represents a number, convert it
+        elif isinstance(number, str) and number.replace('.', '', 1).isdigit():
+            return f"{round(float(number) * 100, 1)}%"
+        else:
+            # If it's not a number or cannot be converted, return an empty string
+            return ""
+    except (ValueError, TypeError) as e:
+        print(f"Error formatting number {number}: {e}")
         return number  # Return the original value if conversion fails
 
 # Load environment variables from .env file
@@ -105,6 +139,7 @@ env = Environment(loader=FileSystemLoader('.'))
 env.filters['format_thousands'] = format_to_thousands
 env.filters['format_percent'] = format_percent
 env.filters['format_one_decimal'] = round_to_one_decimal
+env.filters['format_decimal_percent'] = format_decimal_percent
 
 template = env.get_template('src/email_template.html')
 
@@ -119,15 +154,19 @@ def send_email(to_email, subject, html_content):
     try:
         sg = SendGridAPIClient(SENDGRID_API_KEY)
         response = sg.send(message)
-        print(f"Email sent to {to_email}: {response.status_code}")
+        if response.status_code == 202:
+            print(f"Email successfully sent to {to_email}.")
+        else:
+            print(f"Failed to send email to {to_email}. Status code: {response.status_code}")
+            print(f"Response body: {response.body}")
     except Exception as e:
         print(f"Error sending email to {to_email}: {e}")
 
 def process_email(row):
-    name = row['Name']
+    name = row['Owner_Name']
     user_key = row['UserKey_4Map']
 
-    hcp_filtered = [d for d in hcp_dataset if d['Name'] == name]
+    hcp_filtered = [d for d in hcp_dataset if d['Owner_Name'] == name]
     product_filtered  = [d for d in product_dataset if d['UserKey_4Map'] == user_key]
     customer_filtered  = [d for d in customer_dataset if d['UserKey_4Map'] == user_key]
 
@@ -142,7 +181,7 @@ def process_email(row):
     png_filename = f'src/email_{unique_id}.png'
 
     # Render the template with variables from the CSV row and additional data
-    html_content = template.render(row=row, country_call_rates=country_call_rates, hcp_filtered=hcp_filtered, product_filtered=product_filtered)        
+    html_content = template.render(row=row, country_call_rates=country_call_rates, hcp_filtered=hcp_filtered, product_filtered=product_filtered,customer_filtered=customer_filtered)        
 
     # Write the rendered HTML to a unique file in the src/ directory
     with open(html_filename, 'w', encoding='utf-8') as file:
@@ -192,17 +231,17 @@ def process_email(row):
     subject = f"Sales dashboard - {row['Name']} - {now.strftime('%Y/%m/%d')}"
     print("Email: " + subject)
     # Send the email
-    # send_email(row['Email'], subject, email_html_content)
+    send_email(row['Email'], subject, email_html_content)
     
     # # Clean up files if necessary
     # os.remove(html_filename)
     # os.remove(png_filename)
 
 # Paths to the CSV files
-hcp_csv = 'data/raw/Unity_Export_HCP202407.csv'
+hcp_csv = 'data/raw/Unity_Export_HCP.csv'
 general_csv = 'data/processed/sample.csv'
-product_csv = 'data/raw/Product_List_Unity_Processed.csv'
-customer_csv = 'data/raw/Customer_List_Unity_Processed.csv'
+product_csv = 'data/processed/Product_List_Unity_Processed.csv'
+customer_csv = 'data/processed/Customer_List_Unity_Processed.csv'
 
 # Reading the CSV files
 hcp_dataset = pd.read_csv(hcp_csv).to_dict(orient='records')
@@ -214,4 +253,6 @@ customer_dataset = pd.read_csv(customer_csv).to_dict(orient='records')
 def final_send():
     with ThreadPoolExecutor(max_workers=5) as executor:
         executor.map(process_email, general_dataset)
+
+final_send()
 

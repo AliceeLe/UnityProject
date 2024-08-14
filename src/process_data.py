@@ -10,7 +10,9 @@ country_name_mapping = {
 }
 
 hcp_mapping = {
-    'kpi_tracker_userlevel[Name]':'Name',
+
+    'kpi_tracker_userlevel[Name]':'Owner_Name',
+    "kpi_tracker_userlevel[kpi.OwnerId]":"Owner_Id",
     'kpi_tracker_useraccountlevel[account.Name]':'HCP_Name',
     'kpi_tracker_userlevel[KPI_Ref_Time]':'HCP_Month',
     "kpi_tracker_useraccountlevel[mc_cycle_plan_target.ZLG_Sales_Segment__c]":"HCP_Segment",
@@ -479,7 +481,7 @@ def process_customer_unity():
     filtered_month_df.to_csv('data/processed/Customer_List_Unity_Processed.csv', index=False)
     print("Finished processing Customer")
 
-def process_svt_team():
+def process_general_unity():
     df_svt = pd.read_csv('data/processed/SvT_Unity_Processed.csv')
     df_contact = pd.read_csv('data/raw/Unity_Export_Others.csv')
     df_kpi = pd.read_csv('data/raw/Unity_Export.csv')
@@ -558,7 +560,6 @@ def process_svt_team():
 
 
 
-
 def final_process():
     # Split Sales360_Unity into 3 csv files: SvT, Product, Customer 
     split_xlsx("data/raw/Sales360_Unity.xlsx")
@@ -569,19 +570,13 @@ def final_process():
     process_customer_unity()
 
     # Merge info about manager from Unity_Export into SvT -> Find %Team_Achievement 
+    process_general_unity()
 
-
-    # rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
-    # merge_qtd()
-    # merge_all()
-    # rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP202407.csv","data/raw/Unity_Export_HCP202407.csv")
-    # rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
-    # rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
-    # rename_csv_column(usermaster_mapping,"data/raw/UserMaster_4Map.csv","data/raw/UserMaster_4Map.csv")
+    # Rename HCP Table
+    rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP.csv","data/raw/Unity_Export_HCP.csv")
 
     # process_general()
     # process_product()
 
-process_svt_unity()
-process_svt_team()
+rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP.csv","data/raw/Unity_Export_HCP.csv")
 
