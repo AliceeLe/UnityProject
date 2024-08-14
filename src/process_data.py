@@ -305,9 +305,8 @@ def process_svt_unity():
     df_sorted['Target_QTD'] = df_sorted.groupby('UserKey_4Map')['Target_MTD'].transform('sum')
 
     # Create MTD, QTD Balance by subtracting the columns
-    # Neu Sales > Target thi Balance = 0 hay la mot gia tri am?
-    df_sorted['Balance_MTD'] = df_sorted['Target_MTD'] - df_sorted['Sales_MTD']
-    df_sorted['Balance_QTD'] = df_sorted['Target_QTD'] - df_sorted['Sales_QTD']
+    df_sorted['Balance_MTD'] =  df_sorted['Sales_MTD'] - df_sorted['Target_MTD']
+    df_sorted['Balance_QTD'] =  df_sorted['Sales_QTD'] - df_sorted['Target_QTD'] 
 
     # Create MTD, QTD % Achievement by divding the columns
     # Neu Target = 0 thi sao. Hien tai dang de 100%
@@ -338,9 +337,8 @@ def process_svt_unity():
     # Filter out other months
     filtered_df = df_sorted[df_sorted['yearmonth'] ==  find_month()]
 
-    filtered_df.to_csv('data/raw/SvT_Unity_Processed.csv', index=False)
+    filtered_df.to_csv('data/processed/SvT_Unity_Processed.csv', index=False)
     print("Finished processing SvT Unity")
-
 
 def process_product_unity():
     df = pd.read_csv('data/raw/Product_List_Unity.csv')
@@ -406,9 +404,8 @@ def process_product_unity():
     # # Filter out other months
     filtered_month_df = filtered_df[filtered_df['yearmonth'] ==  find_month()]
 
-    filtered_month_df.to_csv('data/raw/Product_List_Unity_Processed.csv', index=False)
+    filtered_month_df.to_csv('data/processed/Product_List_Unity_Processed.csv', index=False)
     print("Finished processing product")
-
 
 def process_customer_unity():
     df = pd.read_csv('data/raw/Customer_List_Unity.csv')
@@ -476,24 +473,93 @@ def process_customer_unity():
     # Filter out other months
     filtered_month_df = filtered_df[filtered_df['yearmonth'] ==  find_month()]
 
-    filtered_month_df.to_csv('data/raw/Customer_List_Unity_Processed.csv', index=False)
+    filtered_month_df.to_csv('data/processed/Customer_List_Unity_Processed.csv', index=False)
     print("Finished processing Customer")
 
+def process_svt_team():
+    df_svt = pd.read_csv('data/processed/SvT_Unity_Processed.csv')
+    df_contact = pd.read_csv('data/raw/Unity_Export_Others.csv')
 
-if __name__ == "__main__":
+    col_dict = {
+        "user[userrole.Name]": "UserKey_4Map",
+        "kpi_tracker_userlevel[Username]": "Owner_Email",
+        "kpi_tracker_userlevel[Name]":"Owner_Name",
+        "kpi_tracker_userlevel[Profile_Name_vod__c]":"Role",
+        "kpi_tracker_userlevel[UserName_Level1]":"Manager_Name",
+        "kpi_tracker_userlevel[UserId_Level1]":"Manager_Id",
+        "kpi_tracker_userlevel[kpi.OwnerId]":"Owner_Id",
+        "kpi_tracker_userlevel[Userid_Level1.Username]":"Manager_Email",
+        "kpi_tracker_userlevel[Latest_Active_User]":"Status"
+    }
+
+    # Rename the columns using the mapping
+    df_contact.rename(columns=col_dict, inplace=True)
+    df_contact.to_csv('data/processed/Unity_Export_Others_Processed.csv', index=False)
+
+    # Merge the DataFrames on the common columns
+    merged_df = pd.merge(df_svt, df_contact, on=["UserKey_4Map"])
+
+    # Group using Manager_Id
+    # Create QTD Sales & Target by grouping UserKey, then finding sum of Sales_MTD and Target_MTD
+    merged_df['Team_Sales_MTD'] = merged_df.groupby('Manager_Id')['Sales_MTD'].transform('sum')
+    merged_df['Team_Sales_QTD'] = merged_df.groupby('Manager_Id')['Sales_QTD'].transform('sum')
+    merged_df['Team_Target_MTD'] = merged_df.groupby('Manager_Id')['Target_MTD'].transform('sum')
+    merged_df['Team_Target_QTD'] = merged_df.groupby('Manager_Id')['Target_QTD'].transform('sum')
+
+    # Neu Target = 0 thi sao. Hien tai dang de 100%
+    def calculate_achievement_mtd(row):
+        if pd.isna(row['Team_Target_MTD']) or row['Team_Target_MTD'] == 0:
+            if pd.isna(row['Team_Sales_MTD']) or row['Team_Sales_MTD'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            return row['Team_Sales_MTD'] / row['Team_Target_MTD']
+
+    # Define the function to calculate %Achievement_QTD
+    def calculate_achievement_qtd(row):
+        if pd.isna(row['Team_Target_QTD']) or row['Team_Target_QTD'] == 0:
+            if pd.isna(row['Team_Sales_QTD']) or row['Team_Sales_QTD'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            return row['Team_Sales_QTD'] / row['Team_Target_QTD']
+
+    # Apply the functions to the DataFrame
+    merged_df['%Team_Achievement_MTD'] = merged_df.apply(calculate_achievement_mtd, axis=1)
+    merged_df['%Team_Achievement_QTD'] = merged_df.apply(calculate_achievement_qtd, axis=1)
+    
+
+    # Save the merged DataFrame to a new CSV file
+    merged_df.to_csv("data/processed/example.csv", index=False)
+
+
+
+
+def final_process():
+    # Split Sales360_Unity into 3 csv files: SvT, Product, Customer 
     split_xlsx("data/raw/Sales360_Unity.xlsx")
+
+    # Process 3 csv files: SvT, Product, Customer: Create columns for QTD
     process_product_unity()
     process_svt_unity()
     process_customer_unity()
-    rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
-    merge_qtd()
-    merge_all()
-    rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP202407.csv","data/raw/Unity_Export_HCP202407.csv")
-    rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
-    rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
-    rename_csv_column(usermaster_mapping,"data/raw/UserMaster_4Map.csv","data/raw/UserMaster_4Map.csv")
 
-    process_general()
+    # Merge info about manager from Unity_Export into SvT -> Find %Team_Achievement 
+
+
+    # rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
+    # merge_qtd()
+    # merge_all()
+    # rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP202407.csv","data/raw/Unity_Export_HCP202407.csv")
+    # rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
+    # rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
+    # rename_csv_column(usermaster_mapping,"data/raw/UserMaster_4Map.csv","data/raw/UserMaster_4Map.csv")
+
+    # process_general()
     # process_product()
 
+process_svt_unity()
+process_svt_team()
 

@@ -78,31 +78,13 @@ def save_file_to_computer(site_id, file_id, file_name, headers):
             print(f"{file_name} successfully saved to local computer")
 
 def find_csv_files(site_id, items_folder, headers):
-    for item in items_folder:
-        if item['name'].endswith('.xlsx'):
-            # Convert to csv
-            xlsx_file_name = item['name']
-            csv_file_name = xlsx_file_name.replace('.xlsx', '.csv')
-            xlsx_file_path = os.path.join("data/raw", xlsx_file_name)
-            csv_file_path = os.path.join("data/raw", csv_file_name)
-            
-            # Download the xlsx file
-            save_file_to_computer(site_id, item['id'], xlsx_file_name, headers)
-            
-            # Convert xlsx to csv
-            excel_data = pd.read_excel(xlsx_file_path)
-            excel_data.to_csv(csv_file_path, index=False)
-            
-            # Optionally, remove the xlsx file if not needed
-            # os.remove(xlsx_file_path)
-
     # List and download all CSV files
-    csv_files = [item for item in items_folder if item['name'].endswith('.csv')]
-    if csv_files:
+    data_files = [item for item in items_folder if item['name'].endswith('.csv') or item['name'].endswith('.xlsx')]
+    if data_files:
         print("CSV files in the folder:")
-        for csv_file in csv_files:
-            file_name = csv_file['name']
-            file_id = csv_file['id']
+        for data_file in data_files:
+            file_name = data_file['name']
+            file_id = data_file['id']
             print(file_name)
             save_file_to_computer(site_id, file_id, file_name, headers)
     else:
@@ -141,7 +123,7 @@ def get_site(sharepoint_site, sharepoint_site_path, headers):
                 get_folder_id(site_id, headers, folder_path)
 
 
-if __name__ == '__main__':
+def final_download():
     try:
         # Create a confidential client application
         app = msal.ConfidentialClientApplication(
@@ -165,13 +147,6 @@ if __name__ == '__main__':
             with multiprocessing.Pool(processes=4) as pool:
                 pool.starmap(get_site, args)  # Use starmap for multiple arguments
 
-            # convert country_master to csv
-            # excel_data = pd.read_excel("data/raw/Country_Master_202406.xlsx")
-            # excel_data.to_csv("data/raw/Country_Master_202406.csv", index=False)
-
-            # excel_data = pd.read_excel("data/raw/UserMaster_4Map.xlsx")
-            # excel_data.to_csv("data/raw/UserMaster_4Map.csv", index=False)
-
         # run convert csv to xlsx
         else:
             print("No token found.")
@@ -180,3 +155,4 @@ if __name__ == '__main__':
 
     except Exception as e:
         print(f"An error occurred in main: {e}")
+

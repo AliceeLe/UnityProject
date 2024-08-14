@@ -211,6 +211,7 @@ product_dataset = pd.read_csv(product_csv).to_dict(orient='records')
 customer_dataset = pd.read_csv(customer_csv).to_dict(orient='records')
 
 # Run the process in parallel
-with ThreadPoolExecutor(max_workers=5) as executor:
-    executor.map(process_email, general_dataset)
+def final_send():
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        executor.map(process_email, general_dataset)
 
