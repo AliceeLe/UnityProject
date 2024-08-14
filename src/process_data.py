@@ -22,42 +22,45 @@ hcp_mapping = {
 }
 
 general_mapping = {
-    'kpi_tracker_userlevel[kpi.OwnerId]': 'ID',
-    'kpi_tracker_userlevel[Name]': 'Name',
-    'kpi_tracker_userlevel[UserName_Level1]': 'Manager_name',
-    'kpi_tracker_userlevel[UserId_Level1]': 'Manager_id',
-    '[KPI_ACT_MTD_CallRate]': 'Call_Rate_MTD',
-    '[KPI_ACT_MTD_CallVolume]': 'Call_Volume_MTD',
-    '[KPI_ACT_MTD_CallCompliance]': 'Call_Compliance_MTD',
-    '[KPI_ACT_MTD_CallComplianceA]': 'Call_Compliance_A_MTD',
-    '[Value_Qty_Transaction_Market]': 'Actual_Sales_MTD',
-    '[Value_QTY_Target]': 'Target_MTD',
-    '[v__Done]': '%Achievement_MTD',
-    '[Gap]': 'Balance_MTD',
-    '[QTD_Value_QTY_Transaction_Market]': 'Actual_Sales_QTD',
-    '[QTD_Value_QTY_Target]': 'Target_QTD',
-    '[QTD___Done]': '%Achievement_QTD',
-    '[QTD_Gap]': 'Balance_QTD',
-    '[KPI_ACT_QTD_CallRate]': 'Call_Rate_QTD',
-    '[KPI_ACT_QTD_CallVolume]': 'Call_Volume_QTD',
-    '[KPI_ACT_QTD_CallCompliance]': 'Call_Compliance_QTD',
-    '[KPI_ACT_QTD_CallComplianceA]': 'Call_Compliance_A_QTD',
-    'kpi_tracker_userlevel[Profile_Name_vod__c]':'Role',
+    "summary[kpi.OwnerId]":"Owner_Id",
+    "summary[Name]":"Owner_Name",
+    "summary[Profile_Name_vod__c]":"Role",
+
     "[Summtd_event_count]":"Event_MTD",
     "[Sumqtd_event_count]":"Event_QTD",
     "[Sumytd_event_count]":"Event_YTD",
     "[Summtd_touchpoint_count]":"Touchpoint_MTD",
     "[Sumqtd_touchpoint_count]":"Touchpoint_QTD",
+    "[Sumytd_touchpoint_count]":"Touchpoint_YTD",
     "[Summtd_emailusercount]":"Email_Sent_MTD",
     "[Sumqtd_emailusercount]":"Email_Sent_QTD",
     "[Sumytd_emailusercount]":"Email_Sent_YTD",
-    "[KPI_ACT_MTD_OpenRate]":"Mail_Open_Rate_MTD",
-    "[KPI_ACT_QTD_OpenRate]":"Mail_Open_Rate_QTD",
-    "[KPI_ACT_YTD_OpenRate]":"Mail_Open_Rate_YTD",
-    "[KPI_ACT_MTD_ClickRate]":"Clickrate_MTD",
-    "[KPI_ACT_QTD_ClickRate]":"Clickrate_QTD",
-    "[KPI_ACT_YTD_ClickRate]":"Clickrate_YTD",
-    "kpi_tracker_userlevel[Latest_Active_User]":"Active_User"}
+
+    "[SumKPI_ACT_MTD_CoachingDays_M]":"Coaching_MTD",
+    "[SumKPI_ACT_QTD_CoachingDays_M]":"Coaching_QTD",
+    "[SumKPI_ACT_YTD_CoachingDays_M]":"Coaching_YTD",
+
+    "[SumKPI_ACT_MTD_CallRate]":"Call_Rate_MTD",
+    "[SumKPI_ACT_QTD_CallRate]":"Call_Rate_QTD",
+    "[SumKPI_ACT_YTD_CallRate]":"Call_Rate_YTD",
+    "[SumKPI_ACT_QTD_CallVolume]":"Call_Volume_MTD",
+    "[SumKPI_ACT_YTD_CallVolume]":"Call_Volume_QTD",
+    "[SumKPI_ACT_MTD_CallVolume]":"Call_Volume_YTD",
+    "[SumKPI_ACT_MTD_CallCompliance]":"Call_Compliance_MTD",
+    "[SumKPI_ACT_YTD_CallCompliance]":"Call_Compliance_QTD",
+    "[SumKPI_ACT_QTD_CallCompliance]":"Call_Compliance_YTD",
+
+    "[SumKPI_ACT_MTD_CallComplianceA]":"Call_Compliance_A_MTD",
+    "[SumKPI_ACT_YTD_CallComplianceA]":"Call_Compliance_A_QTD",
+    "[SumKPI_ACT_QTD_CallComplianceA]":"Call_Compliance_A_YTD",
+
+    "[SumKPI_ACT_MTD_ClickRate]":"Clickrate_MTD",
+    "[SumKPI_ACT_QTD_ClickRate]":"Clickrate_QTD",
+    "[SumKPI_ACT_YTD_ClickRate]":"Clickrate_YTD",
+    "[SumKPI_ACT_MTD_OpenRate]":"Mail_Open_Rate_MTD",
+    "[SumKPI_ACT_QTD_OpenRate]":"Mail_Open_Rate_QTD",
+    "[SumKPI_ACT_YTD_OpenRate]":"Mail_Open_Rate_YTD",
+    }
 
 product_mapping = {
     'REF_TIME[KPI_Ref_Time]':'Product_Month',
@@ -479,6 +482,7 @@ def process_customer_unity():
 def process_svt_team():
     df_svt = pd.read_csv('data/processed/SvT_Unity_Processed.csv')
     df_contact = pd.read_csv('data/raw/Unity_Export_Others.csv')
+    df_kpi = pd.read_csv('data/raw/Unity_Export.csv')
 
     col_dict = {
         "user[userrole.Name]": "UserKey_4Map",
@@ -492,12 +496,29 @@ def process_svt_team():
         "kpi_tracker_userlevel[Latest_Active_User]":"Status"
     }
 
+    columns_to_delete = [
+    "summary[KPI_Ref_Time]",
+    '[SumValue_Qty_Transaction_Market]',
+    '[SumValue_QTY_Target]',
+    '[SumGap]',
+    '[Sumv__Done]',
+    '[SumQTD_Value_Qty_Transaction_Market]',
+    '[SumQTD_Value_QTY_Target]',
+    '[SumQTD_Gap]',
+    '[SumQTD___Done]'
+    ]
+
     # Rename the columns using the mapping
     df_contact.rename(columns=col_dict, inplace=True)
     df_contact.to_csv('data/processed/Unity_Export_Others_Processed.csv', index=False)
 
+    df_kpi = df_kpi.drop(columns=columns_to_delete)
+    df_kpi.rename(columns=general_mapping, inplace=True)
+    df_kpi.to_csv('data/processed/Unity_Export_Processed.csv', index=False)
+
     # Merge the DataFrames on the common columns
     merged_df = pd.merge(df_svt, df_contact, on=["UserKey_4Map"])
+    merged_df = pd.merge(merged_df, df_kpi, on=["Owner_Name", "Owner_Id", "Role"])
 
     # Group using Manager_Id
     # Create QTD Sales & Target by grouping UserKey, then finding sum of Sales_MTD and Target_MTD
@@ -529,10 +550,11 @@ def process_svt_team():
     # Apply the functions to the DataFrame
     merged_df['%Team_Achievement_MTD'] = merged_df.apply(calculate_achievement_mtd, axis=1)
     merged_df['%Team_Achievement_QTD'] = merged_df.apply(calculate_achievement_qtd, axis=1)
-    
+    merged_df = merged_df[(merged_df['Status'].str.lower() != 'inactive')]
+
 
     # Save the merged DataFrame to a new CSV file
-    merged_df.to_csv("data/processed/example.csv", index=False)
+    merged_df.to_csv("data/processed/general.csv", index=False)
 
 
 

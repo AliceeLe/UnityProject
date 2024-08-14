@@ -2,9 +2,9 @@ How to automate (Server - anh Vinh)
 How to map across all the tables 
 
 1. Debug Rank and filter out Product and Customer CSV (for Unity files) [DONE]
-2. Update xlsx file (Naufal's new file)
+2. Update xlsx file (Naufal's new file) [DONE]
 3. Update 1 decimal point for % Achievement
-4. Map to find sum for Team Achievement
+4. Map to find sum for Team Achievement [DONE]
     - Them cot manager_id vao SvT_Unity
     - Group based on manager_id va yearmonth --> Create 4 new col: Team_Sale_MTD, Team_Sale_QTD, Team_Target_MTD, Team_Target_QTD
     - Calculate: Team_Percent_Achi MTD, QTD 
