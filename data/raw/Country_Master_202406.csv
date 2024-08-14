@@ -1,4 +1,4 @@
-AD_Group,kpi.OwnerId,Name
+Country,kpi_tracker_userlevel[kpi.OwnerId],kpi_tracker_userlevel[Name]
 SG,0055h000005tjiOAAQ,Yiek Tshin Kate Chee
 SG,0055h000005tjiYAAQ,Qian-Xi Olivia Chua
 MY,0055h000005tXEiAAM,Wooi Ping Soo

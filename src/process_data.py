@@ -352,47 +352,61 @@ def process_product_unity():
     # Rename the columns using the mapping
     df.rename(columns=col_dict, inplace=True)
 
-
-    # Group by yearmonth and UserKey_4Map
-    # grouped_df = df.groupby(['yearmonth', 'UserKey_4Map'], as_index=False)
-
     # Sort the DataFrame by 'MTD Sales' in descending order
-    sorted_df = df.sort_values(by=['UserKey_4Map','Product_MTD'], ascending=False)
+    sorted_df = df.sort_values(by=['UserKey_4Map','Product_Group_Use','Product_MTD'], ascending=False)
+
+    # Filter out rows if Product_MTD is NaN or 0
+    # Drop rows where Product_MTD is NaN
+    filtered_df = sorted_df.dropna(subset=['Product_MTD'])
+
+    # Filter out rows where Product_MTD is 0
+    filtered_df = filtered_df[filtered_df['Product_MTD'] != 0]
 
     # QTD Sales 
-    # sorted_df['Product_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('sum')
+    filtered_df['Product_QTD'] = filtered_df.groupby(['UserKey_4Map','Product_Group_Use'])['Product_MTD'].transform('sum')
 
-    # sorted_df['Product_Total_MTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('sum')
-    # sorted_df['Product_Total_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_QTD'].transform('sum')
+    filtered_df['Product_Total_MTD'] = filtered_df.groupby(['UserKey_4Map','yearmonth'])['Product_MTD'].transform('sum')
+    filtered_df['Product_Total_QTD'] = filtered_df.groupby('UserKey_4Map')['Product_MTD'].transform('sum')
 
-    # sorted_df['Max_MTD'] = sorted_df.groupby('UserKey_4Map')['Product_MTD'].transform('max')
-    # sorted_df['Max_QTD'] = sorted_df.groupby('UserKey_4Map')['Product_QTD'].transform('max')
+    filtered_df['Product_Max_MTD'] = filtered_df.groupby(['UserKey_4Map','yearmonth'])['Product_MTD'].transform('max')
+    filtered_df['Product_Max_QTD'] = filtered_df.groupby('UserKey_4Map')['Product_QTD'].transform('max')
 
-    # def calculate_percent_mtd(row):
-    #     if pd.isna(row['Max_MTD']) or row['Max_MTD'] == 0:
-    #         if pd.isna(row['Product_MTD']) or row['Product_MTD'] == 0:
-    #             return 0
-    #         else:
-    #             return 1  # 100% in decimal
-    #     else:
-    #         return row['Product_MTD'] / row['Max_MTD']
+    def calculate_percent_mtd(row):
+        if pd.isna(row['Product_Max_MTD']) or row['Product_Max_MTD'] == 0:
+            if pd.isna(row['Product_MTD']) or row['Product_MTD'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            percent_mtd = row['Product_MTD'] / row['Product_Max_MTD']
+            if percent_mtd < 0:
+                return 0
+            else:
+                return percent_mtd
 
-    # def calculate_percent_qtd(row):
-    #     if pd.isna(row['Max_QTD']) or row['Max_QTD'] == 0:
-    #         if pd.isna(row['Product_QTD']) or row['Product_QTD'] == 0:
-    #             return 0
-    #         else:
-    #             return 1  # 100% in decimal
-    #     else:
-    #         return row['Product_QTD'] / row['Max_QTD']
+    def calculate_percent_qtd(row):
+        if pd.isna(row['Product_Max_QTD']) or row['Product_Max_QTD'] == 0:
+            if pd.isna(row['Product_QTD']) or row['Product_QTD'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            percent_qtd = row['Product_QTD'] / row['Product_Max_QTD']
+            if percent_qtd < 0:
+                return 0
+            else:
+                return percent_qtd
 
-    # sorted_df['Percent_MTD'] = sorted_df.apply(calculate_percent_mtd, axis=1)
-    # sorted_df['Percent_QTD'] = sorted_df.apply(calculate_percent_qtd, axis=1)
+    filtered_df['Product_Percent_MTD'] = filtered_df.apply(calculate_percent_mtd, axis=1)
+    filtered_df['Product_Percent_QTD'] = filtered_df.apply(calculate_percent_qtd, axis=1)
+
+    # Sort the DataFrame by 'MTD Sales' in descending order
+    filtered_df = filtered_df.sort_values(by=['UserKey_4Map','Product_QTD'], ascending=False)
 
     # # Filter out other months
-    filtered_df = sorted_df[sorted_df['yearmonth'] ==  find_month()]
+    filtered_month_df = filtered_df[filtered_df['yearmonth'] ==  find_month()]
 
-    filtered_df.to_csv('data/raw/Product_List_Unity_Processed.csv', index=False)
+    filtered_month_df.to_csv('data/raw/Product_List_Unity_Processed.csv', index=False)
     print("Finished processing product")
 
 
@@ -406,20 +420,26 @@ def process_customer_unity():
     # Rename the columns using the mapping
     df.rename(columns=col_dict, inplace=True)
 
-    # Group by yearmonth and UserKey_4Map
-    grouped_df = df.groupby(['yearmonth', 'UserKey_4Map'], as_index=False).first()
+    df['Customer_Name'] = df['Customer_Name'].str.strip()
 
     # Sort the DataFrame by 'MTD Sales' in descending order
-    sorted_df = grouped_df.sort_values(by='Customer_MTD', ascending=False)
+    sorted_df = df.sort_values(by=['UserKey_4Map','j_soldtocustomercode','Customer_MTD'], ascending=False)
+
+    # Filter out rows if MTD is NaN or 0
+        # Drop rows where Customer_MTD is NaN
+    filtered_df = sorted_df.dropna(subset=['Customer_MTD'])
+
+    # Filter out rows where Customer_MTD is 0
+    filtered_df = filtered_df[filtered_df['Customer_MTD'] != 0]
 
     # QTD Sales 
-    sorted_df['Customer_QTD'] = sorted_df.groupby('UserKey_4Map')['Customer_MTD'].transform('sum')
+    filtered_df['Customer_QTD'] = filtered_df.groupby(['UserKey_4Map','j_soldtocustomercode'])['Customer_MTD'].transform('sum')
 
-    sorted_df['Customer_Total_MTD'] = sorted_df.groupby('UserKey_4Map')['Customer_MTD'].transform('sum')
-    sorted_df['Customer_Total_QTD'] = sorted_df.groupby('UserKey_4Map')['Customer_QTD'].transform('sum')
+    filtered_df['Customer_Total_MTD'] = filtered_df.groupby(['UserKey_4Map','yearmonth'])['Customer_MTD'].transform('sum')
+    filtered_df['Customer_Total_QTD'] = filtered_df.groupby('UserKey_4Map')['Customer_MTD'].transform('sum')
 
-    sorted_df['Customer_Max_MTD'] = sorted_df.groupby('UserKey_4Map')['Customer_MTD'].transform('max')
-    sorted_df['Customer_Max_QTD'] = sorted_df.groupby('UserKey_4Map')['Customer_QTD'].transform('max')
+    filtered_df['Customer_Max_MTD'] = filtered_df.groupby(['UserKey_4Map','yearmonth'])['Customer_MTD'].transform('max')
+    filtered_df['Customer_Max_QTD'] = filtered_df.groupby('UserKey_4Map')['Customer_QTD'].transform('max')
 
     def calculate_percent_mtd(row):
         if pd.isna(row['Customer_Max_MTD']) or row['Customer_Max_MTD'] == 0:
@@ -428,7 +448,12 @@ def process_customer_unity():
             else:
                 return 1  # 100% in decimal
         else:
-            return row['Customer_MTD'] / row['Customer_Max_MTD']
+            percent_mtd = row['Customer_MTD'] / row['Customer_Max_MTD']
+            if percent_mtd < 0:
+                return 0
+            else:
+                return percent_mtd
+
 
     def calculate_percent_qtd(row):
         if pd.isna(row['Customer_Max_QTD']) or row['Customer_Max_QTD'] == 0:
@@ -437,37 +462,38 @@ def process_customer_unity():
             else:
                 return 1  # 100% in decimal
         else:
-            return row['Customer_QTD'] / row['Customer_Max_QTD']
+            percent_qtd = row['Customer_QTD'] / row['Customer_Max_QTD']
+            if percent_qtd < 0:
+                return 0
+            else:
+                return percent_qtd
 
-    sorted_df['Customer_Percent_MTD'] = sorted_df.apply(calculate_percent_mtd, axis=1)
-    sorted_df['Customer_Percent_QTD'] = sorted_df.apply(calculate_percent_qtd, axis=1)
+    filtered_df['Customer_Percent_MTD'] = filtered_df.apply(calculate_percent_mtd, axis=1)
+    filtered_df['Customer_Percent_QTD'] = filtered_df.apply(calculate_percent_qtd, axis=1)
+
+    filtered_df = filtered_df.sort_values(by=['UserKey_4Map','Customer_QTD'], ascending=False)
 
     # Filter out other months
-    filtered_df = sorted_df[sorted_df['yearmonth'] ==  find_month()]
+    filtered_month_df = filtered_df[filtered_df['yearmonth'] ==  find_month()]
 
-    filtered_df.to_csv('data/raw/Customer_List_Unity_Processed.csv', index=False)
+    filtered_month_df.to_csv('data/raw/Customer_List_Unity_Processed.csv', index=False)
     print("Finished processing Customer")
 
 
-"""
-Define flow: 
-1. Download files in sharepoint
-2. Rename column in country 
-"""
 if __name__ == "__main__":
-    # split_xlsx("data/raw/Sales360_Unity.xlsx")
+    split_xlsx("data/raw/Sales360_Unity.xlsx")
     process_product_unity()
-    # process_svt_unity()
-    # process_customer_unity()
-    # rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
-    # merge_qtd()
-    # merge_all()
-    # rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP202407.csv","data/raw/Unity_Export_HCP202407.csv")
-    # rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
-    # rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
-    # rename_csv_column(usermaster_mapping,"data/raw/UserMaster_4Map.csv","data/raw/UserMaster_4Map.csv")
+    process_svt_unity()
+    process_customer_unity()
+    rename_csv_column(country_name_mapping,"data/raw/Country_Master_202406.csv","data/raw/Country_Master_202406.csv")
+    merge_qtd()
+    merge_all()
+    rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP202407.csv","data/raw/Unity_Export_HCP202407.csv")
+    rename_csv_column(product_mapping,"data/raw/Unity_Export_Product_202406.csv","data/raw/Unity_Export_Product_202406.csv")
+    rename_csv_column(general_mapping,"data/merged/output_merged.csv","data/processed/output_renamed.csv")
+    rename_csv_column(usermaster_mapping,"data/raw/UserMaster_4Map.csv","data/raw/UserMaster_4Map.csv")
 
-    # process_general()
+    process_general()
     # process_product()
 
 

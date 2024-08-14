@@ -601,19 +601,19 @@
                     <tbody>                    
                         {% for product in product_filtered %}                        
                         <tr>
-                            <td>{{ product.Product_Group }}</td>
+                            <td>{{ product.j_soldtocustomercode }}</td>
                             <td style="text-align: center; padding: 0; position: relative;">
                                 <span style="position: relative; z-index: 1;">
                                     {{ product.Product_MTD | format_thousands }}
                                 </span>
-                                <div style="background-color: #68A490; height: 100%; width: {{ product.Percent_MTD * 100 }}%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                <div style="background-color: #68A490; height: 100%; width: {{ product.Product_Percent_MTD * 100 }}%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
                                 </div>
                             </td>
                             <td style="text-align: center; padding: 0; position: relative;">
                                 <span style="position: relative; z-index: 1;">
                                     {{ product.Product_QTD | format_thousands }}
                                 </span>
-                                <div style="background-color: #68A490; height: 100%; width: {{ product.Percent_QTD * 100 }}%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                <div style="background-color: #68A490; height: 100%; width: {{ product.Product_Percent_QTD * 100 }}%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
                                 </div>
                             </td>
                         </tr>
@@ -800,7 +800,7 @@
                         <th style="text-align: center;">MTD</th>
                         <th style="text-align: center;">QTD</th>
                     </tr>
-                    <!-- {% for customer in customer_filtered %}                        
+                    {% for customer in customer_filtered %}                        
                     <tr>
                         <td>{{ customer.j_soldtocustomercode }}</td>
                         <td style="text-align: center; padding: 0; position: relative;">
@@ -818,9 +818,9 @@
                             </div>
                         </td>
                     </tr>
-                    {% endfor %} -->
+                    {% endfor %} 
 
-                    <tr>
+                    <!-- <tr>
                         <td class="column-info">PAMELA YOUDE N.E.H.</td>
                         <td>257,592</td>
                         <td>724,984</td>
@@ -909,7 +909,7 @@
                         <td class="column-info">TIEN LU DISPENSARY L</td>
                         <td>12,960</td>
                         <td>12,960</td>
-                    </tr>
+                    </tr> -->
                     <tr style="font-weight: bold;">
                         <td>Total</td>
                         <td>781,891</td>
