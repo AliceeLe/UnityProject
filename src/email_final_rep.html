@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Bold-Italic.ttf') format('truetype');
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Italic.ttf') format('truetype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        body {
+            font-family: SegoeUI, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        h1 {
+            font-size: 25px;
+        }
+
+        h2 {
+            font-size: 15px;
+            font-style: italic;
+        }
+
+        p {
+            margin: 12px;
+            padding: 0;
+        }
+
+        .container {
+            /* Ipad size: 16-9 */
+            width: 930px;
+            padding: 10px;
+            background-color: #2e6271;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 24px;
+
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            overflow: hidden;
+        }
+
+        .header>img {
+            height: 80%;
+            width: 15%;
+            object-fit: cover;
+        }
+
+        .content {
+            margin: 20px 20px;
+            font-size: 12px;
+            max-width: 100%;
+
+            display: grid;
+            gap: 20px 20px;
+            grid-template-areas:
+                "column-1 column-4 column-6"
+                "column-2 column-4 column-6"
+                "column-2 column-4 column-6"
+                "column-2 column-5 column-6"
+                "column-2 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+        }
+
+        .column-item {
+            background-color: #d5e1c9;
+            width: 100%;
+            padding: 5px 0px 10px 12px;
+            border-radius: 15px;
+        }
+
+
+        .info-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            justify-content: space-around;
+        }
+
+        #column-1 {
+            background: #f7f0cc;
+            grid-area: column-1;
+        }
+
+        #column-2 {
+            grid-area: column-2;
+        }
+
+        #column-3 {
+            grid-area: column-3;
+        }
+
+        #column-4 {
+            grid-area: column-4;
+        }
+
+        #column-5 {
+            grid-area: column-5;
+        }
+
+        #column-6 {
+            grid-area: column-6;
+        }
+
+        #column-7 {
+            grid-area: column-7;
+        }
+
+        .box-1-header {
+            font-size: 14px;
+            color: gray;
+            padding: 10px 5px 5px 5px;
+            margin: 0;
+        }
+
+        .box-1-info {
+            font-size: 12px;
+            text-align: center;
+            padding: 10px 5px 5px 5px;
+            margin: 0;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        table,
+        td,
+        th {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 97%;
+            background-color: white;
+        }
+
+        th,
+        td {
+            padding: 8px;
+        }
+
+        .master-chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ebebeb;
+        }
+
+        .chart-container {
+            width: 100px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 20px 10px;
+        }
+
+        .column-info {
+            font-size: 11px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <!-- <img src="./images/zpt-white.png" alt="zpt-logo"> -->
+            <h1>ONE PAGE PERFORMANCE TRACKING</h1>
+        </div>
+        <div class="content">
+            <div class="column-item" id="column-1">
+                <div class="info-row">
+                    <div class="info-col">
+                        <p class="box-1-header">Name</p>
+                        <p class="box-1-info">Passaporn Suriwong</p>
+                    </div>
+                    <div class="info-col">
+                        <p class="box-1-header">Role</p>
+                        <p class="box-1-info">TH_EC1</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column-item" id="column-2">
+                <div class="master-chart-container">
+                    <div class="chart-container">
+                        <h2>%Achievement MTD</h2>
+                        <canvas id="gaugeChartMTD"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h2>%Achievement QTD</h2>
+                        <canvas id="gaugeChartQTD"></canvas>
+                    </div>
+                </div>
+
+                <table class="column-2-table">
+                    <tr>
+                        <th style="width: 48%;"></th>
+                        <th style="width: 26%;text-align: center;">MTD</th>
+                        <th style="width: 26%;text-align: center;">QTD</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Target</th>
+                        <td style="width: 26%; text-align: center;">4,976,400</td>
+                        <td style="width: 26%; text-align: center;">9,952,800</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Actual Sales</th>
+                        <td style="width: 26%; text-align: center;">1,423,974</td>
+                        <td style="width: 26%; text-align: center;">9,075,982</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Balance To Go</th>
+                        <td style="width: 26%; text-align: center;">-3,552,426</td>
+                        <td style="width: 26%; text-align: center;">-876,818</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">% Achievement</th>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                
+                                #F64F5C
+                                ; 
+                            font-weight: bold;
+                            text-align: center;
+                            ">
+                            28.6%</td>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                
+                                #F64F5C
+                                ; 
+                            font-weight: bold;
+                            text-align: center;
+                            ">
+                            91.2%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Team Achievement</th>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                
+                                #F64F5C
+                                ; 
+                            font-weight: bold;
+                            text-align: center;
+                            ">
+                            41.4%</td>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                
+                                #F64F5C
+                                ; 
+                            font-weight: bold;
+                            text-align: center;
+                            ">
+                            72.1%</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="column-item" id="column-3">
+                <h2>Calls KPIs</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Call Rate</th>
+                        <td style="
+                        background-color: 
+                            
+                            
+                            
+                            #F64F5C
+                            ; 
+                        color: white;
+                        text-align: center;">
+                            7.7
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            
+                            
+                            #EAC282
+                            ; 
+                        color: white;
+                        text-align: center;">
+                        9.9
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            
+                            
+                            #68A490
+                            ; 
+                        color: white;
+                        text-align: center;">
+                            10.4
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Call Volume</th>
+                        <td style="
+                        background-color: 
+                            
+                            #68A490
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            110%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #68A490
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            115%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            86%
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance</th>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            24%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            76%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            32%
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance A</th>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            0%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            70%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            6%
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-4">
+                <h2>Sales by Product Bucket</h2>
+                <table class="column-5-table" style="width:99%;padding-bottom: 5px;">
+                    <thead>
+                        <tr>
+                            <th>Product Group</th>
+                            <th style="text-align: center;">MTD</th>
+                            <th style="text-align: center;">QTD</th>
+                        </tr>
+                    </thead>
+                    <tbody>                    
+                                                
+                        <tr>
+                            <td>FORTEO</td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    248,500
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 22.06927175843694%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    7,665,000
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 100.0%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                        </tr>
+
+                                                
+                        <tr>
+                            <td>CYMBAL</td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    1,126,000
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 100.0%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    1,275,700
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 16.64318330071754%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                        </tr>
+
+                                                
+                        <tr>
+                            <td>URGOTU</td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    38,290
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 3.4005328596802804%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    89,268
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 1.16461839530332%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                        </tr>
+
+                                                
+                        <tr>
+                            <td>URGOCL</td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    9,450
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 0.8392539964476%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    34,734
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 0.45315068493149996%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                        </tr>
+
+                        
+
+                        <tr>
+                            <td style="font-weight: bold;">Total:</td>
+                            <td style="font-weight: bold; text-align: center;">1,423,974</td>
+                            <td style="font-weight: bold; text-align: center;">9,075,982</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div> 
+
+            <div class="column-item" id="column-5">
+                <h2>Sales-led Activities</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Events</th>
+                        <td style="text-align: center;">0</td>
+                        <td style="text-align: center;">1</td>
+                        <td style="text-align: center;">7</td>
+                    </tr>
+                    <tr>
+                        <th># Touchpoint</th>
+                        <td style="text-align: center;">0</td>
+                        <td style="text-align: center;">11</td>
+                        <td style="text-align: center;">107</td>
+                    </tr>
+                </table>
+
+                <h2>Triggered Emails</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Email Sent</th>
+                        <td style="text-align: center;">4</td>
+                        <td style="text-align: center;">9</td>
+                        <td style="text-align: center;">70</td>
+                    </tr>
+                    <tr>
+                        <th>% Email Open Rate</th>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;
+                    ">
+                            50%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;
+                    ">
+                            78%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;
+                    ">
+                            79%
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Click-through Rate</th>
+                        <td style="text-align: center;">0%</td>
+                        <td style="text-align: center;">0%</td>
+                        <td style="text-align: center;">0%</td>
+                    </tr>
+                </table>
+
+                <h2>Coaching</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Coaching (#Days)</th>
+                        <td style="text-align: center;">0.0</td>
+                        <td style="text-align: center;">1.0</td>
+                        <td style="text-align: center;">9.0</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-6">
+                <h2>Sales by Customer / Account</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                    </tr>
+                                            
+                    <tr>
+                        <td>รพ.มหาราชนครเชียงใหม่</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                1,112,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 100.0%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                7,987,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 100.0%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>นพ.สัตยา โรจนเสถียร</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                90,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 8.09352517985611%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                90,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 1.12683110053837%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>รพ.ค่ายสุรศักดิ์มนตรี</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                82,500
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 7.41906474820143%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                82,500
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 1.03292850882684%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>รพ.แมคคอร์มิค</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                32,730
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 2.943345323741%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                72,392
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 0.90637285589082%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>บ. โรงพยาบาลกรุงเทพเชียงใหม่ จก.</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                38,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 3.41726618705036%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                56,345
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 0.70545887066483%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>บจก.โรงพยาบาลกรุงเทพเชียงราย</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                39,734
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 3.57320143884892%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                42,460
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 0.5316138725428801%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>รพ.เชียงใหม่ราม</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                15,010
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 1.34982014388489%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                25,170
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 0.31513709778389%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>รพ.โอเวอร์บรู๊ค</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                7,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 0.62949640287769%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                16,700
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 0.20908977087767%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>บริษัท ศรีบุรินทร์การแพทย์ จำกัด</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                7,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 0.62949640287769%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                14,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 0.17528483786152%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                     
+                    <tr>
+                        <td style="font-weight: bold;">Total:</td>
+                        <td style="font-weight: bold; text-align: center;">1,423,974</td>
+                        <td style="font-weight: bold; text-align: center;">9,075,982</td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="column-item" id="column-7">
+                <table style="width:99%;padding-bottom: 5px;">
+                    <thead>
+                        <tr>
+                            <th>Rep Name</th>
+                            <th>HCP ID</th>
+                            <th>HCP Name</th>
+                            <th>Segment</th>
+                            <th>Actual Call</th>
+                            <th>Month Target</th>
+                            <th>Quarter Target</th>
+                            <th>Compliance?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0011307</td>
+                            <td>กฤติณห์ นิ่มศิริเรืองผล</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0001193</td>
+                            <td>กสิสิน กลั่นกลิ่น</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0001197</td>
+                            <td>ก่อกู้ เชียงทอง</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0001603</td>
+                            <td>คณิตศ์ สนั่นพานิช</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0001604</td>
+                            <td>คณิน พงศ์มั่นจิต</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0003348</td>
+                            <td>ต่อพงษ์ บุญมาประเสริฐ</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0003430</td>
+                            <td>ทวนฤทธิ์ สอนสะอาด</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0004443</td>
+                            <td>นันทวิช สุคนธเวช</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0015553</td>
+                            <td>นิชนันท์ กิจรานันทน์</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0004718</td>
+                            <td>บวรเสก โรจน์ดำรงรัตนา</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>THHCP02397</td>
+                            <td>บุญฤทธิ์ จิลลาวัณย์</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0007509</td>
+                            <td>วรรธนัย อัตถากร</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0008566</td>
+                            <td>ศัลย์ ศรีสกุล</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0008645</td>
+                            <td>ศิริพจน์ ศรีบัณฑิตกุล</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0009230</td>
+                            <td>สักกาเดช ลิ้มมหาคุณ</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0009248</td>
+                            <td>สัตยา โรจนเสถียร</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0009731</td>
+                            <td>สุทธิภาศ พงศ์มณี</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0010500</td>
+                            <td>อภิรักษ์ แสงสิน</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0002054</td>
+                            <td>จิรายุ ปริโพธ</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0002235</td>
+                            <td>ชนะการ พรพัฒน์กุล</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0002601</td>
+                            <td>ชานนท์ ฟ้าภิญโญ</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0003276</td>
+                            <td>ดำเนินสันต์ พฤกษากร</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0003675</td>
+                            <td>ธนวัฒน์ วะสีนนท์</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0003976</td>
+                            <td>ธีรชัย อภิวรรธกกุล</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0011782</td>
+                            <td>นพรัตน์ รุจินวัฒนพงศ์</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0005135</td>
+                            <td>ประสิทธิ์ วงศ์ตรีรัตนชัย</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>THHCP00930</td>
+                            <td>พสิษฐ์ หวังซื่อกุล</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0015551</td>
+                            <td>วุฒิพงศ์ ศิริวิทยากร</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0008855</td>
+                            <td>สถาพร เปาอินทร์</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0009112</td>
+                            <td>สมาธิต พรวัฒนเวช</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0010380</td>
+                            <td>อนุกูล นิรมิตสันติพงศ์</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>2</td>
+                            <td>6</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0000236</td>
+                            <td>เติมพงศ์ เรียนแพง</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0000411</td>
+                            <td>เมตตาภรณ์ พรพัฒน์กุล</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0000775</td>
+                            <td>โอฬาร อาภรณ์ชยานนท์</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0011249</td>
+                            <td>ไกวัล ศรีเรือนทอง</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0002033</td>
+                            <td>กัณกวี สกุลเจียมใจ</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0001458</td>
+                            <td>กิตติศักดิ์ ฐิติปัญญา</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0003156</td>
+                            <td>ณัทวุฒิ เฮงจีระจรัส</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0003352</td>
+                            <td>ตะวัน ถึงแก้ว</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0003618</td>
+                            <td>ธนบดินทร์ ผลศรีนาค</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0011694</td>
+                            <td>ธนารุจน์ ทิพย์ปัญญา</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0003765</td>
+                            <td>ธนินนิตย์ ลีรพันธ์</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0003944</td>
+                            <td>ธิตินัท ไม้หอม</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0003984</td>
+                            <td>ธีรนัย พยัฆวิเชียร</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0005778</td>
+                            <td>พรพงศ์ อิสริยะพฤกษ์</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0006751</td>
+                            <td>มนต์ชัย พรพัฒนะเจริญชัย</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0008638</td>
+                            <td>ศิริพงศ์ เชี่ยวชาญธนกิจ</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0008738</td>
+                            <td>ศุพรทิพย์ หินทอง</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0008742</td>
+                            <td>ศุภโชค นิเวศเจริญไพศาล</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Passaporn Suriwong</td>
+                            <td>TH0008784</td>
+                            <td>ศุภพงศ์ อาวรณ์</td>
+                            <td>B</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>No</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+
+            </div>
+                <div class="footer">
+                    &copy; 2024 Unity Project | ZP Therapeutics. All rights reserved.
+                </div>
+            </div> 
+
+            <script>
+                function getColor(value) {
+                    if (value < 100) {
+                        return '#ff6f6f'; // red
+                    } else {
+                        return '#6fbf73'; // green
+                    }
+                }
+
+                function convertToPercentageString(num) {
+                    return num.toFixed(2) + '%';
+                }
+
+                function createGaugeChart(ctx, value, text) {
+                    const cappedValue = Math.min(value, 100);
+                    const color = getColor(value);
+                    return new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            datasets: [{
+                                data: [cappedValue, 100 - cappedValue],
+                                backgroundColor: [color, '#f5f5f5'],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            cutout: '80%',
+                            rotation: -90,
+                            circumference: 180,
+                            plugins: {
+                                tooltip: { enabled: false },
+                                legend: { display: false }
+                            }
+                        },
+                        plugins: [{
+                            id: 'textPlugin',
+                            afterDatasetsDraw: (chart, easing) => {
+                                const ctx = chart.ctx;
+                                ctx.save();
+                                const x = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+                                const y = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 1.4;
+                                ctx.font = '16px Arial';
+                                ctx.fillStyle = '#000';
+                                ctx.textAlign = 'center';
+                                ctx.fillText(text, x, y);
+                                ctx.restore();
+                            }
+                        }]
+                    });
+                }
+
+                const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
+                const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
+
+                const mtdValue = "28.6%";
+                const qtdValue = "91.2%";
+
+                function convertPercentageToNumber(percentageString) {
+                    // Remove the '%' character and convert the string to a number
+                    let number = parseFloat(percentageString.replace('%', ''));
+                    return number;
+                }
+
+                createGaugeChart(ctxMTD, convertPercentageToNumber(mtdValue), mtdValue);
+                createGaugeChart(ctxQTD, convertPercentageToNumber(qtdValue), qtdValue);
+            </script>
+
+</body>
+
+</html>

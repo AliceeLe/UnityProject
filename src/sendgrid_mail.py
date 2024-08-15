@@ -25,6 +25,22 @@ country_call_rates = {
     "VN": 11.0
 }
 
+def load_csv():
+    # Paths to the CSV files
+    hcp_csv = 'data/processed/hcp_processed.csv'
+    general_csv = 'data/output/general.csv'
+    sample_csv = 'data/output/sample.csv'
+    product_csv = 'data/processed/Product_List_Unity_Processed.csv'
+    customer_csv = 'data/processed/Customer_List_Unity_Processed.csv'
+
+    # Reading the CSV files
+    hcp_dataset = pd.read_csv(hcp_csv).to_dict(orient='records')
+    general_dataset = pd.read_csv(general_csv).to_dict(orient='records')
+    sample_dataset = pd.read_csv(sample_csv).to_dict(orient='records')
+    product_dataset = pd.read_csv(product_csv).to_dict(orient='records')
+    customer_dataset = pd.read_csv(customer_csv).to_dict(orient='records')
+
+    return hcp_dataset, general_dataset, sample_dataset, product_dataset, customer_dataset
 
 # Function to encode image to Base64
 def encode_image_to_base64(image_path):
@@ -35,11 +51,7 @@ def encode_image_to_base64(image_path):
 def format_to_thousands(number):
     """Converts a string, float, or integer to a string with commas as thousand separators, rounding to the nearest integer.
        If the number is NaN, returns NaN."""
-    try:
-        # Check for NaN
-        if isinstance(number, float) and math.isnan(number):
-            return float('nan')
-        
+    try:        
         # Check if the number is already a float or int
         if isinstance(number, (float, int)):
             rounded_number = round(number)
@@ -84,10 +96,6 @@ def format_percent(number):
 def round_to_one_decimal(number):
     """Rounds a number to 1 decimal place."""
     try:
-        # Check for NaN
-        if isinstance(number, float) and math.isnan(number):
-            return float('nan')
-
         # Check if the number is a float or an int
         if isinstance(number, (float, int)):
             return round(number, 1)
@@ -104,10 +112,6 @@ def round_to_one_decimal(number):
 def format_decimal_percent(number):
     """Converts a string or float representing a decimal to a percentage string, rounded to one decimal place, with a '%' sign."""
     try:
-        # Check for NaN
-        if isinstance(number, float) and math.isnan(number):
-            return float('nan')
-
         # Check if the number is already a float
         if isinstance(number, float):
             return f"{round(number * 100, 1)}%"
@@ -120,6 +124,9 @@ def format_decimal_percent(number):
     except (ValueError, TypeError) as e:
         print(f"Error formatting number {number}: {e}")
         return number  # Return the original value if conversion fails
+
+def round_down_to_integer(number):
+    return math.floor(number)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -140,6 +147,7 @@ env.filters['format_thousands'] = format_to_thousands
 env.filters['format_percent'] = format_percent
 env.filters['format_one_decimal'] = round_to_one_decimal
 env.filters['format_decimal_percent'] = format_decimal_percent
+env.filters['format_integer'] = round_down_to_integer
 
 template = env.get_template('src/email_template.html')
 
@@ -163,6 +171,7 @@ def send_email(to_email, subject, html_content):
         print(f"Error sending email to {to_email}: {e}")
 
 def process_email(row):
+    hcp_dataset, general_dataset, sample_dataset, product_dataset, customer_dataset = load_csv()
     name = row['Owner_Name']
     user_key = row['UserKey_4Map']
 
@@ -229,29 +238,21 @@ def process_email(row):
     subject = f"Unity - Rep: {row['Owner_Name']} - {now.strftime('%Y/%m/%d')}"
     print("Email: " + subject)
     # Send the email
-    # send_email(row['Email'], subject, email_html_content)
+    send_email(row['Email'], subject, email_html_content)
     
-    # # # Clean up files if necessary
-    # os.remove(html_filename)
-    # os.remove(png_filename)
-
-# Paths to the CSV files
-hcp_csv = 'data/processed/hcp_processed.csv'
-general_csv = 'data/processed/sample.csv'
-product_csv = 'data/processed/Product_List_Unity_Processed.csv'
-customer_csv = 'data/processed/Customer_List_Unity_Processed.csv'
-
-# Reading the CSV files
-hcp_dataset = pd.read_csv(hcp_csv).to_dict(orient='records')
-general_dataset = pd.read_csv(general_csv).to_dict(orient='records')
-product_dataset = pd.read_csv(product_csv).to_dict(orient='records')
-customer_dataset = pd.read_csv(customer_csv).to_dict(orient='records')
+    # Clean up files if necessary
+    os.remove(html_filename)
+    os.remove(png_filename)
 
 # Run the process in parallel
 def final_send():
+    hcp_dataset, general_dataset, sample_dataset, product_dataset, customer_dataset = load_csv()
     with ThreadPoolExecutor(max_workers=5) as executor:
         executor.map(process_email, general_dataset)
 
+def final_send_test():
+    hcp_dataset, general_dataset, sample_dataset, product_dataset, customer_dataset = load_csv()
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        executor.map(process_email, sample_dataset)
 
-final_send()
 

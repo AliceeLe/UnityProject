@@ -458,7 +458,7 @@ def process_general_unity():
     merged_df.loc[:, columns_numeric_general] = merged_df.loc[:, columns_numeric_general].fillna(0)
 
     # Save the merged DataFrame to a new CSV file
-    merged_df.to_csv("data/processed/general.csv", index=False)
+    merged_df.to_csv("data/output/general.csv", index=False)
 
 def process_hcp():
     rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP.csv", "data/processed/hcp_processed.csv")
@@ -496,11 +496,24 @@ def process_hcp():
 
 def add_manager_id_col(input_csv, col_merged_by, output_csv):
     df_input = pd.read_csv(input_csv)
-    df_manager = pd.read_csv("data/processed/general.csv")
+    df_manager = pd.read_csv("data/output/general.csv")
 
     result = df_input.merge(df_manager[[col_merged_by, 'Manager_Id']], on=col_merged_by, how='inner')
 
     result.to_csv(output_csv, index=False)
+
+
+def create_sample_csv(email='vtvinh@zuelligpharma.com'):
+    # Load the CSV file into a DataFrame
+    df = pd.read_csv("data/output/general.csv")
+    
+    # Group by 'Country' and select the first 5 rows for each country
+    df_selected = df.groupby('Country').head(5).reset_index(drop=True)
+    
+    # Add a new column 'Email' with the specified email address
+    df_selected['Email'] = email
+    
+    df_selected.to_csv("data/output/sample.csv", index=False)
 
 
 def final_process():
@@ -523,3 +536,4 @@ def final_process():
     add_manager_id_col("data/processed/Product_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Product_List_Unity_Processed.csv")
     add_manager_id_col("data/processed/Customer_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Customer_List_Unity_Processed.csv")
 
+    create_sample_csv(email='vtvinh@zuelligpharma.com')

@@ -744,9 +744,9 @@
                     </tr>
                     <tr>
                         <th>Coaching (#Days)</th>
-                        <td style="text-align: center;">{{row.Coaching_MTD }}</td>
-                        <td style="text-align: center;">{{row.Coaching_QTD }}</td>
-                        <td style="text-align: center;">{{row.Coaching_YTD }}</td>
+                        <td style="text-align: center;">{{row.Coaching_MTD | format_integer }}</td>
+                        <td style="text-align: center;">{{row.Coaching_QTD | format_integer }}</td>
+                        <td style="text-align: center;">{{row.Coaching_YTD | format_integer }}</td>
                     </tr>
                 </table>
 
@@ -810,7 +810,7 @@
                             <td>{{ item.HCP_Name }}</td>
                             <td>{{ item.HCP_Segment }}</td>
                             <td>{{ item.HCP_Actual_Call }}</td>
-                            <td>{{ item.HCP_Target_MTD }}</td>
+                            <td>{{ item.HCP_Target_MTD | format_integer }}</td>
                             <td>{{ item.HCP_Target_QTD }}</td>
                             <td>{{ item.HCP_Compliance }}</td>
                         </tr>

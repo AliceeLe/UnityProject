@@ -21,7 +21,7 @@ File excel needed:
 - Unity_Export: Call KPI & Target 
 
 
-1. Reformat: All data related to number: Coaching day: NaN = 0, render integer 
+1. Reformat: All data related to number: Coaching day: NaN = 0, render integer [Done]
 2. Write function for send_test()
 3. Render cho email FLM 
 4. Rank according to segment and call [Done]
