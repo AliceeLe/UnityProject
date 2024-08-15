@@ -179,7 +179,6 @@ def process_email(row):
     unique_id = uuid.uuid4().hex
     html_filename = f'src/email_final_{unique_id}.html'
     png_filename = f'src/email_{unique_id}.png'
-
     # Render the template with variables from the CSV row and additional data
     html_content = template.render(row=row, country_call_rates=country_call_rates, hcp_filtered=hcp_filtered, product_filtered=product_filtered,customer_filtered=customer_filtered)        
 
@@ -192,7 +191,6 @@ def process_email(row):
     
     # Encode the generated PNG image to Base64
     image_png = encode_image_to_base64(png_filename)
-    
     # Create the email content with the embedded image
     email_html_content = f"""
         <html>
@@ -228,14 +226,14 @@ def process_email(row):
     
     now = datetime.now()
     # Define the subject
-    subject = f"Sales dashboard - {row['Name']} - {now.strftime('%Y/%m/%d')}"
+    subject = f"Sales dashboard - {row['Owner_Name']} - {now.strftime('%Y/%m/%d')}"
     print("Email: " + subject)
     # Send the email
     send_email(row['Email'], subject, email_html_content)
     
     # # Clean up files if necessary
-    # os.remove(html_filename)
-    # os.remove(png_filename)
+    os.remove(html_filename)
+    os.remove(png_filename)
 
 # Paths to the CSV files
 hcp_csv = 'data/raw/Unity_Export_HCP.csv'
