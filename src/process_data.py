@@ -235,10 +235,11 @@ def process_product_unity():
     # Sort the DataFrame by 'MTD Sales' in descending order
     filtered_df = filtered_df.sort_values(by=['UserKey_4Map','Product_QTD'], ascending=False)
 
-    # # Filter out other months
+    # Filter out other months
     filtered_month_df = filtered_df[filtered_df['yearmonth'] ==  find_month()]
 
     filtered_month_df.to_csv('data/processed/Product_List_Unity_Processed.csv', index=False)
+    
     print("Finished processing product")
 
 def process_customer_unity():
@@ -375,20 +376,63 @@ def process_general_unity():
     # Save the merged DataFrame to a new CSV file
     merged_df.to_csv("data/processed/general.csv", index=False)
 
+def process_hcp():
+    df = pd.read_csv("data/processed/hcp_processed.csv")
+
+    def calculate_rate(row):
+        if pd.isna(row['HCP_Target_MTD']) or row['HCP_Target_MTD'] == 0:
+            if pd.isna(row['HCP_Actual_Call']) or row['HCP_Actual_Call'] == 0:
+                return 0
+            else:
+                return 1  # 100% in decimal
+        else:
+            percent_qtd = row['HCP_Actual_Call'] / row['HCP_Target_MTD']
+            if percent_qtd < 0:
+                return 0
+            else:
+                return percent_qtd
+
+    df['Rate'] = df.apply(calculate_rate, axis=1)
+
+    # Set HCP_Segment as a categorical type with a custom order
+    segment_order = ['A', 'B', 'C']
+    df['HCP_Segment'] = pd.Categorical(df['HCP_Segment'], categories=segment_order, ordered=True)
+
+    # Sort the DataFrame first by 'HCP_Segment' and then by 'Rate' in descending order
+    df = df.sort_values(by=['HCP_Segment', 'Rate'], ascending=[True, False])
+
+    df.to_csv("data/processed/hcp_processed.csv", index=False)
+    print("Finished processing HCP")
+
+
+def add_manager_id_col(input_csv, col_merged_by, output_csv):
+    df_input = pd.read_csv(input_csv)
+    df_manager = pd.read_csv("data/processed/general.csv")
+
+    result = df_input.merge(df_manager[[col_merged_by, 'Manager_Id']], on=col_merged_by, how='inner')
+
+    result.to_csv(output_csv, index=False)
 
 
 def final_process():
     # Split Sales360_Unity into 3 csv files: SvT, Product, Customer 
-    split_xlsx("data/raw/Sales360_Unity.xlsx")
+    # split_xlsx("data/raw/Sales360_Unity.xlsx")
 
-    # Process 3 csv files: SvT, Product, Customer: Create columns for QTD
-    process_product_unity()
-    process_svt_unity()
-    process_customer_unity()
+    # # Process 3 csv files: SvT, Product, Customer: Create columns for QTD
+    # process_product_unity()
+    # process_svt_unity()
+    # process_customer_unity()
 
-    # Merge info about manager from Unity_Export into SvT -> Find %Team_Achievement 
-    process_general_unity()
+    # # Merge info about manager from Unity_Export into SvT -> Find %Team_Achievement 
+    # process_general_unity()
 
     # Rename HCP Table
-    rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP.csv","data/raw/Unity_Export_HCP.csv")
+    process_hcp()
 
+
+    # Add manager id for HCP, Product, Customer
+    # add_manager_id_col("data/raw/Unity_Export_HCP.csv", "Owner_Name", "data/processed/hcp_processed.csv")
+    # add_manager_id_col("data/processed/Product_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Product_List_Unity_Processed.csv")
+    # add_manager_id_col("data/processed/Customer_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Customer_List_Unity_Processed.csv")
+
+process_hcp()

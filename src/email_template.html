@@ -170,7 +170,7 @@
         .footer {
             text-align: center;
             color: white;
-            font-size: 12px;
+            font-size: 14px;
             margin-top: 20px;
         }
 
@@ -621,39 +621,6 @@
 
                     </tbody>
                 </table>
-                
-                <!-- <table class="column-5-table">
-                    <tr>
-                        <th>Product Group</th>
-                        <th style="text-align: center;">MTD</th>
-                        <th style="text-align: center;">QTD</th>
-                    </tr>
-                    <tr>
-                        <td class="column-info">PROPAN W/ IRON</td>
-                        <td style="text-align: center;">663,003</td>
-                        <td style="text-align: center;">1,734,080</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">PROPAN SYRUP</td>
-                        <td style="text-align: center;">476,250</td>
-                        <td style="text-align: center;">1,497,838</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">NIZORAL</td>
-                        <td style="text-align: center;">268,055</td>
-                        <td style="text-align: center;">814,131</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">PHYSIONEAL</td>
-                        <td style="text-align: center;">121,201</td>
-                        <td style="text-align: center;">772,896</td>
-                    </tr>
-                    <tr style="font-weight: bold;">
-                        <td>Total</td>
-                        <td style="text-align: center;">1,528,508</td>
-                        <td style="text-align: center;">4,818,936</td>
-                    </tr>
-                </table> -->
             </div> 
 
             <div class="column-item" id="column-5">
@@ -812,97 +779,6 @@
                         </td>
                     </tr>
                     {% endfor %} 
-
-                    <!-- <tr>
-                        <td class="column-info">PAMELA YOUDE N.E.H.</td>
-                        <td>257,592</td>
-                        <td>724,984</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">PAMELA YOUDE NETHERS</td>
-                        <td>238,000</td>
-                        <td>687,568</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">UNITED CHRISTIAN HOS</td>
-                        <td>50,952</td>
-                        <td>197,728</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">QUALITY HEALTHCARE M</td>
-                        <td>35,388</td>
-                        <td>167,472</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">DEP8 CHAI WAN FAMILI</td>
-                        <td>0</td>
-                        <td>152,224</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">CARING MEDICAL CENTER</td>
-                        <td>63,350</td>
-                        <td>114,450</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">THE H.K. AND CHINA G</td>
-                        <td>19,600</td>
-                        <td>58,800</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">MANNINGS O/B THE DAI</td>
-                        <td>11,703</td>
-                        <td>43,147</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">RUTTONJEE HOSPITAL C</td>
-                        <td>13,926</td>
-                        <td>26,352</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">COMMUNITY HEALTH SER</td>
-                        <td>0</td>
-                        <td>25,920</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">PHARM + ST JAMES' SET</td>
-                        <td>25,920</td>
-                        <td>25,920</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">ST. JAMES' SETTLEMEN</td>
-                        <td>0</td>
-                        <td>25,920</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">DR. CHEUNG KWOK MING</td>
-                        <td>0</td>
-                        <td>22,418</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">CHEUNG CHOON DISPENS</td>
-                        <td>14,250</td>
-                        <td>14,250</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">HING SHING DISPENSAR</td>
-                        <td>12,960</td>
-                        <td>12,960</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">KWAN HING DISPENSARY</td>
-                        <td>12,960</td>
-                        <td>12,960</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">TIEN LU DISPENSARY</td>
-                        <td>12,960</td>
-                        <td>12,960</td>
-                    </tr>
-                    <tr>
-                        <td class="column-info">TIEN LU DISPENSARY L</td>
-                        <td>12,960</td>
-                        <td>12,960</td>
-                    </tr> -->
                     <tr>
                         <td style="font-weight: bold;">Total:</td>
                         <td style="font-weight: bold; text-align: center;">{{ customer_filtered[0].Customer_Total_MTD | format_thousands }}</td>
@@ -922,7 +798,7 @@
                             <th>Segment</th>
                             <th>Actual Call</th>
                             <th>Month Target</th>
-                            <th>Quarter Tartet</th>
+                            <th>Quarter Target</th>
                             <th>Compliance?</th>
                         </tr>
                     </thead>

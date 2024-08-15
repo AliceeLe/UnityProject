@@ -18,7 +18,7 @@ SCOPES = ["https://graph.microsoft.com/.default"]
 # SharePoint site and folder details
 SHAREPOINT_SITE = "zpssgpatientsolutions.sharepoint.com"
 SHAREPOINT_SITE_PATH = "/sites/BusinessAnalytics"
-FOLDER_PATHS = ["General/Dataset/Unity/PY_model", "General/Dataset/Unity", "General/Dataset/Unity/old"]
+FOLDER_PATHS = ["General/Dataset/Unity/PY_model", "General/Dataset/Unity"]
 
 def get_site_id(headers):
     # Get the site ID

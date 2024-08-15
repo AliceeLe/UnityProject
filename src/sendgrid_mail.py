@@ -236,7 +236,7 @@ def process_email(row):
     # os.remove(png_filename)
 
 # Paths to the CSV files
-hcp_csv = 'data/raw/Unity_Export_HCP.csv'
+hcp_csv = 'data/processed/hcp_processed.csv'
 general_csv = 'data/processed/sample.csv'
 product_csv = 'data/processed/Product_List_Unity_Processed.csv'
 customer_csv = 'data/processed/Customer_List_Unity_Processed.csv'
