@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @font-face {
@@ -665,15 +667,15 @@
                     </tr>
                     <tr>
                         <th># Events</th>
-                        <td style="text-align: center;">{{ row.Event_MTD }}</td>
-                        <td style="text-align: center;">{{ row.Event_QTD }}</td>
-                        <td style="text-align: center;">{{ row.Event_YTD }}</td>
+                        <td style="text-align: center;">{{ row.Event_MTD | format_thousands }}</td>
+                        <td style="text-align: center;">{{ row.Event_QTD | format_thousands }}</td>
+                        <td style="text-align: center;">{{ row.Event_YTD | format_thousands }}</td>
                     </tr>
                     <tr>
                         <th># Touchpoint</th>
-                        <td style="text-align: center;">{{ row.Touchpoint_MTD }}</td>
-                        <td style="text-align: center;">{{ row.Touchpoint_QTD }}</td>
-                        <td style="text-align: center;">{{ row.Touchpoint_YTD }}</td>
+                        <td style="text-align: center;">{{ row.Touchpoint_MTD | format_thousands }}</td>
+                        <td style="text-align: center;">{{ row.Touchpoint_QTD | format_thousands }}</td>
+                        <td style="text-align: center;">{{ row.Touchpoint_YTD | format_thousands }}</td>
                     </tr>
                 </table>
 
@@ -687,9 +689,9 @@
                     </tr>
                     <tr>
                         <th># Email Sent</th>
-                        <td style="text-align: center;">{{ row.Email_Sent_MTD }}</td>
-                        <td style="text-align: center;">{{ row.Email_Sent_QTD }}</td>
-                        <td style="text-align: center;">{{ row.Email_Sent_YTD }}</td>
+                        <td style="text-align: center;">{{ row.Email_Sent_MTD | format_thousands }}</td>
+                        <td style="text-align: center;">{{ row.Email_Sent_QTD | format_thousands }}</td>
+                        <td style="text-align: center;">{{ row.Email_Sent_YTD | format_thousands }}</td>
                     </tr>
                     <tr>
                         <th>% Email Open Rate</th>

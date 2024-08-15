@@ -3,12 +3,6 @@ import os
 from datetime import datetime
 import math 
 
-country_name_mapping = {
-    'kpi.OwnerId': 'kpi_tracker_userlevel[kpi.OwnerId]',
-    'Name': 'kpi_tracker_userlevel[Name]',
-    'AD_Group': 'Country',
-}
-
 hcp_mapping = {
 
     'kpi_tracker_userlevel[Name]':'Owner_Name',
@@ -64,22 +58,16 @@ general_mapping = {
     "[SumKPI_ACT_YTD_OpenRate]":"Mail_Open_Rate_YTD",
     }
 
-product_mapping = {
-    'REF_TIME[KPI_Ref_Time]':'Product_Month',
-    'SplitRep_BQ[Product Group]':'Product_Group',
-    "user[Name]": 'Name',
-    "user[Id]":'ID',
-    "[QTD_Value_QTY_Transaction_Market]":'Product_QTD',
-    "[Value_Qty_Transaction_Market]":'Product_MTD'
-}
-
-usermaster_mapping = {
-    'Id':'ID',
-    'userrole.Name':'Role',
-    'ManagerId': 'Manager_id',
-    'Username':'Email',
-    'Profile':'Role',
-    'userrole.Name':'UserKey_4Map',
+contact_mapping = {
+    "user[userrole.Name]": "UserKey_4Map",
+    "kpi_tracker_userlevel[Username]": "Owner_Email",
+    "kpi_tracker_userlevel[Name]":"Owner_Name",
+    "kpi_tracker_userlevel[Profile_Name_vod__c]":"Role",
+    "kpi_tracker_userlevel[UserName_Level1]":"Manager_Name",
+    "kpi_tracker_userlevel[UserId_Level1]":"Manager_Id",
+    "kpi_tracker_userlevel[kpi.OwnerId]":"Owner_Id",
+    "kpi_tracker_userlevel[Userid_Level1.Username]":"Manager_Email",
+    "kpi_tracker_userlevel[Latest_Active_User]":"Status"
 }
 
 def find_month():
@@ -87,101 +75,6 @@ def find_month():
     formatted_time = now.strftime("%Y-%m-01")
     print(formatted_time)
     return formatted_time
-
-def get_current_month_year():
-    # Get the current date
-    now = datetime.now()
-    # Format the date as YYYYMM
-    formatted_date = now.strftime("%Y%m")
-    return formatted_date
-
-def merge_country():
-    # Define the paths to the CSV files
-    # path_name = get_current_month_year()
-    path_name = 202406
-    csv_file_1_path = f'data/raw/Country_Master_{path_name}.csv'
-    csv_file_2_path = f'data/raw/Unity_Export_S360_{path_name}.csv'  
-
-    # Read the CSV files into DataFrames
-    df1 = pd.read_csv(csv_file_1_path)
-    df2 = pd.read_csv(csv_file_2_path)
-
-    # Merge the DataFrames on the common columns
-    merged_df = pd.merge(df1, df2, on=["kpi_tracker_userlevel[kpi.OwnerId]","kpi_tracker_userlevel[Name]"])
-    
-    # Define the path to save the merged DataFrame
-    output_file_path = f'data/raw/Country_Master_{path_name}.csv'
-
-    # Save the merged DataFrame to a new CSV file
-    merged_df.to_csv(output_file_path, index=False)
-
-    print(f"Merged CSV file successfully saved")
-
-def merge_all():
-    # Define the paths to the CSV files
-    # path_name = get_current_month_year()
-    path_name = 202406
-    csv_file_1_path = f'data/raw/Unity_Export_MTDCall_{path_name}.csv'
-    csv_file_2_path = f'data/raw/Unity_Export_S360_{path_name}.csv'  
-    csv_file_3_path = 'data/merged/merged_qtd.csv'
-    csv_file_4_path = f'data/raw/Unity_Export_Others_{path_name}.csv'
-    csv_file_5_path = f'data/raw/Country_Master_{path_name}.csv'
-
-    # Read the CSV files into DataFrames
-    df1 = pd.read_csv(csv_file_1_path)
-    df2 = pd.read_csv(csv_file_2_path)
-    df3 = pd.read_csv(csv_file_3_path)
-    df4 = pd.read_csv(csv_file_4_path)
-    df5 = pd.read_csv(csv_file_5_path)
-
-    # Merge the DataFrames on the common columns
-    merged_df = pd.merge(df1, df2, on=["kpi_tracker_userlevel[kpi.OwnerId]","kpi_tracker_userlevel[Name]", "kpi_tracker_userlevel[UserName_Level1]","kpi_tracker_userlevel[UserId_Level1]"])
-    merged_df = pd.merge(merged_df, df3, on=["kpi_tracker_userlevel[kpi.OwnerId]","kpi_tracker_userlevel[Name]", "kpi_tracker_userlevel[UserName_Level1]","kpi_tracker_userlevel[UserId_Level1]"])
-    merged_df = pd.merge(merged_df, df4, on=["kpi_tracker_userlevel[kpi.OwnerId]","kpi_tracker_userlevel[Name]", "kpi_tracker_userlevel[UserName_Level1]","kpi_tracker_userlevel[UserId_Level1]"])
-    merged_df = pd.merge(merged_df, df5, on=["kpi_tracker_userlevel[kpi.OwnerId]","kpi_tracker_userlevel[Name]"])
-
-    # Define the path to save the merged DataFrame
-    output_file_path = 'data/merged/output_merged.csv'
-
-    # Save the merged DataFrame to a new CSV file
-    merged_df.to_csv(output_file_path, index=False)
-
-    print(f"Merged CSV file successfully saved as {output_file_path}")
-
-def merge_qtd():
-    # path_name = get_current_month_year()
-    path_name = 202406
-
-    # Define the paths to the CSV files
-    csv_files = [
-        f'data/raw/Unity_Export_QTDCall_HKMMTWVN_{path_name}.csv',
-        f'data/raw/Unity_Export_QTDCall_ID_{path_name}.csv',
-        f'data/raw/Unity_Export_QTDCall_MYSGBNKH_{path_name}.csv',
-        f'data/raw/Unity_Export_QTDCall_PHTH_{path_name}.csv'
-    ]
-
-    # List to hold DataFrames
-    data_frames = []
-
-    # Read each CSV file into a DataFrame and add it to the list
-    for csv_file in csv_files:
-        if os.path.exists(csv_file):
-            df = pd.read_csv(csv_file)
-            data_frames.append(df)
-        else:
-            print(f"File not found: {csv_file}")
-            exit(1)
-
-    # Concatenate all DataFrames
-    merged_df = pd.concat(data_frames, ignore_index=True)
-
-    # Define the path to save the merged DataFrame
-    output_file_path = 'data/merged/merged_qtd.csv'
-
-    # Save the merged DataFrame to a new CSV file
-    merged_df.to_csv(output_file_path, index=False)
-
-    print(f"Merged CSV file successfully saved as {output_file_path}")
 
 def rename_csv_column(col_dict, csv_input, csv_output):
     # Read the CSV file into a DataFrame
@@ -203,70 +96,6 @@ def rename_csv_column(col_dict, csv_input, csv_output):
     df.to_csv(csv_output, index=False)
     print(f"{csv_output} successfully renamed")
     
-def process_general():
-    # Read the CSV file into a DataFrame
-    df = pd.read_csv("data/processed/output_renamed.csv")
-
-    user_master_df = pd.read_csv('data/raw/UserMaster_4Map.csv')
-    merged_df = pd.merge(df, user_master_df, on=["Country", "ID", "Role", "Manager_id", "Name"])
-
-
-
-    # Process Role row
-    def process_role(role):
-        if isinstance(role, str) and role.startswith('ZLG_') and role.endswith('_CRM'):
-            return role[4:-4]
-        return None
-
-    # Apply the process_role function to the Role column
-    merged_df['Role'] = merged_df['Role'].apply(process_role)
-
-    # Remove rows with None in the Role column or where Status is 'inactive'
-    merged_df = merged_df[merged_df['Role'].notnull() & (merged_df['Active_User'].str.lower() != 'inactive')]
-
-
-    # Save the DataFrame with the converted columns to a new CSV file
-    merged_df.to_csv("data/processed/output_processed.csv", index=False)
-    print(f"DataFrame successfully saved with converted columns as data/processed/output_processed")
-
-def process_product():
-    df = pd.read_csv('data/raw/Unity_Export_Product_202406.csv')
-
-    # Sort by 'Name' and then by 'Product_QTD' within each name group in descending order
-    df_sorted = df.sort_values(by=['Name', 'Product_QTD'], ascending=[True, False])
-
-    df_sorted['Product_Total_MTD'] = df_sorted.groupby('Name')['Product_MTD'].transform('sum')
-    df_sorted['Product_Total_QTD'] = df_sorted.groupby('Name')['Product_QTD'].transform('sum')
-
-    df_sorted['Max_MTD'] = df_sorted.groupby(['Name', 'ID'])['Product_MTD'].transform('max')
-    df_sorted['Max_QTD'] = df_sorted.groupby(['Name', 'ID'])['Product_QTD'].transform('max')
-
-    def calculate_percent_mtd(row):
-        if pd.isna(row['Max_MTD']) or row['Max_MTD'] == 0:
-            if pd.isna(row['Product_MTD']) or row['Product_MTD'] == 0:
-                return 0
-            else:
-                return 1  # 100% in decimal
-        else:
-            return row['Product_MTD'] / row['Max_MTD']
-
-    def calculate_percent_qtd(row):
-        if pd.isna(row['Max_QTD']) or row['Max_QTD'] == 0:
-            if pd.isna(row['Product_QTD']) or row['Product_QTD'] == 0:
-                return 0
-            else:
-                return 1  # 100% in decimal
-        else:
-            return row['Product_QTD'] / row['Max_QTD']
-
-    df_sorted['Percent_MTD'] = df_sorted.apply(calculate_percent_mtd, axis=1)
-    df_sorted['Percent_QTD'] = df_sorted.apply(calculate_percent_qtd, axis=1)
-
-
-    # Save the formatted and sorted DataFrame back to a CSV file
-    df_sorted.to_csv('data/raw/Unity_Export_Product_202406.csv', index=False)
-    print("Finished processing product")
-
 def split_xlsx(file_path):
     excel_data = pd.ExcelFile(file_path)
 
@@ -486,18 +315,6 @@ def process_general_unity():
     df_contact = pd.read_csv('data/raw/Unity_Export_Others.csv')
     df_kpi = pd.read_csv('data/raw/Unity_Export.csv')
 
-    col_dict = {
-        "user[userrole.Name]": "UserKey_4Map",
-        "kpi_tracker_userlevel[Username]": "Owner_Email",
-        "kpi_tracker_userlevel[Name]":"Owner_Name",
-        "kpi_tracker_userlevel[Profile_Name_vod__c]":"Role",
-        "kpi_tracker_userlevel[UserName_Level1]":"Manager_Name",
-        "kpi_tracker_userlevel[UserId_Level1]":"Manager_Id",
-        "kpi_tracker_userlevel[kpi.OwnerId]":"Owner_Id",
-        "kpi_tracker_userlevel[Userid_Level1.Username]":"Manager_Email",
-        "kpi_tracker_userlevel[Latest_Active_User]":"Status"
-    }
-
     columns_to_delete = [
     "summary[KPI_Ref_Time]",
     '[SumValue_Qty_Transaction_Market]',
@@ -511,7 +328,7 @@ def process_general_unity():
     ]
 
     # Rename the columns using the mapping
-    df_contact.rename(columns=col_dict, inplace=True)
+    df_contact.rename(columns=contact_mapping, inplace=True)
     df_contact.to_csv('data/processed/Unity_Export_Others_Processed.csv', index=False)
 
     df_kpi = df_kpi.drop(columns=columns_to_delete)
@@ -574,9 +391,4 @@ def final_process():
 
     # Rename HCP Table
     rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP.csv","data/raw/Unity_Export_HCP.csv")
-
-    # process_general()
-    # process_product()
-
-rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP.csv","data/raw/Unity_Export_HCP.csv")
 

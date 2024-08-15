@@ -19,3 +19,6 @@ File excel needed:
 - Unity_Export_HCP: HCP 
 - Unity_Export_Others: Map Name, Key, Manager_ID, etc. 
 - Unity_Export: Call KPI & Target 
+
+
+Coaching day: NaN = 0

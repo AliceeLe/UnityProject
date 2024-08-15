@@ -423,7 +423,6 @@ REF_TIME[KPI_Ref_Time],UserKey_4Map,Owner_Email,Owner_Name,Role,Manager_Name,Man
 2024-08,MM_ETCLM_02,maypanhnin@zuelligpharma.com,May Pan Hnin,ZLG_Rep_CRM,Lynn Soe Zaw,0055h00000BUrSQAA1,0055h00000BUrTDAA1,lynnsoezaw@zuelligpharma.com,
 2024-08,MM_ETCLM_03,yemyatlin@zuelligpharma.com,Ye Myat Lin,ZLG_Rep_CRM,Lynn Soe Zaw,0055h00000BUrSQAA1,0055h00000BUrTEAA1,lynnsoezaw@zuelligpharma.com,
 2024-08,MM_ETCLM_04,haymannoo@zuelligpharma.com,Hay Mann Oo,ZLG_Rep_CRM,Lynn Soe Zaw,0055h00000BUrSQAA1,0055h00000BUrTFAA1,lynnsoezaw@zuelligpharma.com,
-2024-08,MM_ETCLM_05,thandarwin@zuelligpharma.com,Thandar Win,ZLG_Rep_CRM,Lynn Soe Zaw,0055h00000BUrSQAA1,0055h00000BUrTGAA1,lynnsoezaw@zuelligpharma.com,
 2024-08,MM_ETCLM_06,niayekhaing@zuelligpharma.com,Ni Aye Khaing,ZLG_Rep_CRM,Lynn Soe Zaw,0055h00000BUrSQAA1,0055h00000BUrTHAA1,lynnsoezaw@zuelligpharma.com,
 2024-08,MM_ETCLM_07,myothinzar@zuelligpharma.com,Myo Thinzar,ZLG_Rep_CRM,Lynn Soe Zaw,0055h00000BUrSQAA1,0055h00000BUrTIAA1,lynnsoezaw@zuelligpharma.com,
 2024-08,MM_ETCLM_08,ayethandarmyint@zuelligpharma.com,Aye Thandar Myint,ZLG_Rep_CRM,Lynn Soe Zaw,0055h00000BUrSQAA1,0055h00000BUrTJAA1,lynnsoezaw@zuelligpharma.com,
@@ -432,7 +431,8 @@ REF_TIME[KPI_Ref_Time],UserKey_4Map,Owner_Email,Owner_Name,Role,Manager_Name,Man
 2024-08,MM_ETCLM_11,kyawzayarkhant@zuelligpharma.com,Kyaw Zayar Khant,ZLG_Rep_CRM,Kyaw Ngwe Zaw,0055h00000BUrSRAA1,0055h00000BUrTMAA1,kyawngwezaw@zuelligpharma.com,
 2024-08,MM_ETCLM_12,thuranyeinchan@zuelligpharma.com,Thura Nyein Chan,ZLG_Rep_CRM,Kyaw Ngwe Zaw,0055h00000BUrSRAA1,0055h00000BUuVdAAL,kyawngwezaw@zuelligpharma.com,
 2024-08,MM_ETCLM_13,moethantsin@zuelligpharma.com,Moe Thant Sin,ZLG_Rep_CRM,Kyaw Ngwe Zaw,0055h00000BUrSRAA1,0055h00000BUrTQAA1,kyawngwezaw@zuelligpharma.com,
-2024-08,MM_ETCLMKAM,zarnipyaesoneoo@zuelligpharma.com,Zarni Pyae Sone Oo,ZLG_Rep_CRM,Lynn Soe Zaw,0055h00000BUrSQAA1,0055h00000BUrT7AAL,lynnsoezaw@zuelligpharma.com,
+2024-08,MM_ETCLMFLM_01,zarnipyaesoneoo@zuelligpharma.com,Zarni Pyae Sone Oo,ZLG_Rep_CRM,Lynn Soe Zaw,0055h00000BUrSQAA1,0055h00000BUrT7AAL,lynnsoezaw@zuelligpharma.com,
+2024-08,MM_ETCLMKAM,thandarwin@zuelligpharma.com,Thandar Win,ZLG_Rep_CRM,Lynn Soe Zaw,0055h00000BUrSQAA1,0055h00000BUrTGAA1,lynnsoezaw@zuelligpharma.com,
 2024-08,MM_ETCUM_01,ayeayeaung@zuelligpharma.com,Aye Aye Aung,ZLG_Rep_CRM,Khin Hnin Soe,0055h00000BUrSSAA1,0055h00000BUrTSAA1,khinhninsoe@zuelligpharma.com,
 2024-08,MM_ETCUM_02,khantminkyaw@zuelligpharma.com,Khant Min Kyaw,ZLG_Rep_CRM,Khin Hnin Soe,0055h00000BUrSSAA1,0055h00000BUrTXAA1,khinhninsoe@zuelligpharma.com,
 2024-08,MM_ETCUM_03,thihaaung@zuelligpharma.com,Thiha Aung,ZLG_Rep_CRM,Khin Hnin Soe,0055h00000BUrSSAA1,0055h00000BUrTYAA1,khinhninsoe@zuelligpharma.com,
@@ -590,7 +590,7 @@ REF_TIME[KPI_Ref_Time],UserKey_4Map,Owner_Email,Owner_Name,Role,Manager_Name,Man
 2024-08,PH_CFXNATL01,mbaurile@zuelligpharma.com,Marilyn Baurile,ZLG_Rep_CRM,Webster Olarte,0055h000009A3SBAA0,0055h000006HECJAA4,wolarte@zuelligpharma.com,inactive
 2024-08,PH_CFXNATL03,chtorres@zuelligpharma.com,Christopher Torres,ZLG_Rep_CRM,Joy Lourdes Minabes,0055h000009BYeYAAW,0055h000006HEDHAA4,jlminabes@zuelligpharma.com,
 2024-08,PH_CFXNATL04,aaggabao@zuelligpharma.com,Adrian Aggabao,ZLG_Rep_CRM,Susaine Love Llaneta,0055h000006Hl5vAAC,0055h000006HEDIAA4,sllaneta@zuelligpharma.com,inactive
-2024-08,PH_CFXNATL05,lsaracanlao@zuelligpharma.com,LEOPOLDO SARACANLAO JR,ZLG_Rep_CRM,Mary Gold Salazar,0055h000006HEBHAA4,0055h000008OFAGAA4,msalazar@zuelligpharma.com,
+2024-08,PH_CFXNATL05,lsaracanlao@zuelligpharma.com,Leopoldo Saracanlao Jr,ZLG_Rep_CRM,Mary Gold Salazar,0055h000006HEBHAA4,0055h000008OFAGAA4,msalazar@zuelligpharma.com,
 2024-08,PH_CFXNATL06,vparas@zuelligpharma.com,Verna Mae Paras,ZLG_Rep_CRM,Marc Gil Velota,0055h000009A4xKAAS,0055h000006HEDJAA4,mgvelota@zuelligpharma.com,
 2024-08,PH_CFXNATL07,cmatienza@zuelligpharma.com,Christian Mark Lester Atienza,ZLG_Rep_CRM,MICHAEL LEDESMA,0055h000008OFALAA4,0055h000006HEDKAA4,mgledesma@zuelligpharma.com,
 2024-08,PH_CFXNATL08,edelosreyes@zuelligpharma.com,Erick Gayve Delos Reyes,ZLG_Rep_CRM,Marc Gil Velota,0055h000009A4xKAAS,0055h000008OIF0AAO,mgvelota@zuelligpharma.com,
@@ -610,7 +610,7 @@ REF_TIME[KPI_Ref_Time],UserKey_4Map,Owner_Email,Owner_Name,Role,Manager_Name,Man
 2024-08,PH_CHCDERM03,malagman@zuelligpharma.com,Mary Ann Lagman,ZLG_Rep_CRM,Leo Mariano,0055h000006HECkAAO,0055h00000974L8AAI,lmariano@zuelligpharma.com,inactive
 2024-08,PH_CHCDERM04,rdiesta@zuelligpharma.com,Ram Andrei Diesta,ZLG_Rep_CRM,Mary Gold Salazar,0055h000006HEBHAA4,0055h000006HEBUAA4,msalazar@zuelligpharma.com,
 2024-08,PH_CHCDERM05,rabegonia@zuelligpharma.com,Rachel Abegonia,ZLG_Rep_CRM,Avegael Adrianne San Luis,0055h000006HECnAAO,0055h000006HEDEAA4,asanluis@zuelligpharma.com,inactive
-2024-08,PH_CHCDERM06,bjalcancia@zuelligpharma.com,Bryan John Alcancia,ZLG_Rep_CRM,Anthony Catral,0055h000006HECqAAO,0055h000008OFA6AAO,acatral@zuelligpharma.com,
+2024-08,PH_CHCDERM06,bjalcancia@zuelligpharma.com,BRYAN JOHN ALCANCIA,ZLG_Rep_CRM,Anthony Catral,0055h000006HECqAAO,0055h000008OFA6AAO,acatral@zuelligpharma.com,
 2024-08,PH_CHCDERM07,mprado@zuelligpharma.com,Ma. Regina Prado,ZLG_Rep_CRM,Mary Gold Salazar,0055h000006HEBHAA4,0055h000006HEAkAAO,msalazar@zuelligpharma.com,
 2024-08,PH_CHCMIN01,jaburgos@zuelligpharma.com,Jastine Aya Gonzales,ZLG_Rep_CRM,Chuck Cabrera,0055h000006HECpAAO,0055h000006HECvAAO,ccabrera@zuelligpharma.com,
 2024-08,PH_CHCMIN02,msabando@zuelligpharma.com,Ma. Catherine Sabando,ZLG_Rep_CRM,Chuck Cabrera,0055h000006HECpAAO,0055h000006HECuAAO,ccabrera@zuelligpharma.com,

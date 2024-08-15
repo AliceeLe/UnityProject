@@ -229,11 +229,11 @@ def process_email(row):
     subject = f"Sales dashboard - {row['Owner_Name']} - {now.strftime('%Y/%m/%d')}"
     print("Email: " + subject)
     # Send the email
-    send_email(row['Email'], subject, email_html_content)
+    # send_email(row['Email'], subject, email_html_content)
     
-    # # Clean up files if necessary
-    os.remove(html_filename)
-    os.remove(png_filename)
+    # # # Clean up files if necessary
+    # os.remove(html_filename)
+    # os.remove(png_filename)
 
 # Paths to the CSV files
 hcp_csv = 'data/raw/Unity_Export_HCP.csv'
@@ -251,6 +251,7 @@ customer_dataset = pd.read_csv(customer_csv).to_dict(orient='records')
 def final_send():
     with ThreadPoolExecutor(max_workers=5) as executor:
         executor.map(process_email, general_dataset)
+
 
 final_send()
 
