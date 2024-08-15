@@ -22,7 +22,7 @@ File excel needed:
 
 
 1. Reformat: All data related to number: Coaching day: NaN = 0, render integer [Done]
-2. Write function for send_test()
+2. Write function for send_test() [Done]
 3. Render cho email FLM 
 4. Rank according to segment and call [Done]
 

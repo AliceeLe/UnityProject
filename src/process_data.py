@@ -4,7 +4,6 @@ from datetime import datetime
 import math 
 
 hcp_mapping = {
-
     'kpi_tracker_userlevel[Name]':'Owner_Name',
     "kpi_tracker_userlevel[kpi.OwnerId]":"Owner_Id",
     'kpi_tracker_useraccountlevel[account.Name]':'HCP_Name',
@@ -39,16 +38,18 @@ general_mapping = {
     "[SumKPI_ACT_MTD_CallRate]":"Call_Rate_MTD",
     "[SumKPI_ACT_QTD_CallRate]":"Call_Rate_QTD",
     "[SumKPI_ACT_YTD_CallRate]":"Call_Rate_YTD",
-    "[SumKPI_ACT_QTD_CallVolume]":"Call_Volume_MTD",
-    "[SumKPI_ACT_YTD_CallVolume]":"Call_Volume_QTD",
-    "[SumKPI_ACT_MTD_CallVolume]":"Call_Volume_YTD",
+
+    "[SumKPI_ACT_QTD_CallVolume]":"Call_Volume_QTD",
+    "[SumKPI_ACT_YTD_CallVolume]":"Call_Volume_YTD",
+    "[SumKPI_ACT_MTD_CallVolume]":"Call_Volume_MTD",
+
     "[SumKPI_ACT_MTD_CallCompliance]":"Call_Compliance_MTD",
-    "[SumKPI_ACT_YTD_CallCompliance]":"Call_Compliance_QTD",
-    "[SumKPI_ACT_QTD_CallCompliance]":"Call_Compliance_YTD",
+    "[SumKPI_ACT_YTD_CallCompliance]":"Call_Compliance_YTD",
+    "[SumKPI_ACT_QTD_CallCompliance]":"Call_Compliance_QTD",
 
     "[SumKPI_ACT_MTD_CallComplianceA]":"Call_Compliance_A_MTD",
-    "[SumKPI_ACT_YTD_CallComplianceA]":"Call_Compliance_A_QTD",
-    "[SumKPI_ACT_QTD_CallComplianceA]":"Call_Compliance_A_YTD",
+    "[SumKPI_ACT_YTD_CallComplianceA]":"Call_Compliance_A_YTD",
+    "[SumKPI_ACT_QTD_CallComplianceA]":"Call_Compliance_A_QTD",
 
     "[SumKPI_ACT_MTD_ClickRate]":"Clickrate_MTD",
     "[SumKPI_ACT_QTD_ClickRate]":"Clickrate_QTD",
