@@ -226,7 +226,7 @@ def process_email(row):
     
     now = datetime.now()
     # Define the subject
-    subject = f"Sales dashboard - {row['Owner_Name']} - {now.strftime('%Y/%m/%d')}"
+    subject = f"Unity - Rep: {row['Owner_Name']} - {now.strftime('%Y/%m/%d')}"
     print("Email: " + subject)
     # Send the email
     # send_email(row['Email'], subject, email_html_content)

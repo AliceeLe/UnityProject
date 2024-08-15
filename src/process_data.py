@@ -70,13 +70,89 @@ contact_mapping = {
     "kpi_tracker_userlevel[Latest_Active_User]":"Status"
 }
 
+columns_numeric_general = [
+"Sales_MTD",
+"Target_MTD",
+"Sales_QTD",
+"Target_QTD",
+"Balance_MTD",
+"Balance_QTD",
+"%Achievement_MTD",
+"%Achievement_QTD",
+"Call_Rate_MTD",
+"Call_Rate_QTD",
+"Call_Rate_YTD",
+"Call_Volume_MTD",
+"Call_Volume_QTD",
+"Call_Compliance_MTD",
+"Call_Compliance_QTD",
+"Call_Compliance_A_MTD",
+"Call_Compliance_A_QTD",
+"Email_Sent_MTD",
+"Email_Sent_QTD",
+"Email_Sent_YTD",
+"Event_MTD",
+"Event_QTD",
+"Event_YTD",
+"Touchpoint_MTD",
+"Touchpoint_QTD",
+"Touchpoint_YTD",
+"Clickrate_MTD",
+"Clickrate_QTD",
+"Clickrate_YTD",
+"Mail_Open_Rate_MTD",
+"Mail_Open_Rate_QTD",
+"Mail_Open_Rate_YTD",
+"Coaching_QTD",
+"Coaching_YTD",
+"Call_Volume_YTD",
+"Call_Compliance_YTD",
+"Call_Compliance_A_YTD",
+"Coaching_MTD",
+"Team_Sales_MTD",
+"Team_Sales_QTD",
+"Team_Target_MTD",
+"Team_Target_QTD",
+"%Team_Achievement_MTD",
+"%Team_Achievement_QTD"
+]
+
+columns_numeric_hcp = [
+    "HCP_Actual_Call",
+    "HCP_Target_MTD",
+    "HCP_Target_QTD",
+]
+
+columns_numeric_customer = [
+    "Customer_MTD",
+    "Customer_QTD",
+    "Customer_Total_MTD",
+    "Customer_Total_QTD",
+    "Customer_Max_MTD",
+    "Customer_Max_QTD",
+    "Customer_Percent_MTD",
+    "Customer_Percent_QTD",
+]
+
+columns_numeric_product = [
+    "Product_MTD",
+    "Product_QTD",
+    "Product_Total_MTD",
+    "Product_Total_QTD",
+    "Product_Max_MTD",
+    "Product_Max_QTD",
+    "Product_Percent_MTD",
+    "Product_Percent_QTD",
+]
+
 def find_month():
     now = datetime.now()
     formatted_time = now.strftime("%Y-%m-01")
     print(formatted_time)
     return formatted_time
 
-def rename_csv_column(col_dict, csv_input, csv_output):
+def rename_csv_column(col_dict,
+ csv_input, csv_output):
     # Read the CSV file into a DataFrame
     df = pd.read_csv(csv_input)
 
@@ -238,6 +314,9 @@ def process_product_unity():
     # Filter out other months
     filtered_month_df = filtered_df[filtered_df['yearmonth'] ==  find_month()]
 
+    # Filter out NaN value to be 0
+    filtered_month_df.loc[:, columns_numeric_product] = filtered_month_df.loc[:, columns_numeric_product].fillna(0)
+
     filtered_month_df.to_csv('data/processed/Product_List_Unity_Processed.csv', index=False)
     
     print("Finished processing product")
@@ -308,6 +387,9 @@ def process_customer_unity():
     # Filter out other months
     filtered_month_df = filtered_df[filtered_df['yearmonth'] ==  find_month()]
 
+    # Filter out NaN value to be 0
+    filtered_month_df.loc[:, columns_numeric_customer] = filtered_month_df.loc[:, columns_numeric_customer].fillna(0)
+
     filtered_month_df.to_csv('data/processed/Customer_List_Unity_Processed.csv', index=False)
     print("Finished processing Customer")
 
@@ -372,11 +454,16 @@ def process_general_unity():
     merged_df['%Team_Achievement_QTD'] = merged_df.apply(calculate_achievement_qtd, axis=1)
     merged_df = merged_df[(merged_df['Status'].str.lower() != 'inactive')]
 
+    # convert numeric values into 0
+    merged_df.loc[:, columns_numeric_general] = merged_df.loc[:, columns_numeric_general].fillna(0)
 
     # Save the merged DataFrame to a new CSV file
     merged_df.to_csv("data/processed/general.csv", index=False)
 
 def process_hcp():
+    rename_csv_column(hcp_mapping,"data/raw/Unity_Export_HCP.csv", "data/processed/hcp_processed.csv")
+    add_manager_id_col("data/processed/hcp_processed.csv", "Owner_Name", "data/processed/hcp_processed.csv")
+
     df = pd.read_csv("data/processed/hcp_processed.csv")
 
     def calculate_rate(row):
@@ -401,6 +488,8 @@ def process_hcp():
     # Sort the DataFrame first by 'HCP_Segment' and then by 'Rate' in descending order
     df = df.sort_values(by=['HCP_Segment', 'Rate'], ascending=[True, False])
 
+    df.loc[:, columns_numeric_hcp] = df.loc[:, columns_numeric_hcp].fillna(0)
+
     df.to_csv("data/processed/hcp_processed.csv", index=False)
     print("Finished processing HCP")
 
@@ -416,23 +505,21 @@ def add_manager_id_col(input_csv, col_merged_by, output_csv):
 
 def final_process():
     # Split Sales360_Unity into 3 csv files: SvT, Product, Customer 
-    # split_xlsx("data/raw/Sales360_Unity.xlsx")
+    split_xlsx("data/raw/Sales360_Unity.xlsx")
 
     # # Process 3 csv files: SvT, Product, Customer: Create columns for QTD
-    # process_product_unity()
-    # process_svt_unity()
-    # process_customer_unity()
+    process_product_unity()
+    process_svt_unity()
+    process_customer_unity()
 
-    # # Merge info about manager from Unity_Export into SvT -> Find %Team_Achievement 
-    # process_general_unity()
+    # Merge info about manager from Unity_Export into SvT -> Find %Team_Achievement 
+    process_general_unity()
 
-    # Rename HCP Table
+    # Process HCP 
     process_hcp()
 
-
     # Add manager id for HCP, Product, Customer
-    # add_manager_id_col("data/raw/Unity_Export_HCP.csv", "Owner_Name", "data/processed/hcp_processed.csv")
-    # add_manager_id_col("data/processed/Product_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Product_List_Unity_Processed.csv")
-    # add_manager_id_col("data/processed/Customer_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Customer_List_Unity_Processed.csv")
+    add_manager_id_col("data/processed/hcp_processed.csv", "Owner_Name", "data/processed/hcp_processed.csv")
+    add_manager_id_col("data/processed/Product_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Product_List_Unity_Processed.csv")
+    add_manager_id_col("data/processed/Customer_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Customer_List_Unity_Processed.csv")
 
-process_hcp()
