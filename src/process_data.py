@@ -71,6 +71,53 @@ contact_mapping = {
     "kpi_tracker_userlevel[Latest_Active_User]":"Status"
 }
 
+manager_mapping = {
+    "summary2[UserId_Level1]":"Manager_Id",
+    "summary2[UserName_Level1]":"Manager_Name",
+    "summary2[UserProfileName_Level1]":"Role",
+
+    "[SumValue_Qty_Transaction_Market]":"Team_Sales_MTD",
+    "[SumValue_QTY_Target]":"Team_Target_MTD",
+    "[SumGap]":"Team_Balance_MTD",
+    "[Sumv__Done]":"%Team_Achievement_MTD",
+    "[SumQTD_Value_Qty_Transaction_Market]":"Team_Sales_QTD",
+    "[SumQTD_Value_QTY_Target]":"Team_Target_QTD",
+    "[SumQTD_Gap]":"Team_Balance_QTD",
+    "[SumQTD___Done]":"%Team_Achievement_QTD",
+
+    "[SumKPI_ACT_MTD_CallRate]":"Team_Call_Rate_MTD",
+    "[SumKPI_ACT_QTD_CallRate]":"Team_Call_Rate_QTD",
+    "[SumKPI_ACT_YTD_CallRate]":"Team_Call_Rate_YTD",
+    "[SumKPI_ACT_MTD_CallVolume]":"Team_Call_Volume_MTD",
+    "[SumKPI_ACT_QTD_CallVolume]":"Team_Call_Volume_QTD",
+    "[SumKPI_ACT_YTD_CallVolume]":"Team_Call_Volume_YTD",
+    "[SumKPI_ACT_MTD_CallCompliance]":"Team_Compliance_MTD",
+    "[SumKPI_ACT_QTD_CallCompliance]":"Team_Compliance_QTD",
+    "[SumKPI_ACT_YTD_CallCompliance]":"Team_Compliance_YTD",
+    "[SumKPI_ACT_MTD_CallComplianceA]":"Team_Compliance_A_MTD",
+    "[SumKPI_ACT_QTD_CallComplianceA]":"Team_Compliance_A_QTD",
+    "[SumKPI_ACT_YTD_CallComplianceA]":"Team_Compliance_A_YTD",
+
+    "[Summtd_emailusercount]":"Team_Email_Sent_MTD",
+    "[Sumqtd_emailusercount]":"Team_Email_Sent_QTD",
+    "[Sumytd_emailusercount]":"Team_Email_Sent_YTD",
+    "[Summtd_event_count]":"Team_Event_MTD",
+    "[Sumqtd_event_count]":"Team_Event_QTD",
+    "[Sumytd_event_count]":"Team_Event_YTD",
+    "[Summtd_touchpoint_count]":"Team_Touchpoing_MTD",
+    "[Sumqtd_touchpoint_count]":"Team_Touchpoing_QTD",
+    "[Sumytd_touchpoint_count]":"Team_Touchpoing_YTD",
+    "[SumKPI_ACT_MTD_ClickRate]":"Team_Clickrate_MTD",
+    "[SumKPI_ACT_QTD_ClickRate]":"Team_Clickrate_QTD",
+    "[SumKPI_ACT_YTD_ClickRate]":"Team_Clickrate_YTD",
+    "[SumKPI_ACT_MTD_OpenRate]":"Team_Open_Rate_MTD",
+    "[SumKPI_ACT_QTD_OpenRate]":"Team_Open_Rate_QTD",
+    "[SumKPI_ACT_YTD_OpenRate]":"Team_Open_Rate_YTD",
+    "[SumKPI_ACT_QTD_CoachingDays_M]":"Team_Coaching_QTD",
+    "[SumKPI_ACT_YTD_CoachingDays_M]":"Team_Coaching_YTD",
+    "[SumKPI_ACT_MTD_CoachingDays_M]":"Team_Coaching_MTD"
+}
+
 columns_numeric_general = [
 "Sales_MTD",
 "Target_MTD",
@@ -145,6 +192,8 @@ columns_numeric_product = [
     "Product_Percent_MTD",
     "Product_Percent_QTD",
 ]
+
+
 
 def find_month():
     now = datetime.now()
@@ -512,9 +561,37 @@ def create_sample_csv(email='vtvinh@zuelligpharma.com'):
     df_selected = df.groupby('Country').head(5).reset_index(drop=True)
     
     # Add a new column 'Email' with the specified email address
-    df_selected['Email'] = email
+    df_selected['Owner_Email'] = email
     
     df_selected.to_csv("data/output/sample.csv", index=False)
+
+    # Load the CSV file into a DataFrame
+    df = pd.read_csv("data/output/general_manager.csv")
+    
+    # Group by 'Country' and select the first 5 rows for each country
+    df_selected = df.groupby('Country').head(5).reset_index(drop=True)
+    
+    # Add a new column 'Email' with the specified email address
+    df_selected['Manager_Email'] = email
+    
+    df_selected.to_csv("data/output/sample_manager.csv", index=False)
+    
+def process_manager():
+    rename_csv_column(manager_mapping, "data/raw/Unity_Export_Manager.csv", "data/processed/Manager_Processed.csv")
+
+    df_manager = pd.read_csv("data/processed/Manager_Processed.csv")
+    df_manager = df_manager.drop(columns="summary2[KPI_Ref_Time]")
+
+    df_general = pd.read_csv("data/output/general.csv")
+    df_manager_contacts = df_general[['Manager_Id', 'Manager_Email', 'Country']]
+
+    # Drop any duplicates, if needed
+    df_manager_contacts = df_manager_contacts.drop_duplicates()
+
+    merged_df = pd.merge(df_manager, df_manager_contacts, on=['Manager_Id'])
+
+    merged_df.to_csv("data/output/general_manager.csv", index=False)
+
 
 
 def final_process():
@@ -537,4 +614,9 @@ def final_process():
     add_manager_id_col("data/processed/Product_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Product_List_Unity_Processed.csv")
     add_manager_id_col("data/processed/Customer_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Customer_List_Unity_Processed.csv")
 
+    process_manager()
+
     create_sample_csv(email='vtvinh@zuelligpharma.com')
+
+process_manager()
+create_sample_csv(email='vtvinh@zuelligpharma.com')

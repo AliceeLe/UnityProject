@@ -156,3 +156,5 @@ def final_download():
     except Exception as e:
         print(f"An error occurred in main: {e}")
 
+
+final_download()
