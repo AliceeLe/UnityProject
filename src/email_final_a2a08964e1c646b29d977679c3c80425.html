@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Bold-Italic.ttf') format('truetype');
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        @font-face {
+            font-family: 'Segoe UI';
+            src: url('fonts/SegoeUI-Italic.ttf') format('truetype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        body {
+            font-family: SegoeUI, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        h1 {
+            font-size: 25px;
+        }
+
+        h2 {
+            font-size: 15px;
+            font-style: italic;
+        }
+
+        p {
+            margin: 12px;
+            padding: 0;
+        }
+
+        .container {
+            /* Ipad size: 16-9 */
+            width: 930px;
+            padding: 10px;
+            background-color: #2e6271;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 24px;
+
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            overflow: hidden;
+        }
+
+        .header>img {
+            height: 80%;
+            width: 15%;
+            object-fit: cover;
+        }
+
+        .content {
+            margin: 20px 20px;
+            font-size: 12px;
+            max-width: 100%;
+
+            display: grid;
+            gap: 20px 20px;
+            grid-template-areas:
+                "column-1 column-4 column-6"
+                "column-2 column-4 column-6"
+                "column-2 column-4 column-6"
+                "column-2 column-5 column-6"
+                "column-2 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-3 column-5 column-6"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+                "column-7 column-7 column-7"
+        }
+
+        .column-item {
+            background-color: #d5e1c9;
+            width: 100%;
+            padding: 5px 0px 10px 12px;
+            border-radius: 15px;
+        }
+
+
+        .info-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            justify-content: space-around;
+        }
+
+        #column-1 {
+            background: #f7f0cc;
+            grid-area: column-1;
+        }
+
+        #column-2 {
+            grid-area: column-2;
+        }
+
+        #column-3 {
+            grid-area: column-3;
+        }
+
+        #column-4 {
+            grid-area: column-4;
+        }
+
+        #column-5 {
+            grid-area: column-5;
+        }
+
+        #column-6 {
+            grid-area: column-6;
+        }
+
+        #column-7 {
+            grid-area: column-7;
+        }
+
+        .box-1-header {
+            font-size: 14px;
+            color: gray;
+            padding: 10px 5px 5px 5px;
+            margin: 0;
+        }
+
+        .box-1-info {
+            font-size: 12px;
+            text-align: center;
+            padding: 10px 5px 5px 5px;
+            margin: 0;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        table,
+        td,
+        th {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 97%;
+            background-color: white;
+        }
+
+        th,
+        td {
+            padding: 8px;
+        }
+
+        .master-chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            gap: 20px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ebebeb;
+        }
+
+        .chart-container {
+            width: 100px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 20px 10px;
+        }
+
+        .column-info {
+            font-size: 11px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <!-- <img src="./images/zpt-white.png" alt="zpt-logo"> -->
+            <h1>ONE PAGE PERFORMANCE TRACKING</h1>
+        </div>
+        <div class="content">
+            <div class="column-item" id="column-1">
+                <div class="info-row">
+                    <div class="info-col">
+                        <p class="box-1-header">Name</p>
+                        <p class="box-1-info">Voranunt Vatchayanuntohn</p>
+                    </div>
+                    <div class="info-col">
+                        <p class="box-1-header">Territory</p>
+                        <p class="box-1-info">TH_EA3</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column-item" id="column-2">
+                <div class="master-chart-container">
+                    <div class="chart-container">
+                        <h2>%Achievement MTD</h2>
+                        <canvas id="gaugeChartMTD"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h2>%Achievement QTD</h2>
+                        <canvas id="gaugeChartQTD"></canvas>
+                    </div>
+                </div>
+
+                <table class="column-2-table">
+                    <tr>
+                        <th style="width: 48%;"></th>
+                        <th style="width: 26%;text-align: center;">MTD</th>
+                        <th style="width: 26%;text-align: center;">QTD</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Target</th>
+                        <td style="width: 26%; text-align: center;">2,755,500</td>
+                        <td style="width: 26%; text-align: center;">5,511,000</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Actual Sales</th>
+                        <td style="width: 26%; text-align: center;">1,868,830</td>
+                        <td style="width: 26%; text-align: center;">4,134,000</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Balance To Go</th>
+                        <td style="width: 26%; text-align: center;">-886,670</td>
+                        <td style="width: 26%; text-align: center;">-1,377,000</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">% Achievement</th>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                
+                                #F64F5C
+                                ; 
+                            font-weight: bold;
+                            text-align: center;
+                            ">
+                            67.8%</td>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                
+                                #F64F5C
+                                ; 
+                            font-weight: bold;
+                            text-align: center;
+                            ">
+                            75.0%</td>
+                    </tr>
+                    <tr>
+                        <th style="width: 48%;">Team Achievement</th>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                
+                                #F64F5C
+                                ; 
+                            font-weight: bold;
+                            text-align: center;
+                            ">
+                            43.6%</td>
+                        <td style="
+                            width: 26%;
+                            color: 
+                                
+                                #F64F5C
+                                ; 
+                            font-weight: bold;
+                            text-align: center;
+                            ">
+                            65.6%</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="column-item" id="column-3">
+                <h2>Calls KPIs</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Call Rate</th>
+                        <td style="
+                        background-color: 
+                            
+                            
+                            
+                            #F64F5C
+                            ; 
+                        color: white;
+                        text-align: center;">
+                            6.1
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            
+                            
+                            #F64F5C
+                            ; 
+                        color: white;
+                        text-align: center;">
+                        8.8
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            
+                            
+                            #68A490
+                            ; 
+                        color: white;
+                        text-align: center;">
+                            10.6
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Call Volume</th>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            68%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            98%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #68A490
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            118%
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance</th>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            21%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            46%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            81%
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Call Compliance A</th>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            0%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            22%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;">
+                            75%
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-4">
+                <h2>Sales by Product Bucket</h2>
+                <table class="column-5-table" style="width:99%;padding-bottom: 5px;">
+                    <thead>
+                        <tr>
+                            <th>Product Group</th>
+                            <th style="text-align: center;">MTD</th>
+                            <th style="text-align: center;">QTD</th>
+                        </tr>
+                    </thead>
+                    <tbody>                    
+                                                
+                        <tr>
+                            <td>YULARE</td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    843,750
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 100.0%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    2,005,500
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 100.0%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                        </tr>
+
+                                                
+                        <tr>
+                            <td>ALIMTA</td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    532,500
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 63.11111111111111%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    1,107,000
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 55.19820493642483%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                        </tr>
+
+                                                
+                        <tr>
+                            <td>CYRAMZ</td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    345,000
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 40.88888888888889%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    815,000
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 40.6382448267265%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                        </tr>
+
+                                                
+                        <tr>
+                            <td>GEMZAR</td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    147,580
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 17.49096296296296%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                            <td style="text-align: center; padding: 0; position: relative;">
+                                <span style="position: relative; z-index: 1;">
+                                    206,500
+                                </span>
+                                <div style="background-color: #68A490; height: 100%; width: 10.296684118673639%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                                </div>
+                            </td>
+                        </tr>
+
+                        
+
+                        <tr>
+                            <td style="font-weight: bold;">Total:</td>
+                            <td style="font-weight: bold; text-align: center;">1,868,830</td>
+                            <td style="font-weight: bold; text-align: center;">4,134,000</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div> 
+
+            <div class="column-item" id="column-5">
+                <h2>Sales-led Activities</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Events</th>
+                        <td style="text-align: center;">0</td>
+                        <td style="text-align: center;">1</td>
+                        <td style="text-align: center;">5</td>
+                    </tr>
+                    <tr>
+                        <th># Touchpoint</th>
+                        <td style="text-align: center;">0</td>
+                        <td style="text-align: center;">23</td>
+                        <td style="text-align: center;">156</td>
+                    </tr>
+                </table>
+
+                <h2>Triggered Emails</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th># Email Sent</th>
+                        <td style="text-align: center;">8</td>
+                        <td style="text-align: center;">18</td>
+                        <td style="text-align: center;">76</td>
+                    </tr>
+                    <tr>
+                        <th>% Email Open Rate</th>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;
+                    ">
+                            0%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;
+                    ">
+                            39%
+                        </td>
+                        <td style="
+                        background-color: 
+                            
+                            #F64F5C
+                            ; 
+                        color: 
+                            
+                            white
+                            ;
+                        text-align: center;
+                    ">
+                            61%
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>% Click-through Rate</th>
+                        <td style="text-align: center;">0%</td>
+                        <td style="text-align: center;">0%</td>
+                        <td style="text-align: center;">0%</td>
+                    </tr>
+                </table>
+
+                <h2>Coaching</h2>
+                <table class="column-3-table">
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                        <th style="text-align: center;">YTD</th>
+                    </tr>
+                    <tr>
+                        <th>Coaching (#Days)</th>
+                        <td style="text-align: center;">0</td>
+                        <td style="text-align: center;">4</td>
+                        <td style="text-align: center;">15</td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="column-item" id="column-6">
+                <h2>Sales by Customer / Account</h2>
+                <table class="column-5-table">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th style="text-align: center;">MTD</th>
+                        <th style="text-align: center;">QTD</th>
+                    </tr>
+                                            
+                    <tr>
+                        <td>รพ.จุฬาลงกรณ์</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                1,522,250
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 100.0%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                3,054,500
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 100.0%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>บจก.แพทย์ไทย 88</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                155,900
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 10.2414189522089%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                252,610
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 8.27009330495989%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>รพ.เซ็นต์หลุยส์</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                84,680
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 5.56281819674823%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                233,640
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 7.64904239646423%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>รพ.มะเร็งลพบุรี</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                55,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 3.61307275414682%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                165,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 5.401866099197901%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                                            
+                    <tr>
+                        <td>บจก.บีเอ็นเอช เมดิเคิล เซ็นเตอร์</td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                51,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 3.3503038265725005%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                        <td style="text-align: center; padding: 0; position: relative;">
+                            <span style="position: relative; z-index: 1;">
+                                51,000
+                            </span>
+                            <div style="background-color: #68A490; height: 100%; width: 1.66966770338844%; position: absolute; top: 0; left: 0; display: flex; align-items: center; justify-content: center;">
+                            </div>
+                        </td>
+                    </tr>
+                     
+                    <tr>
+                        <td style="font-weight: bold;">Total:</td>
+                        <td style="font-weight: bold; text-align: center;">1,868,830</td>
+                        <td style="font-weight: bold; text-align: center;">4,134,000</td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="column-item" id="column-7">
+                <table style="width:99%;padding-bottom: 5px;">
+                    <thead>
+                        <tr>
+                            <th>Rep Name</th>
+                            <th>HCP ID</th>
+                            <th>HCP Name</th>
+                            <th>Segment</th>
+                            <th>Actual Call</th>
+                            <th>Month Target</th>
+                            <th>Quarter Target</th>
+                            <th>Compliance?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0011534</td>
+                            <td>ญาณิศา กาญจนวิทยากุล</td>
+                            <td>A</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0006887</td>
+                            <td>มาวิน วงศ์สายสุวรรณ</td>
+                            <td>A</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0009750</td>
+                            <td>สุทิมา เหลืองดิลก</td>
+                            <td>A</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0001311</td>
+                            <td>กาญจนา โชติเลอศักดิ์</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0015535</td>
+                            <td>กิตต์วดี ศักดิ์ศรชัย</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0002968</td>
+                            <td>ณัฏยา ตียพันธ์</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0002967</td>
+                            <td>ณัฏยา ภู่วรวรรณ</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0003943</td>
+                            <td>ธิติฏฐ์ สุศิริวัฒนนนท์</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0004266</td>
+                            <td>นภา ปริญญานิติกูล</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0005734</td>
+                            <td>พรชัย โอเจริญรัตน์</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0007888</td>
+                            <td>วิโรจน์ ศรีอุฬารพงศ์</td>
+                            <td>A</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0001656</td>
+                            <td>คิ ฤกษ์ชูชิต</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0002253</td>
+                            <td>ชนิกา ครุฑนาค</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0002263</td>
+                            <td>ชนิดา วินะยานุวัติคุณ</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0003214</td>
+                            <td>ดวงเดือน รัชตรณชัย</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0005486</td>
+                            <td>ปิยะดา สิทธิเดชไพบูลย์</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0009507</td>
+                            <td>สืบพงศ์ ธนสารวิมล</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Voranunt Vatchayanuntohn</td>
+                            <td>TH0009779</td>
+                            <td>สุธี ลีละเศรษฐกุล</td>
+                            <td>A</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td>9</td>
+                            <td>No</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+
+            </div>
+                <div class="footer">
+                    &copy; 2024 Unity Project | ZP Therapeutics. All rights reserved.
+                </div>
+            </div> 
+
+            <script>
+                function getColor(value) {
+                    if (value < 100) {
+                        return '#ff6f6f'; // red
+                    } else {
+                        return '#6fbf73'; // green
+                    }
+                }
+
+                function convertToPercentageString(num) {
+                    return num.toFixed(2) + '%';
+                }
+
+                function createGaugeChart(ctx, value, text) {
+                    const cappedValue = Math.min(value, 100);
+                    const color = getColor(value);
+                    return new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            datasets: [{
+                                data: [cappedValue, 100 - cappedValue],
+                                backgroundColor: [color, '#f5f5f5'],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            cutout: '80%',
+                            rotation: -90,
+                            circumference: 180,
+                            plugins: {
+                                tooltip: { enabled: false },
+                                legend: { display: false }
+                            }
+                        },
+                        plugins: [{
+                            id: 'textPlugin',
+                            afterDatasetsDraw: (chart, easing) => {
+                                const ctx = chart.ctx;
+                                ctx.save();
+                                const x = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+                                const y = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 1.4;
+                                ctx.font = '16px Arial';
+                                ctx.fillStyle = '#000';
+                                ctx.textAlign = 'center';
+                                ctx.fillText(text, x, y);
+                                ctx.restore();
+                            }
+                        }]
+                    });
+                }
+
+                const ctxMTD = document.getElementById('gaugeChartMTD').getContext('2d');
+                const ctxQTD = document.getElementById('gaugeChartQTD').getContext('2d');
+
+                const mtdValue = "67.8%";
+                const qtdValue = "75.0%";
+
+                function convertPercentageToNumber(percentageString) {
+                    // Remove the '%' character and convert the string to a number
+                    let number = parseFloat(percentageString.replace('%', ''));
+                    return number;
+                }
+
+                createGaugeChart(ctxMTD, convertPercentageToNumber(mtdValue), mtdValue);
+                createGaugeChart(ctxQTD, convertPercentageToNumber(qtdValue), qtdValue);
+            </script>
+
+</body>
+
+</html>

@@ -565,16 +565,16 @@ def create_sample_csv(email='vtvinh@zuelligpharma.com'):
     
     df_selected.to_csv("data/output/sample.csv", index=False)
 
-    # Load the CSV file into a DataFrame
-    df = pd.read_csv("data/output/general_manager.csv")
+    # # Load the CSV file into a DataFrame
+    # df = pd.read_csv("data/output/general_manager.csv")
     
-    # Group by 'Country' and select the first 5 rows for each country
-    df_selected = df.groupby('Country').head(5).reset_index(drop=True)
+    # # Group by 'Country' and select the first 5 rows for each country
+    # df_selected = df.groupby('Country').head(5).reset_index(drop=True)
     
-    # Add a new column 'Email' with the specified email address
-    df_selected['Manager_Email'] = email
+    # # Add a new column 'Email' with the specified email address
+    # df_selected['Manager_Email'] = email
     
-    df_selected.to_csv("data/output/sample_manager.csv", index=False)
+    # df_selected.to_csv("data/output/sample_manager.csv", index=False)
     
 def process_manager():
     rename_csv_column(manager_mapping, "data/raw/Unity_Export_Manager.csv", "data/processed/Manager_Processed.csv")
@@ -614,9 +614,8 @@ def final_process():
     add_manager_id_col("data/processed/Product_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Product_List_Unity_Processed.csv")
     add_manager_id_col("data/processed/Customer_List_Unity_Processed.csv", "UserKey_4Map", "data/processed/Customer_List_Unity_Processed.csv")
 
-    process_manager()
+    # process_manager()
 
     create_sample_csv(email='vtvinh@zuelligpharma.com')
 
-process_manager()
-create_sample_csv(email='vtvinh@zuelligpharma.com')
+final_process()

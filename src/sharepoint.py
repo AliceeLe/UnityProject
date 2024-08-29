@@ -6,7 +6,7 @@ import multiprocessing
 import pandas as pd
 
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(dotenv_path=r'T:\VTV\Apps\Unity Project\.env') 
 
 # Retrieve variables from environment
 TENANT_ID = os.getenv('TENANT_ID')

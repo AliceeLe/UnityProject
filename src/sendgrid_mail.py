@@ -11,6 +11,7 @@ import pandas as pd
 import uuid  # To generate unique filenames
 from concurrent.futures import ThreadPoolExecutor
 import math 
+import imgkit
 
 country_call_rates = {
     "BN": 8.0,
@@ -46,6 +47,7 @@ def load_csv():
 def encode_image_to_base64(image_path):
     with open(image_path, 'rb') as image_file:
         encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
+    # print(encoded_string)
     return encoded_string
 
 def format_to_thousands(number):
@@ -129,18 +131,26 @@ def round_down_to_integer(number):
     return math.floor(number)
 
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(dotenv_path=r'T:\VTV\Apps\Unity Project\UnityProject\.env')
 
+# print("Read env")
 # Get the SendGrid API key and email details from environment variables
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 FROM_EMAIL = os.getenv('FROM_EMAIL')
+# print(SENDGRID_API_KEY)
+# print(FROM_EMAIL)
+# print("Can read")
 
 # Check if the API key is available
 if not SENDGRID_API_KEY:
+    print("No key")
     raise ValueError("SendGrid API key not found in environment variables")
+
+# print("Yes key")
 
 # Set up Jinja environment
 env = Environment(loader=FileSystemLoader('.'))
+# print(env)
 
 # Register custom filters with the Jinja2 environment
 env.filters['format_thousands'] = format_to_thousands
@@ -152,17 +162,28 @@ env.filters['format_integer'] = round_down_to_integer
 template = env.get_template('src/email_template.html')
 template_flm = env.get_template('src/email_template_flm.html')
 
+# print(template)
+
 # Function to send email
 def send_email(to_email, subject, html_content):
+    # print("Send_email")
+    # print(FROM_EMAIL)
+    # print(to_email)
+    # print(subject)
     message = Mail(
         from_email=FROM_EMAIL,
         to_emails=to_email,
         subject=subject,
         html_content=html_content
     )
+    # print("Functioning")
     try:
+        # print("Try")
+        print(SENDGRID_API_KEY)
         sg = SendGridAPIClient(SENDGRID_API_KEY)
+        print(sg)
         response = sg.send(message)
+        print(response.status_code)
         if response.status_code == 202:
             print(f"Email successfully sent to {to_email}.")
         else:
@@ -172,9 +193,15 @@ def send_email(to_email, subject, html_content):
         print(f"Error sending email to {to_email}: {e}")
 
 def process_email(row):
+    # print(row)
     hcp_dataset, general_dataset, sample_dataset, product_dataset, customer_dataset = load_csv()
     name = row['Owner_Name']
     user_key = row['UserKey_4Map']
+
+    # print(name, user_key)
+    # print("Wait 5s")
+    # print(row['Owner_Email'])
+    # print("Wait 5s")
 
     hcp_filtered = [d for d in hcp_dataset if d['Owner_Name'] == name]
     product_filtered  = [d for d in product_dataset if d['UserKey_4Map'] == user_key]
@@ -187,20 +214,26 @@ def process_email(row):
 
     # Generate a unique identifier for this thread/process
     unique_id = uuid.uuid4().hex
+
+    print(unique_id)
+
     html_filename = f'src/email_final_{unique_id}.html'
     png_filename = f'src/email_{unique_id}.png'
     # Render the template with variables from the CSV row and additional data
     html_content = template.render(row=row, country_call_rates=country_call_rates, hcp_filtered=hcp_filtered, product_filtered=product_filtered,customer_filtered=customer_filtered)        
 
+    print(html_content[:10])
     # Write the rendered HTML to a unique file in the src/ directory
     with open(html_filename, 'w', encoding='utf-8') as file:
         file.write(html_content)
     
     # Run the Node.js script to convert the HTML to PNG
+    # imgkit.from_string(html_content, png_filename)
     subprocess.run(['node', 'src/convert_html_to_png.js', html_filename, png_filename], check=True)
     
     # Encode the generated PNG image to Base64
     image_png = encode_image_to_base64(png_filename)
+
     # Create the email content with the embedded image
     email_html_content = f"""
         <html>
@@ -239,11 +272,12 @@ def process_email(row):
     subject = f"Unity - Rep: {row['Owner_Name']} - {now.strftime('%Y/%m/%d')}"
     print("Email: " + subject)
     # Send the email
-    send_email(row['Email'], subject, email_html_content)
-    
+    # send_email(row['Email'], subject, email_html_content)
+    send_email(row['Owner_Email'], subject, email_html_content)
+    print("OMG no")
     # Clean up files if necessary
-    os.remove(html_filename)
-    os.remove(png_filename)
+    # os.remove(html_filename)
+    # os.remove(png_filename)
 
 def process_email_flm(row):
     hcp_dataset, general_dataset, sample_dataset, product_dataset, customer_dataset = load_csv()
@@ -270,8 +304,8 @@ def process_email_flm(row):
         file.write(html_content)
     
     # Run the Node.js script to convert the HTML to PNG
-    subprocess.run(['node', 'src/convert_html_to_png.js', html_filename, png_filename], check=True)
-    
+    subprocess.run(['node', 'T:\\VTV\\Apps\\Unity Project\\UnityProject\\src\\convert_html_to_png.js', html_filename, png_filename], check=True)
+
     # Encode the generated PNG image to Base64
     image_png = encode_image_to_base64(png_filename)
     # Create the email content with the embedded image
@@ -315,8 +349,8 @@ def process_email_flm(row):
     send_email(row['Email'], subject, email_html_content)
     
     # Clean up files if necessary
-    os.remove(html_filename)
-    os.remove(png_filename)
+    # os.remove(html_filename)
+    # os.remove(png_filename)
 
 
 # Run the process in parallel
@@ -330,4 +364,4 @@ def final_send_test():
     with ThreadPoolExecutor(max_workers=5) as executor:
         executor.map(process_email, sample_dataset)
 
-
+final_send_test()
